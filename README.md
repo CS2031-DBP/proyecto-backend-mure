@@ -8,12 +8,12 @@ El objetivo de este proyecto es desarrollar un sitio web completo usando Spring 
 
 ## Miembros del Proyecto 🤝
 ___
-| Nombre           | Email                                                               |
-|------------------|---------------------------------------------------------------------|
-| Carlo Torres     | [carlo.torres@utec.edu.pe](mailto:carlo.torres@utec.edu.pe)         |
-| Joaquin Salinas  | [](mailto:)                                                         |
-| Santiago Cama    | [](mailto:)                                                         |
-| Guillermo Galez  | [](mailto:)                                                         |
+| Nombre           | Email                                                             |
+|------------------|-------------------------------------------------------------------|
+| Carlo Torres     | [carlo.torres@utec.edu.pe](mailto:carlo.torres@utec.edu.pe)       |
+| Joaquin Salinas  | [joaquin.salinas@utec.edu.pe](mailto:joaquin.salinas@utec.edu.pe) |
+| Santiago Cama    | [](mailto:)                                                       |
+| Guillermo Galez  | [](mailto:)                                                       |
 
 <br>
 
@@ -22,5 +22,55 @@ ___
 
 
 <br>
+
+
+- ## Endpoints 📡
+    - **Comment**
+        - Get User Comment
+        - Post Comment
+        - Update Comment
+        - Delete comment
+    - **Playlist**
+        - Get Playlist from Authors
+        - Get playlist that contains a song
+        - Get playlist from name
+        - Post playlist
+        - Add song
+        - Delete Song // Es update
+        - Add authors
+        - Delete authors // Es update
+        - Delete Playlist
+    - **Post**
+        - Get Post from an specific author
+        - Get Post that contains a song
+        - Get Post from id
+        - Post Post
+        - Change content
+        - Change media
+        - Delete Post
+    - **Song**
+        - Get Song from an specific author
+        - Get Song from id
+        - Get Song from name
+        - Get Song from Date
+        - Get song from genre
+    - **Story**
+        - Get Story from an specific author
+        - Get Story from id
+        - Post Story
+        - Change content
+        - Delete Story
+    - **User**
+        - Get User (name, profile image, friends) from name
+        - Get UserPlaylists
+        - Get UserPosts
+        - Get UserStories
+        - Post User
+        - Change profile image
+        - Change name
+        - Change password
+        - Change email
+        - Delete User
+
 
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/XbBOibGW)

@@ -8,11 +8,10 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 
-@Data
 @Entity
 public class Song {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;

@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Entity
 public class story extends content {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Timestamp startdate;

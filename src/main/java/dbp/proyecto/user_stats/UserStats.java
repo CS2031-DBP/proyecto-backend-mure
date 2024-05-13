@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 public class UserStats {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne

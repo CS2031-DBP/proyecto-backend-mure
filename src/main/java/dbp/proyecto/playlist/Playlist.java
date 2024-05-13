@@ -1,5 +1,7 @@
 package dbp.proyecto.playlist;
 
+import dbp.proyecto.PlaylistSongs.PlaylistSongId;
+import dbp.proyecto.PlaylistSongs.PlaylistSongs;
 import dbp.proyecto.song.Song;
 import dbp.proyecto.user.User;
 import jakarta.persistence.*;
@@ -11,22 +13,22 @@ import java.util.List;
 @Entity
 public class Playlist {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    //falta tabla intermedia todo
+    @ManyToMany
     private List<User> authors;
 
     @ManyToMany
-    private List<Song> songs;
+    private List<PlaylistSongs> PlaylistSongs;
 
-    public Playlist(Long id, String name, List<User> authors, List<Song> songs) {
+    public Playlist(Long id, String name, List<User> authors, List<PlaylistSongs> songs) {
         this.id = id;
         this.name = name;
         this.authors = authors;
-        this.songs = songs;
+        this.PlaylistSongs = songs;
     }
 
     public Playlist() {
@@ -56,11 +58,11 @@ public class Playlist {
         this.authors = authors;
     }
 
-    public List<Song> getSongs() {
-        return songs;
+    public List<PlaylistSongs> getSongs() {
+        return PlaylistSongs;
     }
 
-    public void setSongs(List<Song> songs) {
-        this.songs = songs;
+    public void setSongs(List<PlaylistSongs> songs) {
+        this.PlaylistSongs = songs;
     }
 }

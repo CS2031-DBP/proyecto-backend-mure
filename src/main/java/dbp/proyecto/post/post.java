@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 @Entity
 public class post extends content {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String description;

@@ -2,6 +2,7 @@ package dbp.proyecto.content;
 
 import dbp.proyecto.playlist.Playlist;
 import dbp.proyecto.song.Song;
+import jakarta.persistence.OneToMany;
 
 import javax.xml.stream.events.Comment;
 import java.sql.Timestamp;
@@ -14,5 +15,7 @@ public class content {
     private Timestamp date;
     private Integer likes;
     private String author;
+
+    @OneToMany
     private List<Comment> coments;
 }

@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 @Entity
 public class User_Playlists {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long user_id;
     private Long playlist_id;

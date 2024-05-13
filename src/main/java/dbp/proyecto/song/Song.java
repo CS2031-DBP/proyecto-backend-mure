@@ -1,5 +1,6 @@
 package dbp.proyecto.song;
 
+import dbp.proyecto.favoriteSong.FavoriteSong;
 import dbp.proyecto.playlistSongs.PlaylistSongs;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
@@ -20,7 +21,7 @@ public class Song {
 
     private Long likesNum;
 
-    @ElementCollection //La anotación @ElementCollection en JPA indica que una colección de tipos simples o incrustables debe almacenarse en una tabla separada.
+    @ElementCollection
     private List<String> artists;
 
     private Date releaseDate;
@@ -35,6 +36,9 @@ public class Song {
 
     @OneToMany(mappedBy = "song")
     private List<PlaylistSongs> playlistSongs;
+
+    @OneToMany(mappedBy = "song")
+    private List<FavoriteSong> favoriteSongs;
 
     public Song(Long id, String title, String album, Long likesNum, List<String> artists, Date releaseDate, String genre, Duration duration, Integer timesPlayed, String coverImage) {
         this.id = id;

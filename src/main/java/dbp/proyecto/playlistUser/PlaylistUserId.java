@@ -1,4 +1,4 @@
-package dbp.proyecto.PlaylistUser;
+package dbp.proyecto.playlistUser;
 
 import jakarta.persistence.Column;
 

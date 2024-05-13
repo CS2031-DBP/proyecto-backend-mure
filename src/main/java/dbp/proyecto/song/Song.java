@@ -1,9 +1,8 @@
 package dbp.proyecto.song;
 
-import dbp.proyecto.PlaylistSongs.PlaylistSongs;
+import dbp.proyecto.playlistSongs.PlaylistSongs;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
-import lombok.Data;
 
 import java.time.Duration;
 import java.util.Date;

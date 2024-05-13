@@ -1,13 +1,10 @@
 package dbp.proyecto.post;
 
 import dbp.proyecto.content.Content;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Data;
+import dbp.proyecto.user.User;
+import jakarta.persistence.*;
 
-@Data
+
 @Entity
 public class Post extends Content {
     @Id
@@ -20,12 +17,48 @@ public class Post extends Content {
 
     private String audioUrl;
 
-    public Post() {}
+    @ManyToOne
+    private User user;
 
     public Post(Long id, String description, String imageurl, String audioUrl) {
         this.id = id;
         this.description = description;
         this.imageurl = imageurl;
+        this.audioUrl = audioUrl;
+    }
+
+    public Post() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
+    }
+
+    public String getAudioUrl() {
+        return audioUrl;
+    }
+
+    public void setAudioUrl(String audioUrl) {
         this.audioUrl = audioUrl;
     }
 }

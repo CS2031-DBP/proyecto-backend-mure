@@ -1,4 +1,4 @@
-package dbp.proyecto.PlaylistSongs;
+package dbp.proyecto.playlistSongs;
 
 import dbp.proyecto.playlist.Playlist;
 import dbp.proyecto.song.Song;

@@ -5,14 +5,14 @@ import dbp.proyecto.user.User;
 import jakarta.persistence.*;
 
 @Entity
-public class favoriteSong {
+public class FavoriteSong {
     @EmbeddedId
     private UserSongId id;
 
-    public favoriteSong() {
+    public FavoriteSong() {
     }
 
-    public favoriteSong(User user, Song song) {
+    public FavoriteSong(User user, Song song) {
         this.user = user;
         this.song = song;
         this.id = new UserSongId(user.getId(), song.getId());

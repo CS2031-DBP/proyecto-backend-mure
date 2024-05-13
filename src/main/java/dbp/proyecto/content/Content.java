@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 
-public class content {
+public class Content {
     private Song song;
     private Playlist playlist;
     private Timestamp date;

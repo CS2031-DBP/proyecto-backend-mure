@@ -9,8 +9,7 @@ public class PlaylistSongId {
     @Column(name = "song_id")
     private Long songId;
 
-    public PlaylistSongId() {
-    }
+    public PlaylistSongId() {}
 
     public PlaylistSongId(Long playlistId, Long songId) {
         this.playlistId = playlistId;

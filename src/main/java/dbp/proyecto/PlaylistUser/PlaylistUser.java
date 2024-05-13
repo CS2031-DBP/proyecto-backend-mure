@@ -2,11 +2,9 @@ package dbp.proyecto.PlaylistUser;
 
 import dbp.proyecto.playlist.Playlist;
 import dbp.proyecto.user.User;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
+import jakarta.persistence.*;
 
+@Entity
 public class PlaylistUser {
     @EmbeddedId
     private PlaylistUserId id;

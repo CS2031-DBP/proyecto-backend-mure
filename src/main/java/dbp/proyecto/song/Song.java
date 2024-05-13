@@ -1,5 +1,6 @@
 package dbp.proyecto.song;
 
+import dbp.proyecto.PlaylistSongs.PlaylistSongs;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -32,6 +33,9 @@ public class Song {
     private Integer timesPlayed;
 
     private String coverImage;
+
+    @OneToMany(mappedBy = "song")
+    private List<PlaylistSongs> playlistSongs;
 
     public Song(Long id, String title, String album, Long likesNum, List<String> artists, Date releaseDate, String genre, Duration duration, Integer timesPlayed, String coverImage) {
         this.id = id;

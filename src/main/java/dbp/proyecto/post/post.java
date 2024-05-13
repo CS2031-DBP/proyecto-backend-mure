@@ -1,10 +1,8 @@
 package dbp.proyecto.post;
 
 import dbp.proyecto.content.content;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import dbp.proyecto.user.User;
+import jakarta.persistence.*;
 
 
 @Entity
@@ -18,6 +16,9 @@ public class post extends content {
     private String imageurl;
 
     private String audioUrl;
+
+    @ManyToOne
+    private User user;
 
     public post(Long id, String description, String imageurl, String audioUrl) {
         this.id = id;

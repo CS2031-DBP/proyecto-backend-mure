@@ -2,6 +2,7 @@ package dbp.proyecto.playlist;
 
 import dbp.proyecto.PlaylistSongs.PlaylistSongId;
 import dbp.proyecto.PlaylistSongs.PlaylistSongs;
+import dbp.proyecto.PlaylistUser.PlaylistUser;
 import dbp.proyecto.song.Song;
 import dbp.proyecto.user.User;
 import jakarta.persistence.*;
@@ -18,51 +19,21 @@ public class Playlist {
 
     private String name;
 
-    @ManyToMany
-    private List<User> authors;
+    @OneToMany(mappedBy = "playlist")
+    private List<PlaylistUser> authors;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "playlist")
     private List<PlaylistSongs> PlaylistSongs;
 
-    public Playlist(Long id, String name, List<User> authors, List<PlaylistSongs> songs) {
+    public Playlist(Long id, String name, List<PlaylistUser> authors, List<dbp.proyecto.PlaylistSongs.PlaylistSongs> playlistSongs) {
         this.id = id;
         this.name = name;
         this.authors = authors;
-        this.PlaylistSongs = songs;
+        PlaylistSongs = playlistSongs;
     }
 
     public Playlist() {
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<User> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(List<User> authors) {
-        this.authors = authors;
-    }
-
-    public List<PlaylistSongs> getSongs() {
-        return PlaylistSongs;
-    }
-
-    public void setSongs(List<PlaylistSongs> songs) {
-        this.PlaylistSongs = songs;
-    }
 }

@@ -1,10 +1,8 @@
 package dbp.proyecto.story;
 
 import dbp.proyecto.content.content;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import dbp.proyecto.user.User;
+import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 
@@ -21,6 +19,9 @@ public class story extends content {
     private String videourl;
 
     private String text;
+
+    @ManyToOne
+    private User user;
 
     public story(Long id, Timestamp startdate, String videourl, String text) {
         this.id = id;

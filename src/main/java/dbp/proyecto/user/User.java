@@ -1,5 +1,9 @@
 package dbp.proyecto.user;
 
+import dbp.proyecto.PlaylistUser.PlaylistUser;
+import dbp.proyecto.favoriteSong.favoriteSong;
+import dbp.proyecto.post.post;
+import dbp.proyecto.story.story;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,15 +28,23 @@ public class User {
     @ManyToMany
     private List<User> friends;
 
-    //añadir tabla intermedia para las playlists todo
+    @OneToMany(mappedBy = "user")
+    private List<post> posts;
 
-    public User(Long id, String name, String email, String password, String profileImage, List<User> friends) {
+    @OneToMany(mappedBy = "user")
+    private List<story> stories;
+
+    @OneToMany(mappedBy = "user")
+    private List<favoriteSong> favoriteSongs;
+
+    @OneToMany(mappedBy = "user")
+    private List<PlaylistUser> playlists;
+
+    public User(Long id, String name, String email, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.profileImage = profileImage;
-        this.friends = friends;
     }
 
     public User() {
@@ -84,5 +96,29 @@ public class User {
 
     public void setFriends(List<User> friends) {
         this.friends = friends;
+    }
+
+    public List<post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<post> posts) {
+        this.posts = posts;
+    }
+
+    public List<story> getStories() {
+        return stories;
+    }
+
+    public void setStories(List<story> stories) {
+        this.stories = stories;
+    }
+
+    public List<favoriteSong> getFavoriteSongs() {
+        return favoriteSongs;
+    }
+
+    public void setFavoriteSongs(List<favoriteSong> favoriteSongs) {
+        this.favoriteSongs = favoriteSongs;
     }
 }

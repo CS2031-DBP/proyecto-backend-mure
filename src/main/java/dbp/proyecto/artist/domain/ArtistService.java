@@ -23,4 +23,5 @@ public class ArtistService {
     public Artist artist(Long id) {
         return artistRepository.findById(id).orElse(null);
     }
+
 }

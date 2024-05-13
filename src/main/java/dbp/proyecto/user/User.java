@@ -1,13 +1,12 @@
 package dbp.proyecto.user;
 
-import dbp.proyecto.PlaylistUser.PlaylistUser;
-import dbp.proyecto.favoriteSong.favoriteSong;
-import dbp.proyecto.post.post;
-import dbp.proyecto.story.story;
+import dbp.proyecto.playlistUser.PlaylistUser;
+import dbp.proyecto.favoriteSong.FavoriteSong;
+import dbp.proyecto.post.Post;
+import dbp.proyecto.story.Story;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import javax.xml.stream.events.Comment;
 import java.util.List;
 
 @Data
@@ -29,13 +28,13 @@ public class User {
     private List<User> friends;
 
     @OneToMany(mappedBy = "user")
-    private List<post> posts;
+    private List<Post> Posts;
 
     @OneToMany(mappedBy = "user")
-    private List<story> stories;
+    private List<Story> stories;
 
     @OneToMany(mappedBy = "user")
-    private List<favoriteSong> favoriteSongs;
+    private List<FavoriteSong> FavoriteSongs;
 
     @OneToMany(mappedBy = "user")
     private List<PlaylistUser> playlists;
@@ -98,27 +97,27 @@ public class User {
         this.friends = friends;
     }
 
-    public List<post> getPosts() {
-        return posts;
+    public List<Post> getPosts() {
+        return Posts;
     }
 
-    public void setPosts(List<post> posts) {
-        this.posts = posts;
+    public void setPosts(List<Post> Posts) {
+        this.Posts = Posts;
     }
 
-    public List<story> getStories() {
+    public List<Story> getStories() {
         return stories;
     }
 
-    public void setStories(List<story> stories) {
+    public void setStories(List<Story> stories) {
         this.stories = stories;
     }
 
-    public List<favoriteSong> getFavoriteSongs() {
-        return favoriteSongs;
+    public List<FavoriteSong> getFavoriteSongs() {
+        return FavoriteSongs;
     }
 
-    public void setFavoriteSongs(List<favoriteSong> favoriteSongs) {
-        this.favoriteSongs = favoriteSongs;
+    public void setFavoriteSongs(List<FavoriteSong> FavoriteSongs) {
+        this.FavoriteSongs = FavoriteSongs;
     }
 }

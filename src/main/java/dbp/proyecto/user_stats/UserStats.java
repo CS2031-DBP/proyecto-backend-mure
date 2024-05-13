@@ -1,11 +1,7 @@
 package dbp.proyecto.user_stats;
 
-import dbp.proyecto.content.content;
 import dbp.proyecto.user.User;
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class UserStats {

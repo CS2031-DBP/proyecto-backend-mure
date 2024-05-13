@@ -6,19 +6,12 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
+import lombok.Data;
 
+@Data
 public class PlaylistUser {
     @EmbeddedId
     private PlaylistUserId id;
-
-    public PlaylistUser(Playlist playlist, User user) {
-        this.playlist = playlist;
-        this.user = user;
-        this.id = new PlaylistUserId(playlist.getId(), user.getId());
-    }
-
-    public PlaylistUser() {
-    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("playlistId")
@@ -28,27 +21,11 @@ public class PlaylistUser {
     @MapsId("userId")
     private User user;
 
-    public PlaylistUserId getId() {
-        return id;
-    }
+    public PlaylistUser() {}
 
-    public void setId(PlaylistUserId id) {
-        this.id = id;
-    }
-
-    public Playlist getPlaylist() {
-        return playlist;
-    }
-
-    public void setPlaylist(Playlist playlist) {
+    public PlaylistUser(Playlist playlist, User user) {
+        this.id = new PlaylistUserId(playlist.getId(), user.getId());
         this.playlist = playlist;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
         this.user = user;
     }
 }

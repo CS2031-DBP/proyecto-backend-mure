@@ -2,16 +2,21 @@ package dbp.proyecto.PlaylistUser;
 
 import dbp.proyecto.playlist.Playlist;
 import dbp.proyecto.user.User;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
-import lombok.Data;
+import jakarta.persistence.*;
 
-@Data
+@Entity
 public class PlaylistUser {
     @EmbeddedId
     private PlaylistUserId id;
+
+    public PlaylistUser(Playlist playlist, User user) {
+        this.playlist = playlist;
+        this.user = user;
+        this.id = new PlaylistUserId(playlist.getId(), user.getId());
+    }
+
+    public PlaylistUser() {
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("playlistId")
@@ -21,11 +26,27 @@ public class PlaylistUser {
     @MapsId("userId")
     private User user;
 
-    public PlaylistUser() {}
+    public PlaylistUserId getId() {
+        return id;
+    }
 
-    public PlaylistUser(Playlist playlist, User user) {
-        this.id = new PlaylistUserId(playlist.getId(), user.getId());
+    public void setId(PlaylistUserId id) {
+        this.id = id;
+    }
+
+    public Playlist getPlaylist() {
+        return playlist;
+    }
+
+    public void setPlaylist(Playlist playlist) {
         this.playlist = playlist;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
         this.user = user;
     }
 }

@@ -1,6 +1,9 @@
 package dbp.proyecto.playlist;
 
+import dbp.proyecto.PlaylistSongs.PlaylistSongId;
 import dbp.proyecto.PlaylistSongs.PlaylistSongs;
+import dbp.proyecto.PlaylistUser.PlaylistUser;
+import dbp.proyecto.song.Song;
 import dbp.proyecto.user.User;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -16,18 +19,21 @@ public class Playlist {
 
     private String name;
 
-    @ManyToMany
-    private List<User> authors;
+    @OneToMany(mappedBy = "playlist")
+    private List<PlaylistUser> authors;
 
-    @ManyToMany
-    private List<PlaylistSongs> playlistSongs;
+    @OneToMany(mappedBy = "playlist")
+    private List<PlaylistSongs> PlaylistSongs;
 
-    public Playlist() {}
-
-    public Playlist(Long id, String name, List<User> authors, List<PlaylistSongs> songs) {
+    public Playlist(Long id, String name, List<PlaylistUser> authors, List<dbp.proyecto.PlaylistSongs.PlaylistSongs> playlistSongs) {
         this.id = id;
         this.name = name;
         this.authors = authors;
-        this.playlistSongs = songs;
+        PlaylistSongs = playlistSongs;
     }
+
+    public Playlist() {
+    }
+
+
 }

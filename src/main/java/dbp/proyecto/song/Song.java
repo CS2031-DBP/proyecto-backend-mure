@@ -1,6 +1,7 @@
 package dbp.proyecto.song;
 
 import dbp.proyecto.artist.domain.Artist;
+import dbp.proyecto.artistSongs.ArtistSongs;
 import dbp.proyecto.favoriteSong.FavoriteSong;
 import dbp.proyecto.playlistSongs.PlaylistSongs;
 import jakarta.persistence.*;
@@ -40,6 +41,9 @@ public class Song {
 
     @OneToMany(mappedBy = "song")
     private List<FavoriteSong> favoriteSongs;
+
+    @OneToMany(mappedBy = "song")
+    private List<ArtistSongs> artistSongs;
 
     public Song() {
     }

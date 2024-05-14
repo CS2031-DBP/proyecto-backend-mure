@@ -1,12 +1,13 @@
 package dbp.proyecto.artist.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import dbp.proyecto.artistSongs.ArtistSongs;
+import dbp.proyecto.favoriteArtist.FavoriteArtist;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -17,9 +18,11 @@ public class Artist {
 
     String name;
 
-    // TODO: Implementar la tabla intermedia con Album
+    @OneToMany(mappedBy = "artist")
+    private List<FavoriteArtist> favoriteArtists = new ArrayList<>();
 
-    // TODO: Implementar la tabla intermedia con Song
+    @OneToMany(mappedBy = "artist")
+    private List<ArtistSongs> artist = new ArrayList<>();
 
     String description;
 

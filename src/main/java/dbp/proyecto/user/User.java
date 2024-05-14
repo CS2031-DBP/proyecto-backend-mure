@@ -1,5 +1,6 @@
 package dbp.proyecto.user;
 
+import dbp.proyecto.favoriteArtist.FavoriteArtist;
 import dbp.proyecto.playlistUser.PlaylistUser;
 import dbp.proyecto.favoriteSong.FavoriteSong;
 import dbp.proyecto.post.Post;
@@ -38,6 +39,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<PlaylistUser> playlists;
+
+    @OneToMany(mappedBy = "user")
+    private List<FavoriteArtist> favoriteArtists;
 
     public User(Long id, String name, String email, String password) {
         this.id = id;

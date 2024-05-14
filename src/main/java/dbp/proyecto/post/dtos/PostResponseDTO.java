@@ -1,40 +1,16 @@
-package dbp.proyecto.post;
+package dbp.proyecto.post.dtos;
 
-import dbp.proyecto.content.Content;
-import dbp.proyecto.user.User;
-import jakarta.persistence.*;
-
-@Entity
-public class Post extends Content {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class PostResponseDTO {
     private String description;
 
     private String imageurl;
 
     private String audioUrl;
 
-    @ManyToOne
-    private User user;
-
-    public Post(Long id, String description, String imageurl, String audioUrl) {
-        this.id = id;
+    public PostResponseDTO(String description, String imageurl, String audioUrl) {
         this.description = description;
         this.imageurl = imageurl;
         this.audioUrl = audioUrl;
-    }
-
-    public Post() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getDescription() {

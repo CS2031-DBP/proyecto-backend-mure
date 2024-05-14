@@ -16,12 +16,15 @@ public class ArtistService {
     @Autowired
     ModelMapper modelMapper;
 
-    public List<Artist> artists() {
+    public List<Artist> findAll() {
         return artistRepository.findAll();
     }
 
-    public Artist artist(Long id) {
+    public Artist findById(Long id) {
         return artistRepository.findById(id).orElse(null);
     }
 
+    public Artist findByName(String name) {
+        return artistRepository.findByName(name);
+    }
 }

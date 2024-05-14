@@ -2,8 +2,8 @@ package dbp.proyecto.user;
 
 import dbp.proyecto.playlistUser.PlaylistUser;
 import dbp.proyecto.favoriteSong.FavoriteSong;
-import dbp.proyecto.post.Post;
-import dbp.proyecto.story.Story;
+import dbp.proyecto.post.domain.Post;
+import dbp.proyecto.story.domain.Story;
 import jakarta.persistence.*;
 import lombok.Data;
 

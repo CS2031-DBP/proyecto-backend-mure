@@ -1,4 +1,4 @@
-package dbp.proyecto.post;
+package dbp.proyecto.post.domain;
 
 import dbp.proyecto.content.Content;
 import dbp.proyecto.user.User;

@@ -1,8 +1,10 @@
-package dbp.proyecto.story;
+package dbp.proyecto.story.domain;
 
 import dbp.proyecto.content.Content;
 import dbp.proyecto.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.sql.Timestamp;
 
@@ -12,15 +14,20 @@ public class Story extends Content {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Timestamp startdate;
 
+    @Column(nullable = false)
     private Timestamp enddate;
 
+    @Column(nullable = false)
     private String videourl;
 
+    @Size(max = 200)
     private String text;
 
     @ManyToOne
+    @Column(nullable = false)
     private User user;
 
     public Story(Long id, Timestamp startdate, String videourl, String text) {
@@ -72,5 +79,13 @@ public class Story extends Content {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

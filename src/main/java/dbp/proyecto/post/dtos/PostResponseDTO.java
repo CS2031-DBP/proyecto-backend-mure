@@ -1,14 +1,13 @@
-package dbp.proyecto.post.domain;
+package dbp.proyecto.post.dtos;
 
-import dbp.proyecto.content.Content;
-import dbp.proyecto.user.User;
-import jakarta.persistence.*;
+import dbp.proyecto.playlist.Playlist;
+import dbp.proyecto.song.Song;
 
-@Entity
-public class Post extends Content {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class PostResponseDTO {
+
+    private Song song;
+
+    private Playlist playlist;
 
     private String description;
 
@@ -16,25 +15,10 @@ public class Post extends Content {
 
     private String audioUrl;
 
-    @ManyToOne
-    private User user;
-
-    public Post(Long id, String description, String imageurl, String audioUrl) {
-        this.id = id;
+    public PostResponseDTO(String description, String imageurl, String audioUrl) {
         this.description = description;
         this.imageurl = imageurl;
         this.audioUrl = audioUrl;
-    }
-
-    public Post() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getDescription() {
@@ -61,11 +45,19 @@ public class Post extends Content {
         this.audioUrl = audioUrl;
     }
 
-    public User getUser() {
-        return user;
+    public Song getSong() {
+        return song;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setSong(Song song) {
+        this.song = song;
+    }
+
+    public Playlist getPlaylist() {
+        return playlist;
+    }
+
+    public void setPlaylist(Playlist playlist) {
+        this.playlist = playlist;
     }
 }

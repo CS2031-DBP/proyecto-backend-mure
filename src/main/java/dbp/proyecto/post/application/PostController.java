@@ -1,13 +1,13 @@
 package dbp.proyecto.post.application;
 
 import dbp.proyecto.post.domain.PostService;
+import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.song.Song;
 import dbp.proyecto.user.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/post")
@@ -30,7 +30,7 @@ public class PostController {
     }
 
     @PatchMapping("/media/{id}")
-    public ResponseEntity<Void> changeMedia(@PathVariable Long id, @RequestBody String media) {
+    public ResponseEntity<Void> changeMedia(@PathVariable Long id, @RequestBody PostMediaDTO media) {
         postService.changeMedia(id, media);
         return ResponseEntity.ok().build();
     }

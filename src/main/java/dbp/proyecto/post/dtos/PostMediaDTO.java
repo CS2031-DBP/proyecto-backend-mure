@@ -26,4 +26,5 @@ public class PostMediaDTO {
     public void setAudioUrl(String audioUrl) {
         this.audioUrl = audioUrl;
     }
+
 }

@@ -1,7 +1,7 @@
 package dbp.proyecto.story.domain;
 
 import dbp.proyecto.content.Content;
-import dbp.proyecto.user.User;
+import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import org.antlr.v4.runtime.misc.NotNull;

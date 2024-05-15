@@ -1,7 +1,7 @@
 package dbp.proyecto.favoriteSong;
 
 import dbp.proyecto.song.Song;
-import dbp.proyecto.user.User;
+import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
 
 @Entity

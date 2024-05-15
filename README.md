@@ -13,7 +13,7 @@ ___
 | Carlo Torres     | [carlo.torres@utec.edu.pe](mailto:carlo.torres@utec.edu.pe)       |
 | Joaquin Salinas  | [joaquin.salinas@utec.edu.pe](mailto:joaquin.salinas@utec.edu.pe) |
 | Santiago Cama    | [santiago.cama@utec.edu.pe](mailto:santiago.cama@utec.edu.pe)     |
-| Guillermo Galez  | [](mailto:)                                                       |
+| Guillermo Galvez | [jose.galvez.p@utec.edu.pe](mailto:jose.galvez.p@utec.edu.pe)     |
 
 <br>
 

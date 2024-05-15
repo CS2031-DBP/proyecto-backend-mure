@@ -29,6 +29,8 @@ public class StoryService {
     }
 
     public StoryResponseDTO getStoryByAuthor(User author, Long id) {
+        //todo check if author is the owner of the story
+
         Story story = storyRepository.findById(id).orElseThrow(() -> new StoryNotFoundException(id));
         if (!Objects.equals(story.getUser().getId(), author.getId())) {
             throw new StoryNotFoundException(id);

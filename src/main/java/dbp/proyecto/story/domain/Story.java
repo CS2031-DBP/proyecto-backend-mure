@@ -27,8 +27,7 @@ public class Story extends Content {
     private String text;
 
     @ManyToOne
-    @Column(nullable = false)
-    private User user;
+    private User User;
 
     public Story(Long id, Timestamp startdate, String videourl, String text) {
         this.id = id;
@@ -82,10 +81,10 @@ public class Story extends Content {
     }
 
     public User getUser() {
-        return user;
+        return User;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(User User) {
+        this.User = User;
     }
 }

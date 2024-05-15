@@ -16,7 +16,7 @@ public class Content {
     private Playlist playlist;
 
     private Timestamp date;
-    private Integer likes;
+    private Integer likes = 0;
 
     public Song getSong() {
         return song;

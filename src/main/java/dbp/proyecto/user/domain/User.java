@@ -34,16 +34,16 @@ public class User {
     @ManyToMany
     private List<User> friends;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "User")
     private List<Post> Posts;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "User")
     private List<Story> stories;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "User")
     private List<FavoriteSong> FavoriteSongs;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "User")
     private List<PlaylistUser> playlists;
 
     public User(Long id, String name, String email, String password) {

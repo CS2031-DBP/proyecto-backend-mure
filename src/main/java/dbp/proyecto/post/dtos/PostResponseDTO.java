@@ -2,11 +2,14 @@ package dbp.proyecto.post.dtos;
 
 import dbp.proyecto.playlist.Playlist;
 import dbp.proyecto.song.Song;
+import jakarta.persistence.ManyToOne;
 
 public class PostResponseDTO {
 
+    @ManyToOne
     private Song song;
 
+    @ManyToOne
     private Playlist playlist;
 
     private String description;

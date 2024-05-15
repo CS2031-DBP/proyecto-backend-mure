@@ -17,7 +17,7 @@ public class Post extends Content {
     private String audioUrl;
 
     @ManyToOne
-    private User user;
+    private User User;
 
     public Post(Long id, String description, String imageurl, String audioUrl) {
         this.id = id;
@@ -62,10 +62,10 @@ public class Post extends Content {
     }
 
     public User getUser() {
-        return user;
+        return User;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(User User) {
+        this.User = User;
     }
 }

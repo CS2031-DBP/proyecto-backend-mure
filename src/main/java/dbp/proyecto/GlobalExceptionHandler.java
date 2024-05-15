@@ -22,8 +22,4 @@ public class GlobalExceptionHandler {
     public String handleNotFound(ResourceNotFoundException ex) {
         return ex.getMessage();
     }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public String SongNotFound(ResourceNotFoundException ex) {return ex.getMessage();}
 }

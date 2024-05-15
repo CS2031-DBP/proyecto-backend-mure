@@ -5,6 +5,8 @@ import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.Song;
 import dbp.proyecto.user.domain.User;
+import dbp.proyecto.user.dto.UserInfoForSong;
+import dbp.proyecto.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +14,13 @@ import org.springframework.stereotype.Service;
 public class PostService {
     private final PostRepository postRepository;
 
+    private final UserRepository userRepository;
+
     private final ModelMapper modelMapper;
 
-    public PostService(PostRepository postRepository, ModelMapper modelMapper) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, ModelMapper modelMapper) {
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -24,8 +29,8 @@ public class PostService {
         return modelMapper.map(post, PostResponseDTO.class);
     }
 
-    public PostResponseDTO getPostByAuthor(User author, Long id) {
-        //todo añadir validacion de autor
+    public PostResponseDTO getPostByAuthor(UserInfoForSong author, Long id) {
+        User user = userRepository.findById(author.getId()).orElseThrow(() -> new RuntimeException("User not found"));
 
         Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
 

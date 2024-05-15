@@ -5,6 +5,7 @@ import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.song.Song;
 import dbp.proyecto.user.domain.User;
+import dbp.proyecto.user.dto.UserInfoForSong;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class PostController {
     }
 
     @GetMapping("/author/{id}")
-    public ResponseEntity<PostResponseDTO> getPostByAuthor(@RequestBody User author, @PathVariable Long id) {
+    public ResponseEntity<PostResponseDTO> getPostByAuthor(@RequestBody UserInfoForSong author, @PathVariable Long id) {
         return ResponseEntity.ok(postService.getPostByAuthor(author, id));
     }
 

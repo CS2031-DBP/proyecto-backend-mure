@@ -24,14 +24,9 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
-    @GetMapping("/song")
-    public ResponseEntity<List<PostResponseDTO>> getPostBySong(@RequestBody Song song) {
-        return ResponseEntity.ok(postService.getPostBySong(song));
-    }
-
     @GetMapping("/author/{id}")
-    public ResponseEntity<PostResponseDTO> getPostByAuthor(@RequestBody User author) {
-        return ResponseEntity.ok(postService.getPostByAuthor(author));
+    public ResponseEntity<PostResponseDTO> getPostByAuthor(@RequestBody User author, @PathVariable Long id) {
+        return ResponseEntity.ok(postService.getPostByAuthor(author, id));
     }
 
     @PatchMapping("/media/{id}")

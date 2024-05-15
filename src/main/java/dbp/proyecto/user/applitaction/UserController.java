@@ -2,8 +2,8 @@ package dbp.proyecto.user.applitaction;
 
 import dbp.proyecto.favoriteSong.FavoriteSong;
 import dbp.proyecto.playlistUser.PlaylistUser;
-import dbp.proyecto.post.Post;
-import dbp.proyecto.story.Story;
+import dbp.proyecto.post.domain.Post;
+import dbp.proyecto.story.domain.Story;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.domain.UserService;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;

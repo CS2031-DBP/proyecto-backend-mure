@@ -1,14 +1,13 @@
 package dbp.proyecto.story.domain;
 
+import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.story.dto.StoryPatchDTO;
 import dbp.proyecto.story.dto.StoryResponseDTO;
 import dbp.proyecto.story.infrastructure.StoryRepository;
-import dbp.proyecto.user.User;
+import dbp.proyecto.user.domain.User;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -23,25 +22,23 @@ public class StoryService {
     }
 
     public StoryResponseDTO getStoryById(Long id) {
-        Story story = storyRepository.findById(id).orElseThrow(() -> new StoryNotFoundException(id));
-        StoryResponseDTO storyResponse = modelMapper.map(story, StoryResponseDTO.class);
-        return storyResponse;
+        Story story = storyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Story not found"));
+        return modelMapper.map(story, StoryResponseDTO.class);
     }
 
     public StoryResponseDTO getStoryByAuthor(User author, Long id) {
         //todo check if author is the owner of the story
 
-        Story story = storyRepository.findById(id).orElseThrow(() -> new StoryNotFoundException(id));
+        Story story = storyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Story not found"));
         if (!Objects.equals(story.getUser().getId(), author.getId())) {
-            throw new StoryNotFoundException(id);
+            throw new ResourceNotFoundException("The story does not belong to the author");
         }
 
-        StoryResponseDTO storyResponse = modelMapper.map(story, StoryResponseDTO.class);
-        return storyResponse;
+        return modelMapper.map(story, StoryResponseDTO.class);
     }
 
     public void changeContent(Long id, StoryPatchDTO data) {
-        Story story = storyRepository.findById(id).orElseThrow(() -> new StoryNotFoundException(id));
+        Story story = storyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Story not found"));
         story.setText(data.getText());
         storyRepository.save(story);
     }

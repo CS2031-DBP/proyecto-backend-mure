@@ -4,12 +4,9 @@ import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.Song;
-import dbp.proyecto.user.User;
+import dbp.proyecto.user.domain.User;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class PostService {

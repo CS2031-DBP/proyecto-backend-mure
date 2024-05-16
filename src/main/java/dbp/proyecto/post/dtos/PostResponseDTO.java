@@ -6,10 +6,8 @@ import jakarta.persistence.ManyToOne;
 
 public class PostResponseDTO {
 
-    @ManyToOne
     private Song song;
 
-    @ManyToOne
     private Playlist playlist;
 
     private String description;
@@ -18,10 +16,20 @@ public class PostResponseDTO {
 
     private String audioUrl;
 
-    public PostResponseDTO(String description, String imageurl, String audioUrl) {
-        this.description = description;
-        this.imageurl = imageurl;
-        this.audioUrl = audioUrl;
+    public Song getSong() {
+        return song;
+    }
+
+    public void setSong(Song song) {
+        this.song = song;
+    }
+
+    public Playlist getPlaylist() {
+        return playlist;
+    }
+
+    public void setPlaylist(Playlist playlist) {
+        this.playlist = playlist;
     }
 
     public String getDescription() {
@@ -46,21 +54,5 @@ public class PostResponseDTO {
 
     public void setAudioUrl(String audioUrl) {
         this.audioUrl = audioUrl;
-    }
-
-    public Song getSong() {
-        return song;
-    }
-
-    public void setSong(Song song) {
-        this.song = song;
-    }
-
-    public Playlist getPlaylist() {
-        return playlist;
-    }
-
-    public void setPlaylist(Playlist playlist) {
-        this.playlist = playlist;
     }
 }

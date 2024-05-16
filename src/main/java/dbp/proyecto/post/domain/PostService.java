@@ -1,5 +1,6 @@
 package dbp.proyecto.post.domain;
 
+import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.post.infrastructure.PostRepository;
@@ -25,27 +26,30 @@ public class PostService {
     }
 
     public PostResponseDTO getPostById(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
-        return modelMapper.map(post, PostResponseDTO.class);
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
+
+        PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
+
+        return postResponseDTO;
     }
 
     public PostResponseDTO getPostByAuthor(UserInfoForSong author, Long id) {
-        User User = userRepository.findById(author.getId()).orElseThrow(() -> new RuntimeException("User not found"));
+        User User = userRepository.findById(author.getId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         return modelMapper.map(post, PostResponseDTO.class);
     }
 
     public void changeMedia(Long id, PostMediaDTO media) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         post.setImageurl(media.getImageurl());
         post.setAudioUrl(media.getAudioUrl());
     }
 
     public void changeContent(Long id, String content) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         post.setDescription(content);
     }
@@ -53,13 +57,13 @@ public class PostService {
     public void changeSong(Long id, Song song) {
         //todo añadir validacion de cancion
 
-        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         post.setSong(song);
     }
 
     public void deletePost(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         postRepository.delete(post);
     }

@@ -17,7 +17,9 @@ public class Post extends Content {
     private String audioUrl;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User User;
+
 
     public Post(Long id, String description, String imageurl, String audioUrl) {
         this.id = id;

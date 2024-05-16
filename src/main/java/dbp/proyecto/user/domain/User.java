@@ -12,6 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,13 +36,13 @@ public class User {
     private List<User> friends;
 
     @OneToMany(mappedBy = "User")
-    private List<Post> Posts;
+    private List<Post> posts;
 
     @OneToMany(mappedBy = "User")
     private List<Story> stories;
 
     @OneToMany(mappedBy = "User")
-    private List<FavoriteSong> FavoriteSongs;
+    private List<FavoriteSong> favoriteSongs;
 
     @OneToMany(mappedBy = "User")
     private List<PlaylistUser> playlists;
@@ -52,8 +53,6 @@ public class User {
         this.email = email;
         this.password = password;
     }
-    public User(){
-
+    public User() {
     }
-
 }

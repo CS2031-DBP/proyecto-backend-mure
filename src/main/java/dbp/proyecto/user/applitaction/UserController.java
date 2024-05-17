@@ -3,8 +3,9 @@ package dbp.proyecto.user.applitaction;
 import dbp.proyecto.favoriteSong.FavoriteSong;
 import dbp.proyecto.playlistUser.PlaylistUser;
 import dbp.proyecto.post.domain.Post;
+import dbp.proyecto.post.dtos.PostBodyDTO;
 import dbp.proyecto.story.domain.Story;
-import dbp.proyecto.user.domain.User;
+import dbp.proyecto.story.dto.StoryBodyDTO;
 import dbp.proyecto.user.domain.UserService;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,9 +83,21 @@ public class UserController {
         return ResponseEntity.ok(userService.getPosts(id));
     }
 
+    @PostMapping("/post/{id}")
+    public ResponseEntity<Void> savePost(@PathVariable Long id,  @RequestBody PostBodyDTO post) {
+        String uri = userService.postPost(id, post);
+        return ResponseEntity.created(URI.create(uri)).build();
+    }
+
     @GetMapping("/stories/{id}")
     public ResponseEntity<List<Story>> getStories(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getStories(id));
+    }
+
+    @PostMapping("/story/{id}")
+    public ResponseEntity<Void> saveStory(@PathVariable Long id,  @RequestBody StoryBodyDTO story) {
+        String uri = userService.postStory(id, story);
+        return ResponseEntity.created(URI.create(uri)).build();
     }
 
     @GetMapping("/favoriteSongs/{id}")

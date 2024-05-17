@@ -4,7 +4,6 @@ import dbp.proyecto.content.Content;
 import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.sql.Timestamp;
 
@@ -27,7 +26,6 @@ public class Story extends Content {
     private String text;
 
     @ManyToOne
-    @Column(nullable = false)
     private User user;
 
     public Story(Long id, Timestamp startdate, String videourl, String text) {
@@ -85,7 +83,7 @@ public class Story extends Content {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(User User) {
+        this.user = User;
     }
 }

@@ -4,7 +4,7 @@ package dbp.proyecto.story.application;
 import dbp.proyecto.story.domain.StoryService;
 import dbp.proyecto.story.dto.StoryPatchDTO;
 import dbp.proyecto.story.dto.StoryResponseDTO;
-import dbp.proyecto.user.domain.User;
+import dbp.proyecto.user.dto.UserInfoForSong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class StoryController {
     }
 
     @GetMapping("/author/{id}")
-    public ResponseEntity<StoryResponseDTO> getStoryByAuthor(@PathVariable Long id, @RequestBody User author) {
+    public ResponseEntity<StoryResponseDTO> getStoryByAuthor(@RequestBody UserInfoForSong author, @PathVariable Long id) {
         StoryResponseDTO story = storyService.getStoryByAuthor(author, id);
         return ResponseEntity.ok(story);
     }

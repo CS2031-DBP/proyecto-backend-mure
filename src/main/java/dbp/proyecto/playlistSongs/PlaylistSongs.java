@@ -1,7 +1,7 @@
 package dbp.proyecto.playlistSongs;
 
-import dbp.proyecto.playlist.Playlist;
-import dbp.proyecto.song.Song;
+import dbp.proyecto.playlist.domain.Playlist;
+import dbp.proyecto.song.domain.Song;
 import jakarta.persistence.*;
 import lombok.Data;
 

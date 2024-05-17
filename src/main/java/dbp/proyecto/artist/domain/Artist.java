@@ -1,8 +1,8 @@
 package dbp.proyecto.artist.domain;
 
-import dbp.proyecto.artistAlbum.ArtistAlbum;
-import dbp.proyecto.artistSongs.ArtistSongs;
-import dbp.proyecto.favoriteArtist.FavoriteArtist;
+import dbp.proyecto.tablasIntermedias.artistAlbum.ArtistAlbum;
+import dbp.proyecto.tablasIntermedias.artistSongs.ArtistSongs;
+import dbp.proyecto.tablasIntermedias.favoriteArtist.FavoriteArtist;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package dbp.proyecto.artistAlbum;
+package dbp.proyecto.tablasIntermedias.artistAlbum;
 
 import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.artist.domain.Artist;

@@ -1,7 +1,7 @@
 package dbp.proyecto.playlist;
 
-import dbp.proyecto.playlistSongs.PlaylistSongs;
-import dbp.proyecto.playlistUser.PlaylistUser;
+import dbp.proyecto.tablasIntermedias.playlistSongs.PlaylistSongs;
+import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
 import jakarta.persistence.*;
 import lombok.Data;
 

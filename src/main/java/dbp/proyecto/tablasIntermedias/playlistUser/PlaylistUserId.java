@@ -1,21 +1,21 @@
-package dbp.proyecto.playlistSongs;
+package dbp.proyecto.tablasIntermedias.playlistUser;
 
 import jakarta.persistence.Column;
 
 import java.util.Objects;
 
-public class PlaylistSongId {
+public class PlaylistUserId {
     @Column(name = "playlist_id")
     private Long playlistId;
 
-    @Column(name = "song_id")
-    private Long songId;
+    @Column(name = "user_id")
+    private Long userId;
 
-    public PlaylistSongId() {}
+    public PlaylistUserId() {}
 
-    public PlaylistSongId(Long playlistId, Long songId) {
+    public PlaylistUserId(Long playlistId, Long userId) {
         this.playlistId = playlistId;
-        this.songId = songId;
+        this.userId = userId;
     }
 
     @Override
@@ -23,16 +23,16 @@ public class PlaylistSongId {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PlaylistSongId that = (PlaylistSongId) o;
+        PlaylistUserId that = (PlaylistUserId) o;
 
         if (!Objects.equals(playlistId, that.playlistId)) return false;
-        return Objects.equals(songId, that.songId);
+        return Objects.equals(userId, that.userId);
     }
 
     @Override
     public int hashCode() {
         int result = playlistId != null ? playlistId.hashCode() : 0;
-        result = 31 * result + (songId != null ? songId.hashCode() : 0);
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
         return result;
     }
 }

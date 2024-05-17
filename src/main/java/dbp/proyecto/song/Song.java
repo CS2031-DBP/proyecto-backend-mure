@@ -1,7 +1,7 @@
 package dbp.proyecto.song;
 
-import dbp.proyecto.favoriteSong.FavoriteSong;
-import dbp.proyecto.playlistSongs.PlaylistSongs;
+import dbp.proyecto.tablasIntermedias.favoriteSong.FavoriteSong;
+import dbp.proyecto.tablasIntermedias.playlistSongs.PlaylistSongs;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 

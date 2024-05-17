@@ -1,4 +1,4 @@
-package dbp.proyecto.artistSongs;
+package dbp.proyecto.tablasIntermedias.artistSongs;
 
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.song.Song;

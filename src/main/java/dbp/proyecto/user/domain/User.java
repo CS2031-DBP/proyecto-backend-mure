@@ -1,7 +1,7 @@
 package dbp.proyecto.user.domain;
 
-import dbp.proyecto.playlistUser.PlaylistUser;
-import dbp.proyecto.favoriteSong.FavoriteSong;
+import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
+import dbp.proyecto.tablasIntermedias.favoriteSong.FavoriteSong;
 import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.story.domain.Story;
 import jakarta.persistence.*;
@@ -41,7 +41,7 @@ public class User {
     @OneToMany(mappedBy = "User")
     private List<Story> stories;
 
-    @OneToMany(mappedBy = "User")
+    @OneToMany(mappedBy = "user")
     private List<FavoriteSong> favoriteSongs;
 
     @OneToMany(mappedBy = "User")

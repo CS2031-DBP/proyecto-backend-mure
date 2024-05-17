@@ -1,7 +1,11 @@
 package dbp.proyecto.story.dto;
 
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class StoryPatchDTO {
     @Size(max = 200)
     private String text;
@@ -13,11 +17,4 @@ public class StoryPatchDTO {
     public StoryPatchDTO() {
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
 }

@@ -1,4 +1,4 @@
-package dbp.proyecto.playlistUser;
+package dbp.proyecto.tablasIntermedias.playlistUser;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

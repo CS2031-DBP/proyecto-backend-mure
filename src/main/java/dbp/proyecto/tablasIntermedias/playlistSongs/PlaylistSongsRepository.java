@@ -1,4 +1,4 @@
-package dbp.proyecto.playlistSongs;
+package dbp.proyecto.tablasIntermedias.playlistSongs;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

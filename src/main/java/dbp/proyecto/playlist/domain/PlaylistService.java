@@ -3,12 +3,12 @@ package dbp.proyecto.playlist.domain;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.playlist.dto.PlaylistDTO;
 import dbp.proyecto.playlist.infrastructure.PlaylistRepository;
-import dbp.proyecto.playlistSongs.PlaylistSongs;
-import dbp.proyecto.playlistSongs.PlaylistSongsRepository;
-import dbp.proyecto.playlistUser.PlaylistUser;
-import dbp.proyecto.playlistUser.PlaylistUserRepository;
 import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.song.infrastructure.SongRepository;
+import dbp.proyecto.tablasIntermedias.playlistSongs.PlaylistSongs;
+import dbp.proyecto.tablasIntermedias.playlistSongs.PlaylistSongsRepository;
+import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
+import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUserRepository;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -47,12 +47,12 @@ public class PlaylistService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
+/*    @Transactional(readOnly = true)
     public List<PlaylistDTO> getPlaylistsBySong(String songTitle) {
         return repository.findBySongsTitle(songTitle).stream()
                 .map(playlist -> mapper.map(playlist, PlaylistDTO.class))
                 .collect(Collectors.toList());
-    }
+    }*/
 
     @Transactional(readOnly = true)
     public List<PlaylistDTO> getPlaylistsByName(String name) {

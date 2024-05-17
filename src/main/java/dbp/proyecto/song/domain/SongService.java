@@ -2,7 +2,6 @@ package dbp.proyecto.song.domain;
 
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UniqueResourceAlreadyExist;
-import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.dto.SongsDTO;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import org.modelmapper.ModelMapper;

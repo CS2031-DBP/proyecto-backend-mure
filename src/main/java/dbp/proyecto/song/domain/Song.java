@@ -4,11 +4,15 @@ import dbp.proyecto.tablasIntermedias.favoriteSong.FavoriteSong;
 import dbp.proyecto.tablasIntermedias.playlistSongs.PlaylistSongs;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 
+@Setter
+@Getter
 @Entity
 public class Song {
     @Id
@@ -56,83 +60,4 @@ public class Song {
     public Song() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(String album) {
-        this.album = album;
-    }
-
-    public Long getLikesNum() {
-        return likesNum;
-    }
-
-    public void setLikesNum(Long likesNum) {
-        this.likesNum = likesNum;
-    }
-
-    public List<String> getArtists() {
-        return artists;
-    }
-
-    public void setArtists(List<String> artists) {
-        this.artists = artists;
-    }
-
-    public Date getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public Duration getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Duration duration) {
-        this.duration = duration;
-    }
-
-    public Integer getTimesPlayed() {
-        return timesPlayed;
-    }
-
-    public void setTimesPlayed(Integer timesPlayed) {
-        this.timesPlayed = timesPlayed;
-    }
-
-    public String getCoverImage() {
-        return coverImage;
-    }
-
-    public void setCoverImage(String coverImage) {
-        this.coverImage = coverImage;
-    }
 }

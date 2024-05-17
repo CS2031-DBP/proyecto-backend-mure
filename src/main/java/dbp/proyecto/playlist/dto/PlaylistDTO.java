@@ -1,7 +1,7 @@
 package dbp.proyecto.playlist.dto;
 
-import dbp.proyecto.playlistSongs.PlaylistSongs;
-import dbp.proyecto.playlistUser.PlaylistUser;
+import dbp.proyecto.tablasIntermedias.playlistSongs.PlaylistSongs;
+import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;

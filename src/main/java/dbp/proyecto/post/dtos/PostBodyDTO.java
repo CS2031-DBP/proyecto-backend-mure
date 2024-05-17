@@ -5,8 +5,10 @@ import dbp.proyecto.song.domain.Song;
 
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class PostBodyDTO {
     @ManyToOne
     private Song song;

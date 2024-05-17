@@ -3,32 +3,39 @@ package dbp.proyecto.artist.domain;
 import dbp.proyecto.artistSongs.ArtistSongs;
 import dbp.proyecto.favoriteArtist.FavoriteArtist;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    String name;
+    @Column(nullable = false, length = 100)
+    private String name;
 
-    @OneToMany(mappedBy = "artist")
-    private List<FavoriteArtist> favoriteArtists = new ArrayList<>();
+//    @OneToMany(mappedBy = "artist")
+//    private List<ArtistAlbums> albums;
 
     @OneToMany(mappedBy = "artist")
     private List<ArtistSongs> artist = new ArrayList<>();
 
-    String description;
+    @Column(length = 1000)
+    private String description;
 
-    Date birthDate;
+    @Temporal(TemporalType.DATE)
+    private Date birthDate;
 
-    Boolean verified;
+    private Boolean verified;
 
-
+    @OneToMany(mappedBy = "artist")
+    private List<FavoriteArtist> favoriteArtists = new ArrayList<>();
 }

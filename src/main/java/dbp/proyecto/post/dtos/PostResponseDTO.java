@@ -1,7 +1,7 @@
 package dbp.proyecto.post.dtos;
 
-import dbp.proyecto.playlist.Playlist;
-import dbp.proyecto.song.Song;
+import dbp.proyecto.playlist.domain.Playlist;
+import dbp.proyecto.song.domain.Song;
 
 public class PostResponseDTO {
 

@@ -1,4 +1,4 @@
-package dbp.proyecto.playlist;
+package dbp.proyecto.playlist.domain;
 
 import dbp.proyecto.playlistSongs.PlaylistSongs;
 import dbp.proyecto.playlistUser.PlaylistUser;
@@ -17,6 +17,7 @@ public class Playlist {
 
     private String name;
 
+
     public Playlist(Long id, String name) {
         this.id = id;
         this.name = name;
@@ -26,11 +27,13 @@ public class Playlist {
     }
 
     @OneToMany(mappedBy = "playlist",
+            cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private List<PlaylistUser> authors = new ArrayList<>();
 
     @OneToMany(mappedBy = "playlist",
+            cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private List<PlaylistSongs> songs = new ArrayList<>();

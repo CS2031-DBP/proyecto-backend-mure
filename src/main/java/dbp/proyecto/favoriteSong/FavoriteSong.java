@@ -1,6 +1,6 @@
 package dbp.proyecto.favoriteSong;
 
-import dbp.proyecto.song.Song;
+import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
 

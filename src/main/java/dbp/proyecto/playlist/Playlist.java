@@ -25,14 +25,10 @@ public class Playlist {
     public Playlist() {
     }
 
-    @OneToMany(mappedBy = "playlist",
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "playlist")
     private List<PlaylistUser> authors = new ArrayList<>();
 
-    @OneToMany(mappedBy = "playlist",
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "playlist"    )
     private List<PlaylistSongs> songs = new ArrayList<>();
 
 

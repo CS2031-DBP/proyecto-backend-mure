@@ -1,7 +1,7 @@
 package dbp.proyecto.playlistUser;
 
 import dbp.proyecto.playlist.Playlist;
-import dbp.proyecto.user.User;
+import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,10 +9,10 @@ public class PlaylistUser {
     @EmbeddedId
     private PlaylistUserId id;
 
-    public PlaylistUser(Playlist playlist, User user) {
+    public PlaylistUser(Playlist playlist, User User) {
         this.playlist = playlist;
-        this.user = user;
-        this.id = new PlaylistUserId(playlist.getId(), user.getId());
+        this.User = User;
+        this.id = new PlaylistUserId(playlist.getId(), User.getId());
     }
 
     public PlaylistUser() {
@@ -24,7 +24,7 @@ public class PlaylistUser {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
-    private User user;
+    private User User;
 
     public PlaylistUserId getId() {
         return id;
@@ -43,10 +43,10 @@ public class PlaylistUser {
     }
 
     public User getUser() {
-        return user;
+        return User;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(User User) {
+        this.User = User;
     }
 }

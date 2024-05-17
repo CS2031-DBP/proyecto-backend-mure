@@ -1,9 +1,8 @@
-package dbp.proyecto.post;
+package dbp.proyecto.post.domain;
 
 import dbp.proyecto.content.Content;
-import dbp.proyecto.user.User;
+import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
-
 
 @Entity
 public class Post extends Content {
@@ -18,7 +17,9 @@ public class Post extends Content {
     private String audioUrl;
 
     @ManyToOne
-    private User user;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User User;
+
 
     public Post(Long id, String description, String imageurl, String audioUrl) {
         this.id = id;
@@ -60,5 +61,13 @@ public class Post extends Content {
 
     public void setAudioUrl(String audioUrl) {
         this.audioUrl = audioUrl;
+    }
+
+    public User getUser() {
+        return User;
+    }
+
+    public void setUser(User User) {
+        this.User = User;
     }
 }

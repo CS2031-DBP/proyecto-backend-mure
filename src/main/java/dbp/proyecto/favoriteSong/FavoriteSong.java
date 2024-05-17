@@ -1,7 +1,7 @@
 package dbp.proyecto.favoriteSong;
 
 import dbp.proyecto.song.Song;
-import dbp.proyecto.user.User;
+import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,15 +12,15 @@ public class FavoriteSong {
     public FavoriteSong() {
     }
 
-    public FavoriteSong(User user, Song song) {
-        this.user = user;
+    public FavoriteSong(User User, Song song) {
+        this.User = User;
         this.song = song;
-        this.id = new UserSongId(user.getId(), song.getId());
+        this.id = new UserSongId(User.getId(), song.getId());
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
-    private User user;
+    private User User;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("songId")

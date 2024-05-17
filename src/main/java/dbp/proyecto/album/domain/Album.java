@@ -1,5 +1,6 @@
 package dbp.proyecto.album.domain;
 
+import dbp.proyecto.artistAlbum.ArtistAlbum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,11 +30,6 @@ public class Album {
     @Column(nullable = false)
     Timestamp duration;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "artist_albums",
-//            joinColumns = @JoinColumn(name = "album_id"),
-//            inverseJoinColumns = @JoinColumn(name = "artist_id")
-//    )
-//    List<Artist> artists;
+    @OneToMany(mappedBy = "album")
+    private List<ArtistAlbum> artistAlbums = new ArrayList<>();
 }

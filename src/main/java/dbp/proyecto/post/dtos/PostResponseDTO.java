@@ -1,8 +1,7 @@
 package dbp.proyecto.post.dtos;
 
-import dbp.proyecto.playlist.Playlist;
-import dbp.proyecto.song.Song;
-import jakarta.persistence.ManyToOne;
+import dbp.proyecto.playlist.domain.Playlist;
+import dbp.proyecto.song.domain.Song;
 
 public class PostResponseDTO {
 
@@ -16,20 +15,10 @@ public class PostResponseDTO {
 
     private String audioUrl;
 
-    public Song getSong() {
-        return song;
-    }
-
-    public void setSong(Song song) {
-        this.song = song;
-    }
-
-    public Playlist getPlaylist() {
-        return playlist;
-    }
-
-    public void setPlaylist(Playlist playlist) {
-        this.playlist = playlist;
+    public PostResponseDTO(String description, String imageurl, String audioUrl) {
+        this.description = description;
+        this.imageurl = imageurl;
+        this.audioUrl = audioUrl;
     }
 
     public String getDescription() {
@@ -54,5 +43,21 @@ public class PostResponseDTO {
 
     public void setAudioUrl(String audioUrl) {
         this.audioUrl = audioUrl;
+    }
+
+    public Song getSong() {
+        return song;
+    }
+
+    public void setSong(Song song) {
+        this.song = song;
+    }
+
+    public Playlist getPlaylist() {
+        return playlist;
+    }
+
+    public void setPlaylist(Playlist playlist) {
+        this.playlist = playlist;
     }
 }

@@ -1,6 +1,6 @@
 package dbp.proyecto.tablasIntermedias.favoriteSong;
 
-import dbp.proyecto.song.Song;
+import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
 

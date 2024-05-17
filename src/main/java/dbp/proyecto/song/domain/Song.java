@@ -1,4 +1,4 @@
-package dbp.proyecto.song;
+package dbp.proyecto.song.domain;
 
 import dbp.proyecto.tablasIntermedias.favoriteSong.FavoriteSong;
 import dbp.proyecto.tablasIntermedias.playlistSongs.PlaylistSongs;

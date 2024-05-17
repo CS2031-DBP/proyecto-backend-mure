@@ -1,22 +1,17 @@
 package dbp.proyecto.content;
 
-import dbp.proyecto.playlist.Playlist;
-import dbp.proyecto.song.Song;
+import dbp.proyecto.playlist.domain.Playlist;
+import dbp.proyecto.song.domain.Song;
 import jakarta.persistence.ManyToOne;
-
-
 import java.sql.Timestamp;
 
 public class Content {
-
     @ManyToOne
     private Song song;
-
     @ManyToOne
     private Playlist playlist;
-
     private Timestamp date;
-    private Integer likes = 0;
+    private Integer likes;
 
     public Song getSong() {
         return song;

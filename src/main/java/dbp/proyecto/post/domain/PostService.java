@@ -5,7 +5,6 @@ import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.Song;
-import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.dto.UserInfoForSong;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;

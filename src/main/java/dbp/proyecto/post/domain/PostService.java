@@ -34,7 +34,7 @@ public class PostService {
     }
 
     public PostResponseDTO getPostByAuthor(UserInfoForSong author, Long id) {
-        User user = userRepository.findById(author.getId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        userRepository.findById(author.getId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 

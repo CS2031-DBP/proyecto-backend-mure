@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class ArtistDto {
+public class ArtistDTO {
     private Long id;
     private String name;
     private String description;

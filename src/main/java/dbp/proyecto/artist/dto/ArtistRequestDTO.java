@@ -1,6 +1,6 @@
 package dbp.proyecto.artist.dto;
 
-public class ArtistRequestDto {
+public class ArtistRequestDTO {
     private String name;
 
     private Boolean verified;

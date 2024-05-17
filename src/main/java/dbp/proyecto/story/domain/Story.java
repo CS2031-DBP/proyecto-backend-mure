@@ -1,6 +1,7 @@
 package dbp.proyecto.story.domain;
 
 import dbp.proyecto.content.Content;
+import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -25,7 +26,7 @@ public class Story extends Content {
     private String text;
 
     @ManyToOne
-    private User User;
+    private User user;
 
     public Story(Long id, Timestamp startdate, String videourl, String text) {
         this.id = id;
@@ -79,10 +80,10 @@ public class Story extends Content {
     }
 
     public User getUser() {
-        return User;
+        return user;
     }
 
     public void setUser(User User) {
-        this.User = User;
+        this.user = User;
     }
 }

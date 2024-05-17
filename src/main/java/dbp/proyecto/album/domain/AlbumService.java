@@ -1,6 +1,6 @@
 package dbp.proyecto.album.domain;
 
-import dbp.proyecto.album.dto.AlbumDto;
+import dbp.proyecto.album.dto.AlbumDTO;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,21 +17,21 @@ public class AlbumService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<AlbumDto> findAll() {
+    public List<AlbumDTO> findAll() {
         return albumRepository.findAll()
                 .stream()
-                .map(album -> modelMapper.map(album, AlbumDto.class))
+                .map(album -> modelMapper.map(album, AlbumDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public Optional<AlbumDto> findById(Long id) {
-        return albumRepository.findById(id).map(album -> modelMapper.map(album, AlbumDto.class));
+    public Optional<AlbumDTO> findById(Long id) {
+        return albumRepository.findById(id).map(album -> modelMapper.map(album, AlbumDTO.class));
     }
 
-    public AlbumDto save(AlbumDto albumDto) {
+    public AlbumDTO save(AlbumDTO albumDto) {
         Album album = modelMapper.map(albumDto, Album.class);
         Album savedAlbum = albumRepository.save(album);
-        return modelMapper.map(savedAlbum, AlbumDto.class);
+        return modelMapper.map(savedAlbum, AlbumDTO.class);
     }
 
     public void deleteById(Long id) {

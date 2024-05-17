@@ -1,6 +1,6 @@
 package dbp.proyecto.artist.domain;
 
-import dbp.proyecto.artist.dto.ArtistDto;
+import dbp.proyecto.artist.dto.ArtistDTO;
 import dbp.proyecto.artist.infrastructure.ArtistRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +17,22 @@ public class ArtistService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<ArtistDto> findAll() {
+    public List<ArtistDTO> findAll() {
         return artistRepository.findAll()
                 .stream()
-                .map(artist -> modelMapper.map(artist, ArtistDto.class))
+                .map(artist -> modelMapper.map(artist, ArtistDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public Optional<ArtistDto> findById(Long id) {
+    public Optional<ArtistDTO> findById(Long id) {
         return artistRepository.findById(id)
-                .map(artist -> modelMapper.map(artist, ArtistDto.class));
+                .map(artist -> modelMapper.map(artist, ArtistDTO.class));
     }
 
-    public ArtistDto save(ArtistDto artistDto) {
+    public ArtistDTO save(ArtistDTO artistDto) {
         Artist artist = modelMapper.map(artistDto, Artist.class);
         Artist savedArtist = artistRepository.save(artist);
-        return modelMapper.map(savedArtist, ArtistDto.class);
+        return modelMapper.map(savedArtist, ArtistDTO.class);
     }
 
     public void deleteById(Long id) {

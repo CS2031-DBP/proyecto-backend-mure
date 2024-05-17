@@ -1,6 +1,7 @@
 package dbp.proyecto.post.domain;
 
 import dbp.proyecto.content.Content;
+import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,7 +18,7 @@ public class Post extends Content {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User User;
+    private User user;
 
 
     public Post(Long id, String description, String imageurl, String audioUrl) {
@@ -63,10 +64,10 @@ public class Post extends Content {
     }
 
     public User getUser() {
-        return User;
+        return user;
     }
 
     public void setUser(User User) {
-        this.User = User;
+        this.user = User;
     }
 }

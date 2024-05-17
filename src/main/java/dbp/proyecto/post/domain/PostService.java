@@ -5,6 +5,7 @@ import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.Song;
+import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.dto.UserInfoForSong;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -33,7 +34,7 @@ public class PostService {
     }
 
     public PostResponseDTO getPostByAuthor(UserInfoForSong author, Long id) {
-        User User = userRepository.findById(author.getId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepository.findById(author.getId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 

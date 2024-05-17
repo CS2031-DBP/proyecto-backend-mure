@@ -1,9 +1,7 @@
 package dbp.proyecto.artist.application;
 
-import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.artist.domain.ArtistService;
-import dbp.proyecto.artist.dto.ArtistDto;
-import jakarta.websocket.server.PathParam;
+import dbp.proyecto.artist.dto.ArtistDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,30 +17,30 @@ public class ArtistController {
     private ArtistService artistService;
 
     @GetMapping
-    public ResponseEntity<List<ArtistDto>> getAllArtists() {
-        List<ArtistDto> artists = artistService.findAll();
+    public ResponseEntity<List<ArtistDTO>> getAllArtists() {
+        List<ArtistDTO> artists = artistService.findAll();
         return new ResponseEntity<>(artists, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ArtistDto> getArtistById(@PathVariable("id") Long id) {
-        Optional<ArtistDto> artist = artistService.findById(id);
+    public ResponseEntity<ArtistDTO> getArtistById(@PathVariable("id") Long id) {
+        Optional<ArtistDTO> artist = artistService.findById(id);
         return artist.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<ArtistDto> createArtist(@RequestBody ArtistDto artistDto) {
-        ArtistDto savedArtist = artistService.save(artistDto);
+    public ResponseEntity<ArtistDTO> createArtist(@RequestBody ArtistDTO artistDto) {
+        ArtistDTO savedArtist = artistService.save(artistDto);
         return new ResponseEntity<>(savedArtist, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ArtistDto> updateArtist(@PathVariable("id") Long id, @RequestBody ArtistDto updatedArtistDto) {
+    public ResponseEntity<ArtistDTO> updateArtist(@PathVariable("id") Long id, @RequestBody ArtistDTO updatedArtistDTO) {
         return artistService.findById(id)
                 .map(artist -> {
-                    updatedArtistDto.setId(artist.getId());
-                    ArtistDto savedArtist = artistService.save(updatedArtistDto);
+                    updatedArtistDTO.setId(artist.getId());
+                    ArtistDTO savedArtist = artistService.save(updatedArtistDTO);
                     return new ResponseEntity<>(savedArtist, HttpStatus.OK);
                 })
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));

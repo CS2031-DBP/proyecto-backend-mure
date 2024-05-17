@@ -1,8 +1,7 @@
 package dbp.proyecto.album.application;
 
-import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.album.domain.AlbumService;
-import dbp.proyecto.album.dto.AlbumDto;
+import dbp.proyecto.album.dto.AlbumDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,30 +17,30 @@ public class AlbumController {
     private AlbumService albumService;
 
     @GetMapping
-    public ResponseEntity<List<AlbumDto>> getAllAlbums() {
-        List<AlbumDto> albums = albumService.findAll();
+    public ResponseEntity<List<AlbumDTO>> getAllAlbums() {
+        List<AlbumDTO> albums = albumService.findAll();
         return new ResponseEntity<>(albums, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AlbumDto> getAlbumById(@PathVariable("id") Long id) {
-        Optional<AlbumDto> album = albumService.findById(id);
+    public ResponseEntity<AlbumDTO> getAlbumById(@PathVariable("id") Long id) {
+        Optional<AlbumDTO> album = albumService.findById(id);
         return album.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<AlbumDto> createAlbum(@RequestBody AlbumDto albumDto) {
-        AlbumDto savedAlbum = albumService.save(albumDto);
+    public ResponseEntity<AlbumDTO> createAlbum(@RequestBody AlbumDTO albumDto) {
+        AlbumDTO savedAlbum = albumService.save(albumDto);
         return new ResponseEntity<>(savedAlbum, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AlbumDto> updateAlbum(@PathVariable("id") Long id, @RequestBody AlbumDto updatedAlbumDto) {
+    public ResponseEntity<AlbumDTO> updateAlbum(@PathVariable("id") Long id, @RequestBody AlbumDTO updatedAlbumDTO) {
         return albumService.findById(id)
                 .map(album -> {
-                    updatedAlbumDto.setId(album.getId());
-                    AlbumDto savedAlbum = albumService.save(updatedAlbumDto);
+                    updatedAlbumDTO.setId(album.getId());
+                    AlbumDTO savedAlbum = albumService.save(updatedAlbumDTO);
                     return new ResponseEntity<>(savedAlbum, HttpStatus.OK);
                 })
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));

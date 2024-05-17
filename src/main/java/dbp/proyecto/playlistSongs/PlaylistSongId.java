@@ -2,6 +2,8 @@ package dbp.proyecto.playlistSongs;
 
 import jakarta.persistence.Column;
 
+import java.util.Objects;
+
 public class PlaylistSongId {
     @Column(name = "playlist_id")
     private Long playlistId;
@@ -23,8 +25,8 @@ public class PlaylistSongId {
 
         PlaylistSongId that = (PlaylistSongId) o;
 
-        if (playlistId != null ? !playlistId.equals(that.playlistId) : that.playlistId != null) return false;
-        return songId != null ? songId.equals(that.songId) : that.songId == null;
+        if (!Objects.equals(playlistId, that.playlistId)) return false;
+        return Objects.equals(songId, that.songId);
     }
 
     @Override

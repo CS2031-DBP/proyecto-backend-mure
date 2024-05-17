@@ -8,12 +8,12 @@ import jakarta.persistence.*;
 @Entity
 public class ArtistSongs {
     @EmbeddedId
-    private ArtistSongID id;
+    private ArtistSongId id;
 
     public ArtistSongs(Artist artist, Song song) {
         this.artist = artist;
         this.song = song;
-        this.id = new ArtistSongID(artist.getId(), song.getId());
+        this.id = new ArtistSongId(artist.getId(), song.getId());
     }
 
     public ArtistSongs() {

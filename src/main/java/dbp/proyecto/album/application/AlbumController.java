@@ -1,6 +1,5 @@
 package dbp.proyecto.album.application;
 
-import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.album.domain.AlbumService;
 import dbp.proyecto.album.dto.AlbumDto;
 import org.springframework.beans.factory.annotation.Autowired;

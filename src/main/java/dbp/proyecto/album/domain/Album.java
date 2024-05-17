@@ -16,22 +16,17 @@ import java.sql.Timestamp;
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(nullable = false)
-    String title;
+    private String title;
 
     @Column(length = 1500)
-    String description;
+    private String description;
 
     @Column(nullable = false)
-    Timestamp duration;
+    private Timestamp duration;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "artist_albums",
-//            joinColumns = @JoinColumn(name = "album_id"),
-//            inverseJoinColumns = @JoinColumn(name = "artist_id")
-//    )
-//    List<Artist> artists;
+//    @OneToMany
+//    private List<ArtistAlbums> artists;
 }

@@ -1,7 +1,6 @@
 package dbp.proyecto.post.domain;
 
 import dbp.proyecto.content.Content;
-import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
 
 @Entity

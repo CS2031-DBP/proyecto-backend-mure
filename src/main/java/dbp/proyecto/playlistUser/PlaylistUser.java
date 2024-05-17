@@ -1,7 +1,6 @@
 package dbp.proyecto.playlistUser;
 
 import dbp.proyecto.playlist.Playlist;
-import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
 
 @Entity

@@ -6,7 +6,6 @@ import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.post.dtos.PostBodyDTO;
 import dbp.proyecto.story.domain.Story;
 import dbp.proyecto.story.dto.StoryBodyDTO;
-import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.domain.UserService;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;

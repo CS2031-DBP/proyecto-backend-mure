@@ -4,7 +4,6 @@ import dbp.proyecto.post.domain.PostService;
 import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.song.Song;
-import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.dto.UserInfoForSong;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

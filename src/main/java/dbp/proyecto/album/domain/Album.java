@@ -1,7 +1,10 @@
 package dbp.proyecto.album.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 
@@ -16,7 +19,7 @@ public class Album {
     Long id;
 
     @Column(nullable = false)
-    String name;
+    String title;
 
     @Column(length = 1500)
     String description;

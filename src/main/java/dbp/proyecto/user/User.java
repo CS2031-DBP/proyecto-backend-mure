@@ -1,26 +1,33 @@
-package dbp.proyecto.user;
+package dbp.proyecto.user.domain;
 
-import dbp.proyecto.favoriteArtist.FavoriteArtist;
 import dbp.proyecto.playlistUser.PlaylistUser;
 import dbp.proyecto.favoriteSong.FavoriteSong;
-import dbp.proyecto.post.Post;
-import dbp.proyecto.story.Story;
+import dbp.proyecto.post.domain.Post;
+import dbp.proyecto.story.domain.Story;
 import jakarta.persistence.*;
 import lombok.Data;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 
 @Data
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String name;
 
+    @NotBlank
+    @Email
     private String email;
 
+    @NotBlank
+    @Size(min = 8, max = 64)
     private String password;
 
     private String profileImage;
@@ -28,20 +35,17 @@ public class User {
     @ManyToMany
     private List<User> friends;
 
-    @OneToMany(mappedBy = "user")
-    private List<Post> Posts;
+    @OneToMany(mappedBy = "User")
+    private List<Post> posts;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "User")
     private List<Story> stories;
 
-    @OneToMany(mappedBy = "user")
-    private List<FavoriteSong> FavoriteSongs;
+    @OneToMany(mappedBy = "User")
+    private List<FavoriteSong> favoriteSongs;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "User")
     private List<PlaylistUser> playlists;
-
-    @OneToMany(mappedBy = "user")
-    private List<FavoriteArtist> favoriteArtists;
 
     public User(Long id, String name, String email, String password) {
         this.id = id;
@@ -49,79 +53,6 @@ public class User {
         this.email = email;
         this.password = password;
     }
-
     public User() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
-
-    public List<User> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(List<User> friends) {
-        this.friends = friends;
-    }
-
-    public List<Post> getPosts() {
-        return Posts;
-    }
-
-    public void setPosts(List<Post> Posts) {
-        this.Posts = Posts;
-    }
-
-    public List<Story> getStories() {
-        return stories;
-    }
-
-    public void setStories(List<Story> stories) {
-        this.stories = stories;
-    }
-
-    public List<FavoriteSong> getFavoriteSongs() {
-        return FavoriteSongs;
-    }
-
-    public void setFavoriteSongs(List<FavoriteSong> FavoriteSongs) {
-        this.FavoriteSongs = FavoriteSongs;
     }
 }

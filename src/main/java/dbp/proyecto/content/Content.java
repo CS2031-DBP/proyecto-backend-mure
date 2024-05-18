@@ -1,8 +1,7 @@
 package dbp.proyecto.content;
 
 import dbp.proyecto.playlist.domain.Playlist;
-import dbp.proyecto.song.Song;
-
+import dbp.proyecto.song.domain.Song;
 import java.sql.Timestamp;
 
 

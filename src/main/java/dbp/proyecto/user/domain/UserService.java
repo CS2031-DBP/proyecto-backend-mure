@@ -3,7 +3,11 @@ package dbp.proyecto.user.domain;
 import dbp.proyecto.favoriteSong.FavoriteSong;
 import dbp.proyecto.playlistUser.PlaylistUser;
 import dbp.proyecto.post.domain.Post;
+import dbp.proyecto.post.dtos.PostBodyDTO;
+import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.story.domain.Story;
+import dbp.proyecto.story.dto.StoryBodyDTO;
+import dbp.proyecto.story.infrastructure.StoryRepository;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -16,18 +20,22 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
+    private final StoryRepository storyRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, PostRepository postRepository, StoryRepository storyRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.postRepository = postRepository;
+        this.storyRepository = storyRepository;
         this.modelMapper = modelMapper;
     }
 
     // DTO
     public UserBasicInfoResponseDTO getUserBasicInfo(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return modelMapper.map(user, UserBasicInfoResponseDTO.class);
+        User User = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return modelMapper.map(User, UserBasicInfoResponseDTO.class);
     }
 
     public String saveUser(User user) {
@@ -40,14 +48,37 @@ public class UserService {
     }
 
     public List<Post> getPosts(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return user.getPosts();
+        User User = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return User.getPosts();
+    }
+
+    public String postPost(Long id, PostBodyDTO post) {
+    User User = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+    Post newPost = modelMapper.map(post, Post.class);
+    newPost.setUser(User);
+
+    postRepository.save(newPost);
+
+    return "/post/" + newPost.getId();
     }
 
     public List<Story> getStories(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return user.getStories();
+        User User = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return User.getStories();
     }
+
+    public String postStory(Long id, StoryBodyDTO story) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        Story newStory = modelMapper.map(story, Story.class);
+        newStory.setUser(user);
+
+        storyRepository.save(newStory);
+
+        return "/story/" + newStory.getId();
+    }
+
 
     public List<FavoriteSong> getFavoriteSongs(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));

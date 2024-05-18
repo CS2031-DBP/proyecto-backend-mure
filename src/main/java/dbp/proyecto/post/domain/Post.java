@@ -17,7 +17,9 @@ public class Post extends Content {
     private String audioUrl;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
 
     public Post(Long id, String description, String imageurl, String audioUrl) {
         this.id = id;
@@ -65,7 +67,7 @@ public class Post extends Content {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(User User) {
+        this.user = User;
     }
 }

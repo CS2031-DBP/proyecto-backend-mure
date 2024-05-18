@@ -1,0 +1,23 @@
+package dbp.proyecto.post.dtos;
+
+import dbp.proyecto.playlist.domain.Playlist;
+import dbp.proyecto.song.domain.Song;
+
+import jakarta.persistence.ManyToOne;
+import lombok.Getter;
+
+@Getter
+public class PostBodyDTO {
+    @ManyToOne
+    private Song song;
+
+    @ManyToOne
+    private Playlist playlist;
+
+    private String description;
+
+    private String imageurl;
+
+    private String audioUrl;
+}
+

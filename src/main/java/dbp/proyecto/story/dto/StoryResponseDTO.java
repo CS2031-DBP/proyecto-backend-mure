@@ -2,7 +2,11 @@ package dbp.proyecto.story.dto;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class StoryResponseDTO {
 
     @Column(nullable = false)
@@ -19,19 +23,4 @@ public class StoryResponseDTO {
     public StoryResponseDTO() {
     }
 
-    public String getVideoUrl() {
-        return videoUrl;
-    }
-
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
 }

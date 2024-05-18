@@ -1,7 +1,8 @@
-package dbp.proyecto.artistSongs;
+package dbp.proyecto.tablasIntermedias.artistSongs;
 
 import dbp.proyecto.artist.domain.Artist;
-import dbp.proyecto.song.Song;
+
+import dbp.proyecto.song.domain.Song;
 import jakarta.persistence.*;
 
 

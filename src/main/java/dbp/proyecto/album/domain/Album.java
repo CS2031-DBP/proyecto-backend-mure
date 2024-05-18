@@ -1,6 +1,6 @@
 package dbp.proyecto.album.domain;
 
-import dbp.proyecto.artistAlbum.ArtistAlbum;
+import dbp.proyecto.tablasIntermedias.artistAlbum.ArtistAlbum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

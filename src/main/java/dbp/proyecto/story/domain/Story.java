@@ -4,9 +4,13 @@ import dbp.proyecto.content.Content;
 import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 
+@Setter
+@Getter
 @Entity
 public class Story extends Content {
     @Id
@@ -14,13 +18,13 @@ public class Story extends Content {
     private Long id;
 
     @Column(nullable = false)
-    private Timestamp startdate;
+    private Timestamp startDate;
 
     @Column(nullable = false)
-    private Timestamp enddate;
+    private Timestamp endDate;
 
     @Column(nullable = false)
-    private String videourl;
+    private String videoUrl;
 
     @Size(max = 200)
     private String text;
@@ -30,60 +34,12 @@ public class Story extends Content {
 
     public Story(Long id, Timestamp startdate, String videourl, String text) {
         this.id = id;
-        this.startdate = startdate;
-        this.enddate = new Timestamp(startdate.getTime() + 86400000);
-        this.videourl = videourl;
+        this.startDate = startdate;
+        this.endDate = new Timestamp(startdate.getTime() + 86400000);
+        this.videoUrl = videourl;
         this.text = text;
     }
 
     public Story() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Timestamp getStartdate() {
-        return startdate;
-    }
-
-    public void setStartdate(Timestamp startdate) {
-        this.startdate = startdate;
-    }
-
-    public Timestamp getEnddate() {
-        return enddate;
-    }
-
-    public void setEnddate(Timestamp enddate) {
-        this.enddate = enddate;
-    }
-
-    public String getVideourl() {
-        return videourl;
-    }
-
-    public void setVideourl(String videourl) {
-        this.videourl = videourl;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User User) {
-        this.user = User;
     }
 }

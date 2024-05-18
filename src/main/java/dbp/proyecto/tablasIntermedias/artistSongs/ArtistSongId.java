@@ -1,20 +1,21 @@
-package dbp.proyecto.artistAlbum;
+package dbp.proyecto.tablasIntermedias.artistSongs;
 
 import jakarta.persistence.Column;
 
-public class ArtistAlbumId {
+public class ArtistSongId {
+
     @Column(name = "artist_id")
     private Long artistId;
 
-    @Column(name = "album_id")
-    private Long albumId;
+    @Column(name = "song_id")
+    private Long songId;
 
-    public ArtistAlbumId() {
+    public ArtistSongId() {
     }
 
-    public ArtistAlbumId(Long artistId, Long albumId) {
+    public ArtistSongId(Long artistId, Long songId) {
         this.artistId = artistId;
-        this.albumId = albumId;
+        this.songId = songId;
     }
 
     @Override
@@ -22,16 +23,16 @@ public class ArtistAlbumId {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ArtistAlbumId that = (ArtistAlbumId) o;
+        ArtistSongId that = (ArtistSongId) o;
 
         if (!artistId.equals(that.artistId)) return false;
-        return albumId.equals(that.albumId);
+        return songId.equals(that.songId);
     }
 
     @Override
     public int hashCode() {
         int result = artistId.hashCode();
-        result = 31 * result + albumId.hashCode();
+        result = 31 * result + songId.hashCode();
         return result;
     }
 }

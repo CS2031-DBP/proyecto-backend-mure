@@ -3,10 +3,17 @@ package dbp.proyecto.playlist.domain;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UniqueResourceAlreadyExist;
 import dbp.proyecto.playlist.infrastructure.PlaylistRepository;
+<<<<<<< HEAD
 
 import dbp.proyecto.playlistSongs.PlaylistSongs;
+=======
+>>>>>>> 49cee68097f9fd7afb72f8a6054d40ed7c672e6f
 import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.song.infrastructure.SongRepository;
+import dbp.proyecto.tablasIntermedias.playlistSongs.PlaylistSongs;
+import dbp.proyecto.tablasIntermedias.playlistSongs.PlaylistSongsRepository;
+import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
+import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUserRepository;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -40,6 +47,7 @@ public class PlaylistService {
         return playlists;
     }
 
+<<<<<<< HEAD
     public List<Playlist> getPlaylistsContainingSong(Long songId) {
         List<Playlist> playlists = repository.findBySongs_Id(songId);
         if (playlists.isEmpty()) {
@@ -47,6 +55,14 @@ public class PlaylistService {
         }
         return playlists;
     }
+=======
+/*    @Transactional(readOnly = true)
+    public List<PlaylistDTO> getPlaylistsBySong(String songTitle) {
+        return repository.findBySongsTitle(songTitle).stream()
+                .map(playlist -> mapper.map(playlist, PlaylistDTO.class))
+                .collect(Collectors.toList());
+    }*/
+>>>>>>> 49cee68097f9fd7afb72f8a6054d40ed7c672e6f
 
     public List<Playlist> getPlaylistsByName(String name) {
         List<Playlist> playlists = repository.findByTitleContaining(name);

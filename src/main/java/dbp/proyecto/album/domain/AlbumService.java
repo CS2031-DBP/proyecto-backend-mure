@@ -12,10 +12,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class AlbumService {
+    private final AlbumRepository albumRepository;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    private AlbumRepository albumRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    public AlbumService(AlbumRepository albumRepository, ModelMapper modelMapper) {
+        this.albumRepository = albumRepository;
+        this.modelMapper = modelMapper;
+    }
 
     public List<AlbumDTO> findAll() {
         return albumRepository.findAll()

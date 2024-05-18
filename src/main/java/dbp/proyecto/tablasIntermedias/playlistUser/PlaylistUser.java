@@ -1,9 +1,11 @@
-package dbp.proyecto.playlistUser;
+package dbp.proyecto.tablasIntermedias.playlistUser;
 
 import dbp.proyecto.playlist.domain.Playlist;
 import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 public class PlaylistUser {
     @EmbeddedId
@@ -25,28 +27,4 @@ public class PlaylistUser {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
     private User user;
-
-    public PlaylistUserId getId() {
-        return id;
-    }
-
-    public void setId(PlaylistUserId id) {
-        this.id = id;
-    }
-
-    public Playlist getPlaylist() {
-        return playlist;
-    }
-
-    public void setPlaylist(Playlist playlist) {
-        this.playlist = playlist;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User User) {
-        this.user = User;
-    }
 }

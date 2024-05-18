@@ -1,9 +1,11 @@
 package dbp.proyecto.story.dto;
 
-import dbp.proyecto.playlist.Playlist;
-import dbp.proyecto.song.Song;
-import jakarta.persistence.ManyToOne;
 
+import dbp.proyecto.playlist.domain.Playlist;
+import dbp.proyecto.song.domain.Song;
+import lombok.Data;
+
+@Data
 public class StoryBodyDTO {
     private Song song;
 

@@ -13,8 +13,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/artist")
 public class ArtistController {
+    private final ArtistService artistService;
+
     @Autowired
-    private ArtistService artistService;
+    public ArtistController(ArtistService artistService) {
+        this.artistService = artistService;
+    }
 
     @GetMapping
     public ResponseEntity<List<ArtistDTO>> getAllArtists() {

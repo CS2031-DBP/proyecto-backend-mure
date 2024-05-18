@@ -1,4 +1,4 @@
-package dbp.proyecto.favoriteArtist;
+package dbp.proyecto.tablasIntermedias.favoriteArtist;
 
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.user.domain.User;

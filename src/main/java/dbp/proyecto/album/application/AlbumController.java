@@ -13,8 +13,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/album")
 public class AlbumController {
+    private final AlbumService albumService;
+
     @Autowired
-    private AlbumService albumService;
+    public AlbumController(AlbumService albumService) {
+        this.albumService = albumService;
+    }
 
     @GetMapping
     public ResponseEntity<List<AlbumDTO>> getAllAlbums() {

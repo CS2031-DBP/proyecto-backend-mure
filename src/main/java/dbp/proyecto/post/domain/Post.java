@@ -3,7 +3,12 @@ package dbp.proyecto.post.domain;
 import dbp.proyecto.content.Content;
 import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Setter
+@Getter
 @Entity
 public class Post extends Content {
     @Id
@@ -31,43 +36,4 @@ public class Post extends Content {
     public Post() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImageurl() {
-        return imageurl;
-    }
-
-    public void setImageurl(String imageurl) {
-        this.imageurl = imageurl;
-    }
-
-    public String getAudioUrl() {
-        return audioUrl;
-    }
-
-    public void setAudioUrl(String audioUrl) {
-        this.audioUrl = audioUrl;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User User) {
-        this.user = User;
-    }
 }

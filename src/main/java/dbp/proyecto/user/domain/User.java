@@ -30,6 +30,7 @@ public class User {
     @Size(min = 8, max = 64)
     private String password;
 
+    private boolean active = true;
     private String profileImage;
 
     @ManyToMany
@@ -55,4 +56,11 @@ public class User {
     }
     public User() {
     }
+<<<<<<< HEAD
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+=======
+>>>>>>> d47e6b1a1961c79f7ea5f7079d5d558b67dc507a
 }

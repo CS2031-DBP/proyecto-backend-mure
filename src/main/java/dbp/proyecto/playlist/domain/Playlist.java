@@ -1,7 +1,13 @@
 package dbp.proyecto.playlist.domain;
 
+<<<<<<< HEAD
+import dbp.proyecto.playlistSongs.PlaylistSongs;
+import dbp.proyecto.playlistUser.PlaylistUser;
+import dbp.proyecto.song.domain.Song;
+=======
 import dbp.proyecto.tablasIntermedias.playlistSongs.PlaylistSongs;
 import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
+>>>>>>> 49cee68097f9fd7afb72f8a6054d40ed7c672e6f
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,14 +24,6 @@ public class Playlist {
     private String name;
 
 
-    public Playlist(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Playlist() {
-    }
-
     @OneToMany(mappedBy = "playlist",
             cascade = CascadeType.ALL,
             orphanRemoval = true
@@ -38,5 +36,15 @@ public class Playlist {
     )
     private List<PlaylistSongs> songs = new ArrayList<>();
 
+    public Playlist(Long id, String name) {
+        this.id = id;
+        this.name = name;
+        this.songs = new ArrayList<>();
+    }
 
+    public Playlist() {}
+
+    public void addSong(PlaylistSongs playlistSong) {
+        this.songs.add(playlistSong);
+    }
 }

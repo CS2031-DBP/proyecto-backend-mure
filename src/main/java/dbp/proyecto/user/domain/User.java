@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -37,6 +38,13 @@ public class User implements UserDetails {
     @Size(min = 8, max = 64)
     private String password;
 
+    @NotNull
+    @Min(18)
+    @Max(100)
+    private Integer age;
+
+    private LocalDateTime createdAt;
+
     private String profileImage;
 
     @ManyToMany
@@ -54,9 +62,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<PlaylistUser> playlists;
 
+    @Transient
+    private String rolePrefix = "ROLE_";
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(rolePrefix + role.name()));
     }
 
     @Override

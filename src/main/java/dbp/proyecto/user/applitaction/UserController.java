@@ -9,9 +9,9 @@ import dbp.proyecto.user.domain.UserService;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -24,20 +24,21 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserBasicInfoResponseDTO> getUser(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getUserBasicInfo(id));
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/me")
+    public ResponseEntity<UserBasicInfoResponseDTO> getMe() {
+        return ResponseEntity.ok(userService.getMe());
     }
 
-    @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
+
+    @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
-    }
-
-    @PostMapping
-    public ResponseEntity<Void> saveUser(@RequestBody User user) {
-        String uri = userService.saveUser(user);
-        return ResponseEntity.created(URI.create(uri)).build();
     }
 
     @PatchMapping("/profileImage/{id}")

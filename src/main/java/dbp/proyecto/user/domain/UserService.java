@@ -1,5 +1,6 @@
 package dbp.proyecto.user.domain;
 
+import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.tablasIntermedias.favoriteSong.FavoriteSong;
 import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
 import dbp.proyecto.post.domain.Post;
@@ -22,29 +23,28 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final AuthorizationUtils authorizationUtils;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, AuthorizationUtils authorizationUtils, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.authorizationUtils = authorizationUtils;
         this.modelMapper = modelMapper;
     }
 
-    public UserBasicInfoResponseDTO getUserBasicInfo(Long id) {
-        User User = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return modelMapper.map(User, UserBasicInfoResponseDTO.class);
+    public UserBasicInfoResponseDTO getMe() {
+        String email = authorizationUtils.getCurrentUserEmail();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return modelMapper.map(user, UserBasicInfoResponseDTO.class);
+    }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
-    }
-    public String saveUser(User user) {
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new UniqueResourceAlreadyExist("User already exist");
-        }
-        User savedUser = userRepository.save(user);
-        return "/user/" + savedUser.getId();
-
     }
 
     public void updateProfileImage(Long id, String profileImage) {
@@ -112,6 +112,10 @@ public class UserService {
     public List<User> getFriends(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return user.getFriends();
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     @Bean(name = "UserDetailsService")

@@ -33,7 +33,6 @@ public class User {
     @Size(min = 8, max = 64)
     private String password;
 
-    private boolean active = true;
     private String profileImage;
 
     @ManyToMany
@@ -50,14 +49,4 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<PlaylistUser> playlists;
-
-    public User(Long id, String name, String email, String password) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
-
-    public User() {
-    }
 }

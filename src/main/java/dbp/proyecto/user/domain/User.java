@@ -39,10 +39,10 @@ public class User {
     @ManyToMany
     private List<User> friends;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Story> stories;
 
     @OneToMany(mappedBy = "user")
@@ -57,13 +57,7 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
     public User() {
     }
-<<<<<<< HEAD
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-=======
->>>>>>> d47e6b1a1961c79f7ea5f7079d5d558b67dc507a
 }

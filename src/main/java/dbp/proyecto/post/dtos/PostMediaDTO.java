@@ -1,19 +1,12 @@
 package dbp.proyecto.post.dtos;
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
-@Setter
-@Getter
+@Data
 public class PostMediaDTO {
-
+    @NotBlank
     private String imageUrl;
-
+    @NotBlank
     private String audioUrl;
-
-    public PostMediaDTO(String imageUrl, String audioUrl) {
-        this.imageUrl = imageUrl;
-        this.audioUrl = audioUrl;
-    }
-
 }

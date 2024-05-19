@@ -3,6 +3,7 @@ package dbp.proyecto.post.domain;
 import dbp.proyecto.content.Content;
 import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ public class Post extends Content {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String description;
 
     private String imageUrl;
@@ -24,7 +26,6 @@ public class Post extends Content {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
 
     public Post(Long id, String description, String imageUrl, String audioUrl) {
         this.id = id;

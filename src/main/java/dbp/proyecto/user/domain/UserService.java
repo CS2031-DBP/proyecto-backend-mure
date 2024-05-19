@@ -3,11 +3,7 @@ package dbp.proyecto.user.domain;
 import dbp.proyecto.tablasIntermedias.favoriteSong.FavoriteSong;
 import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
 import dbp.proyecto.post.domain.Post;
-import dbp.proyecto.post.dtos.PostBodyDTO;
-import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.story.domain.Story;
-import dbp.proyecto.story.dto.StoryBodyDTO;
-import dbp.proyecto.story.infrastructure.StoryRepository;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -20,15 +16,11 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final PostRepository postRepository;
-    private final StoryRepository storyRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository, PostRepository postRepository, StoryRepository storyRepository, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
-        this.postRepository = postRepository;
-        this.storyRepository = storyRepository;
         this.modelMapper = modelMapper;
     }
 

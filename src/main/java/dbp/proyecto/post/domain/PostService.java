@@ -3,6 +3,7 @@ package dbp.proyecto.post.domain;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.playlist.domain.Playlist;
 import dbp.proyecto.playlist.infrastructure.PlaylistRepository;
+import dbp.proyecto.post.dtos.PostBodyDTO;
 import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.post.infrastructure.PostRepository;
@@ -37,16 +38,14 @@ public class PostService {
     }
 
     @Transactional
-    public String createPost(Post post, Long userId) {
-        if (userRepository.findById(userId).isEmpty()) {
-            throw new ResourceNotFoundException("User not found");
-        }
-        User user = userRepository.findById(userId).get();
+    public String createPost(PostBodyDTO postBodyDTO, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Post post = modelMapper.map(postBodyDTO, Post.class);
         post.setUser(user);
-        Post savedPost = postRepository.save(post);
-        user.getPosts().add(savedPost);
+        postRepository.save(post);
+        user.getPosts().add(post);
         userRepository.save(user);
-        return "/post/" + savedPost.getId();
+        return "/post/" + post.getId();
     }
 
     public void changeMedia(Long id, PostMediaDTO media) {

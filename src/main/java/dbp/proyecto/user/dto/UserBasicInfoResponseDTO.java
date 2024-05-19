@@ -7,15 +7,8 @@ import lombok.Data;
 
 @Data
 public class UserBasicInfoResponseDTO {
-
-    @NotBlank
-    @Size(min = 3, max = 50)
     private String name;
-
-    @NotBlank
-    @Email
+    private Integer age;
     private String email;
-
-    @NotBlank
     private String profileImage;
 }

@@ -6,5 +6,10 @@ import lombok.Data;
 @Data
 public class JwtAuthenticationResponseDTO {
     @NotBlank
-    private String token;
+    private final String accessToken;
+    private String tokenType = "Bearer";
+
+    public JwtAuthenticationResponseDTO(String accessToken) {
+        this.accessToken = accessToken;
+    }
 }

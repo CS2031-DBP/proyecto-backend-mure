@@ -22,8 +22,8 @@ public class PlaylistController {
     }
 
     @GetMapping("/{name}") //Lista¿
-    public ResponseEntity<List<PlaylistResponseDTO>> getPlaylistByName(@PathVariable String name) {
-        List<PlaylistResponseDTO> playlist = playlistService.getPlaylistByName(name);
+    public ResponseEntity<PlaylistResponseDTO> getPlaylistByName(@PathVariable String name) {
+        PlaylistResponseDTO playlist = playlistService.getPlaylistByName(name);
         return ResponseEntity.ok(playlist);
     }
 
@@ -33,39 +33,39 @@ public class PlaylistController {
         return ResponseEntity.ok(playlist);
     }
 
-    @GetMapping("/songs")
-    public ResponseEntity<List<Song>> getSongs() {
-        List<Song> songs = playlistService.getSongs();
+    @GetMapping("/songs/{id}")
+    public ResponseEntity<List<Song>> getSongs(@PathVariable Long id) {
+        List<Song> songs = playlistService.getSongs(id);
         return ResponseEntity.ok(songs);
     }
 
-    @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers() {
-        List<User> users = playlistService.getUsers();
+    @GetMapping("/users/{id}")
+    public ResponseEntity<List<User>> getUsers(@PathVariable Long id) {
+        List<User> users = playlistService.getUsers(id);
         return ResponseEntity.ok(users);
     }
 
-    @PatchMapping("/song")
-    public ResponseEntity<Void> addSong(@RequestBody Song song) {
-        playlistService.addSong(song);
+    @PatchMapping("/song/{id}")
+    public ResponseEntity<Void> addSong(@RequestBody Song song, @PathVariable Long id) {
+        playlistService.addSong(song, id);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/song/delete")
-    public ResponseEntity<Void> deleteSong(@RequestBody Song song) {
-        playlistService.deleteSong(song);
+    @PatchMapping("/song/delete/{id}")
+    public ResponseEntity<Void> deleteSong(@RequestBody Song song, @PathVariable Long id) {
+        playlistService.deleteSong(song, id);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/users") //todo cambiar a usuaro
-    public ResponseEntity<Void> addAuthors(@RequestBody User users) {
-        playlistService.addAuthors(users);
+    @PatchMapping("/users/{id}")
+    public ResponseEntity<Void> addAuthors(@RequestBody User users, @PathVariable Long id) {
+        playlistService.addAuthors(users, id);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/users/delete")
-    public ResponseEntity<Void> deleteAuthors(@RequestBody User users) {
-        playlistService.deleteAuthors(users);
+    @PatchMapping("/users/delete/{id}")
+    public ResponseEntity<Void> deleteAuthors(@RequestBody User users, @PathVariable Long id) {
+        playlistService.deleteAuthors(users, id);
         return ResponseEntity.ok().build();
     }
 

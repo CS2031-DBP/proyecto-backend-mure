@@ -15,7 +15,7 @@ public class Playlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
+    @Column(unique = true)
     private String name;
 
     public Playlist(Long id, String name) {
@@ -31,4 +31,5 @@ public class Playlist {
 
     @OneToMany(mappedBy = "playlist"    )
     private List<PlaylistSongs> songs = new ArrayList<>();
+
 }

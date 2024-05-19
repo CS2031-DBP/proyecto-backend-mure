@@ -9,12 +9,14 @@ import dbp.proyecto.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import dbp.proyecto.exception.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,6 +35,9 @@ public class UserService {
         return modelMapper.map(User, UserBasicInfoResponseDTO.class);
     }
 
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
     public String saveUser(User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new UniqueResourceAlreadyExist("User already exist");
@@ -114,8 +119,9 @@ public class UserService {
         return username -> {
             User user = userRepository.findByEmail(username)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-            return (UserDetails) user;
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
+            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
         };
     }
-
 }

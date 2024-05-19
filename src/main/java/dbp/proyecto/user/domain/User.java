@@ -54,12 +54,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<PlaylistUser> playlists;
 
-    @Transient
-    private String rolePrefix = "ROLE_";
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rolePrefix + role.name()));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

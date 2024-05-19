@@ -33,7 +33,7 @@ public class SongService {
     }
 
     public List<SongsDTO> getSongByAnSpecificArtist(String artist) { //Done
-        List<Song> songs = repository.findByAnEspecificArtist(artist);
+        List<Song> songs = repository.findByArtists(artist);
 
         if(songs.isEmpty()){
             throw new ResourceNotFoundException("Song not found by that artist");

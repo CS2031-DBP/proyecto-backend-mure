@@ -17,7 +17,7 @@ public class PlaylistService {
         return null;
     }
 
-    public PlaylistResponseDTO getPlaylistByAuthors(User authors) {
+    public PlaylistResponseDTO getPlaylistByAuthors(User users) {
         return null;
     }
 
@@ -39,10 +39,10 @@ public class PlaylistService {
     public void deleteSong(Song song) {
     }
 
-    public void addAuthors(User authors) {
+    public void addAuthors(User users) {
     }
 
-    public void deleteAuthors(User authors) {
+    public void deleteAuthors(User users) {
     }
 
     public void deletePlaylist(Long id) {

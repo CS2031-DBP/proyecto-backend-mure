@@ -25,9 +25,9 @@ public class StoryController {
         return ResponseEntity.ok(story);
     }
 
-    @GetMapping("/author/{id}")
-    public ResponseEntity<StoryResponseDTO> getStoryByAuthor(@RequestBody UserInfoForSong author, @PathVariable Long id) {
-        StoryResponseDTO story = storyService.getStoryByAuthor(author, id);
+    @GetMapping("/user/{id}")
+    public ResponseEntity<StoryResponseDTO> getStoryByAuthor(@RequestBody UserInfoForSong user, @PathVariable Long id) {
+        StoryResponseDTO story = storyService.getStoryByAuthor(user, id);
         return ResponseEntity.ok(story);
     }
 

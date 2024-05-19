@@ -30,12 +30,12 @@ public class StoryService {
         return modelMapper.map(story, StoryResponseDTO.class);
     }
 
-    public StoryResponseDTO getStoryByAuthor(UserInfoForSong author, Long id) {
-        userRepository.findById(author.getId()).orElseThrow(() -> new ResourceNotFoundException("Author not found"));
+    public StoryResponseDTO getStoryByAuthor(UserInfoForSong user, Long id) {
+        userRepository.findById(user.getId()).orElseThrow(() -> new ResourceNotFoundException("Author not found"));
 
         Story story = storyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Story not found"));
-        if (!Objects.equals(story.getUser().getId(), author.getId())) {
-            throw new ResourceNotFoundException("The story does not belong to the author");
+        if (!Objects.equals(story.getUser().getId(), user.getId())) {
+            throw new ResourceNotFoundException("The story does not belong to the user");
         }
 
         return modelMapper.map(story, StoryResponseDTO.class);

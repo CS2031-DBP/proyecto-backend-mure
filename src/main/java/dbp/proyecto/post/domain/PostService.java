@@ -2,7 +2,7 @@ package dbp.proyecto.post.domain;
 
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.playlist.domain.Playlist;
-import dbp.proyecto.playlist.infrastructure.PlaylistRepository;
+import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
 import dbp.proyecto.post.dtos.PostBodyDTO;
 import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
@@ -21,14 +21,12 @@ public class PostService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final SongRepository songRepository;
-    private final PlaylistRepository playlistRepository;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository, ModelMapper modelMapper, SongRepository songRepository, PlaylistRepository playlistRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, ModelMapper modelMapper, SongRepository songRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.songRepository = songRepository;
-        this.playlistRepository = playlistRepository;
     }
 
     public PostResponseDTO getPostById(Long id) {
@@ -67,11 +65,11 @@ public class PostService {
         post.setSong(song);
     }
 
-    public void changePlaylist(Long id, Long playlistId) {
+/*    public void changePlaylist(Long id, Long playlistId) {
         Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
         post.setPlaylist(playlist);
-    }
+    }*/
 
     @Transactional
     public void deletePost(Long id) {

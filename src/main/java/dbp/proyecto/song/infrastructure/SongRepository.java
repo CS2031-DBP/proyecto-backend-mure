@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public interface SongRepository extends JpaRepository<Song,Long >{
     Optional<Song> findByTitle(String title);
-    List<Song> findByAnEspecificArtist(String artist);
+    List<Song> findByArtists(String artist);
     List<Song> findByGenre(String genre);
 }
 

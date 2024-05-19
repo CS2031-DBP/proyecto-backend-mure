@@ -27,7 +27,7 @@ public class Playlist {
     }
 
     @OneToMany(mappedBy = "playlist")
-    private List<PlaylistUser> authors = new ArrayList<>();
+    private List<PlaylistUser> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "playlist"    )
     private List<PlaylistSongs> songs = new ArrayList<>();

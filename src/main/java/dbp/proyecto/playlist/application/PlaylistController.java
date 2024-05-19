@@ -57,15 +57,15 @@ public class PlaylistController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/authors") //todo cambiar a usuaro
-    public ResponseEntity<Void> addAuthors(@RequestBody User authors) {
-        playlistService.addAuthors(authors);
+    @PatchMapping("/users") //todo cambiar a usuaro
+    public ResponseEntity<Void> addAuthors(@RequestBody User users) {
+        playlistService.addAuthors(users);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/authors/delete")
-    public ResponseEntity<Void> deleteAuthors(@RequestBody User authors) {
-        playlistService.deleteAuthors(authors);
+    @PatchMapping("/users/delete")
+    public ResponseEntity<Void> deleteAuthors(@RequestBody User users) {
+        playlistService.deleteAuthors(users);
         return ResponseEntity.ok().build();
     }
 

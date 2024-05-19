@@ -16,5 +16,6 @@ public class UserBasicInfoResponseDTO {
     @Email
     private String email;
 
+    @NotBlank
     private String profileImage;
 }

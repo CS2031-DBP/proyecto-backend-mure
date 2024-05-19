@@ -18,6 +18,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    private Role role;
+
     @NotBlank
     @Size(min = 3, max = 50)
     private String name;
@@ -35,10 +38,10 @@ public class User {
     @ManyToMany
     private List<User> friends;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Story> stories;
 
     @OneToMany(mappedBy = "user")

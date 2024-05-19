@@ -17,7 +17,7 @@ public class Post extends Content {
 
     private String description;
 
-    private String imageurl;
+    private String imageUrl;
 
     private String audioUrl;
 
@@ -26,10 +26,10 @@ public class Post extends Content {
     private User user;
 
 
-    public Post(Long id, String description, String imageurl, String audioUrl) {
+    public Post(Long id, String description, String imageUrl, String audioUrl) {
         this.id = id;
         this.description = description;
-        this.imageurl = imageurl;
+        this.imageUrl = imageUrl;
         this.audioUrl = audioUrl;
     }
 

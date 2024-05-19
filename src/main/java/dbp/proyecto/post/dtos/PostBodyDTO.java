@@ -18,7 +18,7 @@ public class PostBodyDTO {
 
     private String description;
 
-    private String imageurl;
+    private String imageUrl;
 
     private String audioUrl;
 }

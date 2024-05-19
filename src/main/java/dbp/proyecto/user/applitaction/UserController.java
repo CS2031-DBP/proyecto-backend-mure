@@ -40,37 +40,37 @@ public class UserController {
     @PatchMapping("/profileImage/{id}")
     public ResponseEntity<Void> updateProfileImage(@PathVariable Long id, @RequestBody String profileImage) {
         userService.updateProfileImage(id, profileImage);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/name/{id}")
     public ResponseEntity<Void> updateName(@PathVariable Long id, @RequestBody String name) {
         userService.updateName(id, name);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/password/{id}")
     public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody String password) {
         userService.updatePassword(id, password);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/email/{id}")
     public ResponseEntity<Void> updateEmail(@PathVariable Long id, @RequestBody String email) {
         userService.updateEmail(id, email);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/friends/{id}/add")
     public ResponseEntity<Void> updateFriends(@PathVariable Long id, @RequestBody User friend) {
         userService.updateFriendsList(id, friend);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/friends/{id}/delete")
     public ResponseEntity<Void> deleteFriend(@PathVariable Long id, @RequestBody User friend) {
         userService.deleteFriend(id, friend);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
@@ -84,21 +84,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getPosts(id));
     }
 
-    @PostMapping("/post/{id}")
-    public ResponseEntity<Void> savePost(@PathVariable Long id,  @RequestBody PostBodyDTO post) {
-        String uri = userService.postPost(id, post);
-        return ResponseEntity.created(URI.create(uri)).build();
-    }
-
     @GetMapping("/stories/{id}")
     public ResponseEntity<List<Story>> getStories(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getStories(id));
-    }
-
-    @PostMapping("/story/{id}")
-    public ResponseEntity<Void> saveStory(@PathVariable Long id,  @RequestBody StoryBodyDTO story) {
-        String uri = userService.postStory(id, story);
-        return ResponseEntity.created(URI.create(uri)).build();
     }
 
     @GetMapping("/favoriteSongs/{id}")

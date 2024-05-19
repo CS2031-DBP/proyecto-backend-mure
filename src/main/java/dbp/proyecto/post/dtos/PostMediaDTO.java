@@ -7,12 +7,12 @@ import lombok.Setter;
 @Getter
 public class PostMediaDTO {
 
-    private String imageurl;
+    private String imageUrl;
 
     private String audioUrl;
 
-    public PostMediaDTO(String imageurl, String audioUrl) {
-        this.imageurl = imageurl;
+    public PostMediaDTO(String imageUrl, String audioUrl) {
+        this.imageUrl = imageUrl;
         this.audioUrl = audioUrl;
     }
 

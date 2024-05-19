@@ -15,13 +15,13 @@ public class PostResponseDTO {
 
     private String description;
 
-    private String imageurl;
+    private String imageUrl;
 
     private String audioUrl;
 
-    public PostResponseDTO(String description, String imageurl, String audioUrl) {
+    public PostResponseDTO(String description, String imageUrl, String audioUrl) {
         this.description = description;
-        this.imageurl = imageurl;
+        this.imageUrl = imageUrl;
         this.audioUrl = audioUrl;
     }
 

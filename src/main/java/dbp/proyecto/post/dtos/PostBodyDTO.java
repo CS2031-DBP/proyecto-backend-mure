@@ -3,23 +3,22 @@ package dbp.proyecto.post.dtos;
 import dbp.proyecto.playlist.domain.Playlist;
 import dbp.proyecto.song.domain.Song;
 
-import jakarta.persistence.ManyToOne;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class PostBodyDTO {
-    @ManyToOne
+    @NotNull
+    private Long id;
+    @Valid
     private Song song;
-
-    @ManyToOne
+    @Valid
     private Playlist playlist;
-
+    @NotBlank
     private String description;
-
-    private String imageurl;
-
+    private String imageUrl;
     private String audioUrl;
 }
 

@@ -18,6 +18,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    private Role role;
+
     @NotBlank
     @Size(min = 3, max = 50)
     private String name;
@@ -36,10 +39,10 @@ public class User {
     @ManyToMany
     private List<User> friends;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Story> stories;
 
     @OneToMany(mappedBy = "user")
@@ -54,13 +57,7 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
     public User() {
     }
-<<<<<<< HEAD
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-=======
->>>>>>> d47e6b1a1961c79f7ea5f7079d5d558b67dc507a
 }

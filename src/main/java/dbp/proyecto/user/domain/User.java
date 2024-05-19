@@ -7,13 +7,17 @@ import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
 import jakarta.persistence.*;
 import lombok.Data;
 import jakarta.validation.constraints.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,7 +37,6 @@ public class User {
     @Size(min = 8, max = 64)
     private String password;
 
-    private boolean active = true;
     private String profileImage;
 
     @ManyToMany
@@ -51,13 +54,36 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<PlaylistUser> playlists;
 
-    public User(Long id, String name, String email, String password) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
+    @Transient
+    private String rolePrefix = "ROLE_";
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(rolePrefix + role.name()));
     }
 
-    public User() {
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

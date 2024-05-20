@@ -1,10 +1,8 @@
 package dbp.proyecto.song.dto;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 

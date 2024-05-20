@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,18 +37,19 @@ public class Song {
 
     private String genre;
 
-    private Duration duration;
+    private String duration;
 
     private Integer timesPlayed;
 
     private String coverImage;
 
     @OneToMany(mappedBy = "song")
-    private List<PlaylistSongs> playlistSongs;
+    private List<PlaylistSongs> playlistSongs = new ArrayList<>();
 
     @OneToMany(mappedBy = "song")
-    private List<FavoriteSong> favoriteSongs;
+    private List<FavoriteSong> favoriteSongs = new ArrayList<>();
 
     @OneToMany(mappedBy = "song")
-    private List<ArtistSongs> artists;
+    private List<ArtistSongs> artists = new ArrayList<>();
+
 }

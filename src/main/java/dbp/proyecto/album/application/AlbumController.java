@@ -1,14 +1,15 @@
 package dbp.proyecto.album.application;
 
 import dbp.proyecto.album.domain.AlbumService;
-import dbp.proyecto.album.dto.AlbumDTO;
+import dbp.proyecto.album.dto.AlbumBodyDTO;
+import dbp.proyecto.album.dto.AlbumResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/album")
@@ -21,42 +22,30 @@ public class AlbumController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AlbumDTO>> getAllAlbums() {
-        List<AlbumDTO> albums = albumService.findAll();
-        return new ResponseEntity<>(albums, HttpStatus.OK);
+    public ResponseEntity<List<AlbumResponseDTO>> getAllAlbums() {
+        return ResponseEntity.ok(albumService.getAllAlbums());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AlbumDTO> getAlbumById(@PathVariable("id") Long id) {
-        Optional<AlbumDTO> album = albumService.findById(id);
-        return album.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<AlbumResponseDTO> getAlbumById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(albumService.getById(id));
     }
 
     @PostMapping
-    public ResponseEntity<AlbumDTO> createAlbum(@RequestBody AlbumDTO albumDto) {
-        AlbumDTO savedAlbum = albumService.save(albumDto);
-        return new ResponseEntity<>(savedAlbum, HttpStatus.CREATED);
+    public ResponseEntity<Void> createAlbum(@RequestBody AlbumBodyDTO albumBodyDto) {
+        String uri = albumService.createAlbum(albumBodyDto);
+        return ResponseEntity.created(URI.create(uri)).build();
     }
 
-/*    @PutMapping("/{id}")
-    public ResponseEntity<AlbumDTO> updateAlbum(@PathVariable("id") Long id, @RequestBody AlbumDTO updatedAlbumDTO) {
-        return albumService.findById(id)
-                .map(album -> {
-                    updatedAlbumDTO.setId(album.getId());
-                    AlbumDTO savedAlbum = albumService.save(updatedAlbumDTO);
-                    return new ResponseEntity<>(savedAlbum, HttpStatus.OK);
-                })
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }*/
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateAlbum(@PathVariable Long id, @RequestBody AlbumBodyDTO updatedAlbumBodyDTO) {
+        albumService.updateAlbum(id, updatedAlbumBodyDTO);
+        return ResponseEntity.ok().build();
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAlbum(@PathVariable Long id) {
-        if (albumService.findById(id).isPresent()) {
-            albumService.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        albumService.deleteAlbum(id);
+        return ResponseEntity.ok().build();
     }
 }

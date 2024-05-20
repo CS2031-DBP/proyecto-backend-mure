@@ -1,14 +1,17 @@
 package dbp.proyecto.artist.application;
 
 import dbp.proyecto.artist.domain.ArtistService;
-import dbp.proyecto.artist.dto.ArtistDTO;
+import dbp.proyecto.artist.dto.ArtistBodyDTO;
+import dbp.proyecto.artist.dto.ArtistBodyInfoDTO;
+import dbp.proyecto.artist.dto.ArtistResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/artist")
@@ -21,42 +24,32 @@ public class ArtistController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ArtistDTO>> getAllArtists() {
-        List<ArtistDTO> artists = artistService.findAll();
+    public ResponseEntity<List<ArtistResponseDTO>> getAllArtists() {
+        List<ArtistResponseDTO> artists = artistService.findAllArtists();
         return new ResponseEntity<>(artists, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ArtistDTO> getArtistById(@PathVariable("id") Long id) {
-        Optional<ArtistDTO> artist = artistService.findById(id);
-        return artist.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ArtistResponseDTO> getArtistById(@PathVariable Long id) {
+        ArtistResponseDTO artist = artistService.findById(id);
+        return ResponseEntity.ok(artist);
     }
 
     @PostMapping
-    public ResponseEntity<ArtistDTO> createArtist(@RequestBody ArtistDTO artistDto) {
-        ArtistDTO savedArtist = artistService.save(artistDto);
-        return new ResponseEntity<>(savedArtist, HttpStatus.CREATED);
+    public ResponseEntity<String> createArtist(@RequestBody ArtistBodyDTO artistResponseDto) {
+        String uri = artistService.createArtist(artistResponseDto);
+        return ResponseEntity.created(URI.create(uri)).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ArtistDTO> updateArtist(@PathVariable("id") Long id, @RequestBody ArtistDTO updatedArtistDTO) {
-        return artistService.findById(id)
-                .map(artist -> {
-                    updatedArtistDTO.setId(artist.getId());
-                    ArtistDTO savedArtist = artistService.save(updatedArtistDTO);
-                    return new ResponseEntity<>(savedArtist, HttpStatus.OK);
-                })
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<Void> updateArtistInfo(@PathVariable Long id, @RequestBody ArtistBodyInfoDTO updatedArtistResponseDTO) {
+        artistService.updateArtistInfo(id, updatedArtistResponseDTO);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteArtist(@PathVariable("id") Long id) {
-        if (artistService.findById(id).isPresent()) {
-            artistService.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Void> deleteArtist(@PathVariable Long id) {
+        artistService.deleteArtist(id);
+        return ResponseEntity.noContent().build();
     }
 }

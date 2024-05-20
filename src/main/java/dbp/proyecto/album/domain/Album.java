@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Album {
     String description;
 
     @Column(nullable = false)
-    Timestamp duration;
+    Duration duration;
 
     @OneToMany(mappedBy = "album")
     private List<ArtistAlbum> artistAlbums = new ArrayList<>();

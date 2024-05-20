@@ -1,17 +1,18 @@
 package dbp.proyecto.song.dto;
 
-import dbp.proyecto.album.domain.Album;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.List;
 
-@Data
+@Setter
+@Getter
 public class SongBodyDTO {
     private String title;
-    private Album album;
+    private List<Long> artistsIds;
     private Date releaseDate;
     private String genre;
     private Duration duration;

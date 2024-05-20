@@ -1,9 +1,10 @@
 package dbp.proyecto.song.domain;
 
+import dbp.proyecto.artist.domain.Artist;
+import dbp.proyecto.artist.infrastructure.ArtistRepository;
 import dbp.proyecto.exception.ResourceNotFoundException;
-import dbp.proyecto.exception.UniqueResourceAlreadyExist;
 import dbp.proyecto.song.dto.SongBodyDTO;
-import dbp.proyecto.song.dto.SongsDTO;
+import dbp.proyecto.song.dto.SongsResponseDTO;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.tablasIntermedias.artistSongs.ArtistSongs;
 import org.modelmapper.ModelMapper;
@@ -16,53 +17,80 @@ import java.util.stream.Collectors;
 @Service
 public class SongService {
     private final SongRepository repository;
+
+    private final ArtistRepository artistRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public SongService(SongRepository repository, ModelMapper modelMapper) {
+    public SongService(SongRepository repository, ArtistRepository artistRepository, ModelMapper modelMapper) {
         this.repository = repository;
+        this.artistRepository = artistRepository;
         this.modelMapper = modelMapper;
     }
 
-    public SongsDTO getSongsdtoById(Long id){ //Done
+    public SongsResponseDTO getSongsdtoById(Long id){ //Done
         Song song = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
-        return modelMapper.map(song, SongsDTO.class);
+        return modelMapper.map(song, SongsResponseDTO.class);
     }
 
-    public SongsDTO getSongsDtoByTittle(String title){ //Done
-        Song song = repository.findByTitle(title).orElseThrow(() -> new ResourceNotFoundException("Song not found by that artist"));
-            return modelMapper.map(song, SongsDTO.class);
+    public List<SongsResponseDTO> getSongsDtoByTittle(String title){ //Done
+        List<Song> songs = repository.findByTitle(title);
+
+        if(songs.isEmpty()){
+            throw new ResourceNotFoundException("Song not found by that title");
+        }
+
+        return songs.stream()
+                .map(song -> modelMapper.map(song, SongsResponseDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public List<SongsDTO> getSongByArtists(List<ArtistSongs> artists) { //Done
+    public List<SongsResponseDTO> getSongByArtists(List<ArtistSongs> artists) { //Done
         List<Song> songs = repository.findByArtists(artists);
 
         if(songs.isEmpty()){
             throw new ResourceNotFoundException("Song not found by that artist");
         }
         return songs.stream()
-                .map(song -> modelMapper.map(song, SongsDTO.class))
+                .map(song -> modelMapper.map(song, SongsResponseDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public List<SongsDTO> getSongByGenre(String genre){ //Done
+    public List<SongsResponseDTO> getSongByGenre(String genre){ //Done
         List<Song> songs = repository.findByGenre(genre);
 
         if(songs.isEmpty()){
             throw new ResourceNotFoundException("Song not found by that genre");
         }
-        return songs.stream().map(song -> modelMapper.map(song, SongsDTO.class))
+        return songs.stream().map(song -> modelMapper.map(song, SongsResponseDTO.class))
                 .collect(Collectors.toList());
     }
 
-/*    public void postSong(SongBodyDTO song){ //Done
-        if(repository.findByTitle(song.getTitle()).isPresent()){
-            throw new UniqueResourceAlreadyExist("Song already exists");
-        }
-        repository.save(song);
-    }*/
+   public String postSong(SongBodyDTO song){
+        Song newSong = new Song();
+        newSong.setTitle(song.getTitle());
+        newSong.setReleaseDate(song.getReleaseDate());
+        newSong.setGenre(song.getGenre());
+        newSong.setDuration(song.getDuration());
 
-    public void updateCoverImage(String coverImage, Long id){ //Done
+        List<Long> artists = song.getArtistsIds();
+        if(artists.isEmpty()){
+            throw new ResourceNotFoundException("No artists found");
+        }
+        for (Long artistId : artists){
+            Artist artist = artistRepository.findById(artistId).orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
+            ArtistSongs artistSongs = new ArtistSongs();
+            artistSongs.setArtist(artist);
+            artistSongs.setSong(newSong);
+            newSong.getArtists().add(artistSongs);
+        }
+
+        Song savedSong = repository.save(newSong);
+
+        return "/song/" + savedSong.getId();
+    }
+
+    public void updateCoverImage(String coverImage, Long id){
         Song song = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
 
         if(song.getCoverImage() != null && song.getCoverImage().equals(coverImage)){
@@ -73,10 +101,7 @@ public class SongService {
     }
 
     public void deleteSong(Long id){ //Done
-        if(repository.findById(id).isPresent()){
-            repository.deleteById(id);
-        }else{
-            throw new ResourceNotFoundException("Song not found or already deleted");
-        }
+        Song song = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+        repository.delete(song);
     }
 }

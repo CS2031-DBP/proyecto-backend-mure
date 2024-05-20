@@ -18,4 +18,5 @@ public class PostResponseDTO {
     private String description;
     private String imageUrl;
     private String audioUrl;
+
 }

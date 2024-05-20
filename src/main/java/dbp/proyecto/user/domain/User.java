@@ -1,6 +1,7 @@
 package dbp.proyecto.user.domain;
 
 import dbp.proyecto.post.domain.Post;
+import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.story.domain.Story;
 import dbp.proyecto.tablasIntermedias.favoriteSong.FavoriteSong;
 import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;

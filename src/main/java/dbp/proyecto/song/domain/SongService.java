@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,29 +67,35 @@ public class SongService {
                 .collect(Collectors.toList());
     }
 
-   public String postSong(SongBodyDTO song){
-        Song newSong = new Song();
-        newSong.setTitle(song.getTitle());
-        newSong.setReleaseDate(song.getReleaseDate());
-        newSong.setGenre(song.getGenre());
-        newSong.setDuration(song.getDuration());
+    public List<String> postSongs(List<SongBodyDTO> songs) {
+        List<String> savedSongUrls = new ArrayList<>();
 
-        List<Long> artists = song.getArtistsIds();
-        if(artists.isEmpty()){
-            throw new ResourceNotFoundException("No artists found");
+        for (SongBodyDTO song : songs) {
+            Song newSong = new Song();
+            newSong.setTitle(song.getTitle());
+            newSong.setReleaseDate(song.getReleaseDate());
+            newSong.setGenre(song.getGenre());
+            newSong.setDuration(song.getDuration());
+
+            List<Long> artists = song.getArtistsIds();
+            if (artists.isEmpty()) {
+                throw new ResourceNotFoundException("No artists found for song: " + song.getTitle());
+            }
+            for (Long artistId : artists) {
+                Artist artist = artistRepository.findById(artistId).orElseThrow(() -> new ResourceNotFoundException("Artist not found for song: " + song.getTitle()));
+                ArtistSongs artistSongs = new ArtistSongs();
+                artistSongs.setArtist(artist);
+                artistSongs.setSong(newSong);
+                newSong.getArtists().add(artistSongs);
+            }
+
+            Song savedSong = repository.save(newSong);
+            savedSongUrls.add("/song/" + savedSong.getId());
         }
-        for (Long artistId : artists){
-            Artist artist = artistRepository.findById(artistId).orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
-            ArtistSongs artistSongs = new ArtistSongs();
-            artistSongs.setArtist(artist);
-            artistSongs.setSong(newSong);
-            newSong.getArtists().add(artistSongs);
-        }
 
-        Song savedSong = repository.save(newSong);
-
-        return "/song/" + savedSong.getId();
+        return savedSongUrls;
     }
+
 
     public void updateCoverImage(String coverImage, Long id){
         Song song = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song not found"));

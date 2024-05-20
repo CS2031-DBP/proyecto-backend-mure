@@ -19,7 +19,7 @@ public class SongsResponseDTO {
     private Album album;
     private Long likesNum;
     private Date releaseDate;
-    private Duration duration;
+    private String duration;
     private String coverImage;
     private List<ArtistSongs> artists;
 }

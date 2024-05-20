@@ -13,5 +13,5 @@ public class SongBodyDTO {
     private List<Long> artistsIds;
     private Date releaseDate;
     private String genre;
-    private Duration duration;
+    private String duration;
 }

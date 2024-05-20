@@ -21,20 +21,27 @@ import java.util.List;
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(nullable = false)
-    String title;
+    private String title;
 
     @Column(length = 1500)
-    String description;
+    private String description;
 
     @Column(nullable = false)
-    Duration duration;
+    private Long durationSeconds;
 
-    @OneToMany(mappedBy = "album")
+    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ArtistAlbum> artistAlbums = new ArrayList<>();
 
-    @OneToMany(mappedBy = "album")
-    private List<Song> songs;
+    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Song> songs = new ArrayList<>();
+
+    public void setDuration(Duration duration) {
+        this.durationSeconds = duration != null ? duration.getSeconds() : null;
+    }
+    public Duration getDuration() {
+        return durationSeconds != null ? Duration.ofSeconds(durationSeconds) : null;
+    }
 }

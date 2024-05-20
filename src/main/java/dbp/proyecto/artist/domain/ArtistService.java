@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,37 +55,47 @@ public class ArtistService {
         return modelMapper.map(artist, ArtistResponseDTO.class);
     }
 
-    public String createArtist(ArtistBodyDTO artistBodyDTO) {
-        Artist artist = new Artist();
-        artist.setName(artistBodyDTO.getName());
-        artist.setDescription(artistBodyDTO.getDescription());
-        artist.setBirthDate(artistBodyDTO.getBirthDate());
-        artist.setVerified(artistBodyDTO.getVerified());
+    public List<String> createArtists(List<ArtistBodyDTO> artistBodyDTOs) {
+        List<String> artistUrls = new ArrayList<>();
 
-        for(Long albumId : artistBodyDTO.getArtistAlbums()) {
-            Album album = albumRepository.findById(albumId).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
+        for (ArtistBodyDTO artistBodyDTO : artistBodyDTOs) {
+            Artist artist = new Artist();
+            artist.setName(artistBodyDTO.getName());
+            artist.setDescription(artistBodyDTO.getDescription());
+            artist.setBirthDate(artistBodyDTO.getBirthDate());
+            artist.setVerified(artistBodyDTO.getVerified());
 
-            ArtistAlbum artistAlbum = new ArtistAlbum();
-            artistAlbum.setArtist(artist);
-            artistAlbum.setAlbum(album);
 
-            artist.getArtistAlbums().add(artistAlbum);
+            List<Long> albumIds = artistBodyDTO.getArtistAlbums() != null ? artistBodyDTO.getArtistAlbums() : new ArrayList<>();
+            for (Long albumId : albumIds) {
+                Album album = albumRepository.findById(albumId).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
+
+                ArtistAlbum artistAlbum = new ArtistAlbum();
+                artistAlbum.setArtist(artist);
+                artistAlbum.setAlbum(album);
+
+                artist.getArtistAlbums().add(artistAlbum);
+            }
+
+            List<Long> songIds = artistBodyDTO.getArtistSongs() != null ? artistBodyDTO.getArtistSongs() : new ArrayList<>();
+            for (Long songId : songIds) {
+                Song song = songRepository.findById(songId).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+
+                ArtistSongs artistSongs = new ArtistSongs();
+                artistSongs.setArtist(artist);
+                artistSongs.setSong(song);
+
+                artist.getSongs().add(artistSongs);
+            }
+
+            artistRepository.save(artist);
+            artistUrls.add("/artist/" + artist.getId());
         }
 
-        for(Long songId : artistBodyDTO.getArtistSongs()) {
-            Song song = songRepository.findById(songId).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
-
-            ArtistSongs artistSongs = new ArtistSongs();
-            artistSongs.setArtist(artist);
-            artistSongs.setSong(song);
-
-            artist.getSongs().add(artistSongs);
-        }
-
-        artistRepository.save(artist);
-
-        return "/artist/" + artist.getId();
+        return artistUrls;
     }
+
+
 
     public void updateArtistInfo(Long id, ArtistBodyInfoDTO updatedArtistResponseDTO) {
         Artist artist = artistRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Artist not found"));

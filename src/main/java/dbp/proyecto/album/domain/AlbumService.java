@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,7 +57,11 @@ public class AlbumService {
         Album album = new Album();
         album.setTitle(albumBodyDto.getTitle());
         album.setDescription(albumBodyDto.getDescription());
-        album.setDuration(albumBodyDto.getDuration());
+
+        Duration duration = albumBodyDto.getDuration();
+        if (duration != null) {
+            album.setDurationSeconds(duration.getSeconds());
+        }
 
         List<Long> artistIds = albumBodyDto.getArtistsIds();
         if (artistIds != null && !artistIds.isEmpty()) {
@@ -84,14 +89,22 @@ public class AlbumService {
         return savedAlbum.getId().toString();
     }
 
+
     public void updateAlbum(Long id, AlbumBodyDTO updatedAlbumBodyDTO) {
         Album album = albumRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
         album.setTitle(updatedAlbumBodyDTO.getTitle());
         album.setDescription(updatedAlbumBodyDTO.getDescription());
-        album.setDuration(updatedAlbumBodyDTO.getDuration());
+
+        Duration duration = updatedAlbumBodyDTO.getDuration();
+        if (duration != null) {
+            album.setDurationSeconds(duration.getSeconds());
+        } else {
+            album.setDurationSeconds(null);
+        }
 
         albumRepository.save(album);
     }
+
 
     public void deleteAlbum(Long id) {
         albumRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Album not found"));

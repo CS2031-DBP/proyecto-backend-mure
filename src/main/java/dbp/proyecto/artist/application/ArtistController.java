@@ -36,9 +36,9 @@ public class ArtistController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createArtist(@RequestBody ArtistBodyDTO artistResponseDto) {
-        String uri = artistService.createArtist(artistResponseDto);
-        return ResponseEntity.created(URI.create(uri)).build();
+    public ResponseEntity<List<String>> createArtists(@RequestBody List<ArtistBodyDTO> artistBodyDTOs) {
+        List<String> artistUrls = artistService.createArtists(artistBodyDTOs);
+        return ResponseEntity.created(URI.create("/artist")).body(artistUrls);
     }
 
     @PutMapping("/{id}")

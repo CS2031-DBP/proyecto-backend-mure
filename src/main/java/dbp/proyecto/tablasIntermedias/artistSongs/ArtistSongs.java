@@ -4,21 +4,17 @@ import dbp.proyecto.artist.domain.Artist;
 
 import dbp.proyecto.song.domain.Song;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
 public class ArtistSongs {
     @EmbeddedId
     private ArtistSongId id;
-
-    public ArtistSongs(Artist artist, Song song) {
-        this.artist = artist;
-        this.song = song;
-        this.id = new ArtistSongId(artist.getId(), song.getId());
-    }
-
-    public ArtistSongs() {
-    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("artistId")

@@ -4,6 +4,7 @@ import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UniqueResourceAlreadyExist;
 import dbp.proyecto.song.dto.SongsDTO;
 import dbp.proyecto.song.infrastructure.SongRepository;
+import dbp.proyecto.tablasIntermedias.artistSongs.ArtistSongs;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,8 @@ public class SongService {
             return modelMapper.map(song, SongsDTO.class);
     }
 
-    public List<SongsDTO> getSongByAnSpecificArtist(String artist) { //Done
-        List<Song> songs = repository.findByArtists(artist);
+    public List<SongsDTO> getSongByArtists(List<ArtistSongs> artists) { //Done
+        List<Song> songs = repository.findByArtists(artists);
 
         if(songs.isEmpty()){
             throw new ResourceNotFoundException("Song not found by that artist");

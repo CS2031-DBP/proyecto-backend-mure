@@ -3,20 +3,17 @@ package dbp.proyecto.tablasIntermedias.favoriteArtist;
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
 public class FavoriteArtist {
     @EmbeddedId
     private FavoriteArtistId id;
-
-    public FavoriteArtist(User user, Artist artist) {
-        this.user = user;
-        this.artist = artist;
-        this.id = new FavoriteArtistId(user.getId(), artist.getId());
-    }
-
-    public FavoriteArtist() {
-    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")

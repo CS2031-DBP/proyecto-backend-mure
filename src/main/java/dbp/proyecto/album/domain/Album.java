@@ -1,5 +1,6 @@
 package dbp.proyecto.album.domain;
 
+import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.tablasIntermedias.artistAlbum.ArtistAlbum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,4 +33,7 @@ public class Album {
 
     @OneToMany(mappedBy = "album")
     private List<ArtistAlbum> artistAlbums = new ArrayList<>();
+
+    @OneToMany(mappedBy = "album")
+    private List<Song> songs;
 }

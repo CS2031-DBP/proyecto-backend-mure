@@ -4,6 +4,7 @@ import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.song.domain.SongService;
 
 import dbp.proyecto.song.dto.SongsDTO;
+import dbp.proyecto.tablasIntermedias.artistSongs.ArtistSongs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,8 @@ public class SongController {
     }
 
     @GetMapping("/artist/{artist}")
-    public ResponseEntity<List<SongsDTO>> getSongByArtist(@PathVariable String artist) {
-        return ResponseEntity.ok(service.getSongByAnSpecificArtist(artist));
+    public ResponseEntity<List<SongsDTO>> getSongByArtist(@PathVariable List<ArtistSongs> artist) {
+        return ResponseEntity.ok(service.getSongByArtists(artist));
     }
 
     @GetMapping("/genre/{genre}")

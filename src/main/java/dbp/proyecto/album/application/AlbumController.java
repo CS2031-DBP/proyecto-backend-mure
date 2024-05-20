@@ -39,7 +39,7 @@ public class AlbumController {
         return new ResponseEntity<>(savedAlbum, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+/*    @PutMapping("/{id}")
     public ResponseEntity<AlbumDTO> updateAlbum(@PathVariable("id") Long id, @RequestBody AlbumDTO updatedAlbumDTO) {
         return albumService.findById(id)
                 .map(album -> {
@@ -48,7 +48,7 @@ public class AlbumController {
                     return new ResponseEntity<>(savedAlbum, HttpStatus.OK);
                 })
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAlbum(@PathVariable Long id) {

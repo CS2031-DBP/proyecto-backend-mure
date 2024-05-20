@@ -1,10 +1,14 @@
 package dbp.proyecto.song.domain;
 
+import dbp.proyecto.album.domain.Album;
+import dbp.proyecto.tablasIntermedias.artistSongs.ArtistSongs;
 import dbp.proyecto.tablasIntermedias.favoriteSong.FavoriteSong;
 import dbp.proyecto.tablasIntermedias.playlistSongs.PlaylistSongs;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Duration;
@@ -13,6 +17,8 @@ import java.util.List;
 
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Song {
     @Id
@@ -21,12 +27,10 @@ public class Song {
 
     private String title;
 
-    private String album;
+    @ManyToOne
+    private Album album;
 
     private Long likesNum;
-
-    @ElementCollection
-    private List<String> artists;
 
     private Date releaseDate;
 
@@ -44,20 +48,6 @@ public class Song {
     @OneToMany(mappedBy = "song")
     private List<FavoriteSong> favoriteSongs;
 
-    public Song(Long id, String title, String album, Long likesNum, List<String> artists, Date releaseDate, String genre, Duration duration, Integer timesPlayed, String coverImage) {
-        this.id = id;
-        this.title = title;
-        this.album = album;
-        this.likesNum = likesNum;
-        this.artists = artists;
-        this.releaseDate = releaseDate;
-        this.genre = genre;
-        this.duration = duration;
-        this.timesPlayed = timesPlayed;
-        this.coverImage = coverImage;
-    }
-
-    public Song() {
-    }
-
+    @OneToMany(mappedBy = "song")
+    private List<ArtistSongs> artists;
 }

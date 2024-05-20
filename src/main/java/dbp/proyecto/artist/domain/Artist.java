@@ -24,10 +24,10 @@ public class Artist {
     private String name;
 
     @OneToMany(mappedBy = "artist")
-    private List<ArtistAlbum> artistAlbums = new ArrayList<>();
+    private List<ArtistAlbum> artistAlbums;
 
     @OneToMany(mappedBy = "artist")
-    private List<ArtistSongs> artist = new ArrayList<>();
+    private List<ArtistSongs> songs;
 
     @Column(length = 1000)
     private String description;

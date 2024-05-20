@@ -4,6 +4,7 @@ package dbp.proyecto;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UnauthorizeOperationException;
 import dbp.proyecto.exception.UniqueResourceAlreadyExist;
+import dbp.proyecto.exception.UserAlreadyExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +20,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(UniqueResourceAlreadyExist.class)
     public String handleUniqueResourceAlreadyExist(UniqueResourceAlreadyExist ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public String handleUserAlreadyExistException(UserAlreadyExistException ex) {
         return ex.getMessage();
     }
 

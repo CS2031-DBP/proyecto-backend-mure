@@ -30,10 +30,6 @@ public class JwtService {
         return JWT.decode(token).getSubject();
     }
 
-    public String extractClaim(String token, String claim) {
-        return JWT.decode(token).getClaim(claim).asString();
-    }
-
     public String generateToken(UserDetails data){
         Date now = new Date();
         Date expiration = new Date(now.getTime() + 1000 * 60 * 60 * 10);

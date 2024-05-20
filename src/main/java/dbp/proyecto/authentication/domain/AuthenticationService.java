@@ -4,13 +4,16 @@ import dbp.proyecto.authentication.dto.JwtAuthenticationResponseDTO;
 import dbp.proyecto.authentication.dto.LogInDTO;
 import dbp.proyecto.authentication.dto.SignInDTO;
 import dbp.proyecto.configuration.JwtService;
-import dbp.proyecto.exception.UniqueResourceAlreadyExist;
+import dbp.proyecto.exception.UserAlreadyExistException;
+import dbp.proyecto.user.domain.Role;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.time.LocalDateTime;
 
 @Service
 public class AuthenticationService {
@@ -31,19 +34,30 @@ public class AuthenticationService {
         if (!passwordEncoder.matches(logInDTO.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Invalid password");
         }
-        return new JwtAuthenticationResponseDTO(jwtService.generateToken(user));
+
+        JwtAuthenticationResponseDTO response = new JwtAuthenticationResponseDTO();
+        response.setToken(jwtService.generateToken(user));
+        return response;
     }
     public JwtAuthenticationResponseDTO signIn(SignInDTO signInDTO) {
         if (userRepository.findByEmail(signInDTO.getEmail()).isPresent()) {
-            throw new UniqueResourceAlreadyExist("Email already exist");
+            throw new UserAlreadyExistException("Email already exist");
         }
         User user = new User();
         user.setEmail(signInDTO.getEmail());
         user.setPassword(passwordEncoder.encode(signInDTO.getPassword()));
         user.setName(signInDTO.getName());
-        user.setRole(signInDTO.getRole());
+        user.setAge(signInDTO.getAge());
+        user.setCreatedAt(LocalDateTime.now());
+        if (signInDTO.getIsAdmin()) {
+            user.setRole(Role.ADMIN);
+        } else {
+            user.setRole(Role.USER);
+        }
         userRepository.save(user);
-        return new JwtAuthenticationResponseDTO(jwtService.generateToken(user));
+        JwtAuthenticationResponseDTO response = new JwtAuthenticationResponseDTO();
+        response.setToken(jwtService.generateToken(user));
+        return response;
     }
 
 }

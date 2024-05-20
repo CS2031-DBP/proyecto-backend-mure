@@ -2,6 +2,7 @@ package dbp.proyecto.song.domain;
 
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UniqueResourceAlreadyExist;
+import dbp.proyecto.song.dto.SongBodyDTO;
 import dbp.proyecto.song.dto.SongsDTO;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.tablasIntermedias.artistSongs.ArtistSongs;
@@ -54,12 +55,12 @@ public class SongService {
                 .collect(Collectors.toList());
     }
 
-    public void postSong(Song song){ //Done
+/*    public void postSong(SongBodyDTO song){ //Done
         if(repository.findByTitle(song.getTitle()).isPresent()){
             throw new UniqueResourceAlreadyExist("Song already exists");
         }
         repository.save(song);
-    }
+    }*/
 
     public void updateCoverImage(String coverImage, Long id){ //Done
         Song song = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song not found"));

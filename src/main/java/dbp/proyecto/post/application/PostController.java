@@ -49,7 +49,7 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
-/*    @PatchMapping("/playlist/{id}")
+/*    @PatchMapping("/playlist/{id}") //todo
     public ResponseEntity<Void> changePlaylist(@PathVariable Long id, @RequestParam Long playlistId) {
         postService.changePlaylist(id, playlistId);
         return ResponseEntity.ok().build();

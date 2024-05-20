@@ -3,6 +3,7 @@ package dbp.proyecto.song.application;
 import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.song.domain.SongService;
 
+import dbp.proyecto.song.dto.SongBodyDTO;
 import dbp.proyecto.song.dto.SongsDTO;
 import dbp.proyecto.tablasIntermedias.artistSongs.ArtistSongs;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +42,10 @@ public class SongController {
         return ResponseEntity.ok(service.getSongByGenre(genre));
     }
 
-    @PostMapping
-    public void postSong(@RequestBody Song song) {
+  /*  @PostMapping
+    public void postSong(@RequestBody SongBodyDTO song) {
         service.postSong(song);
-    }
+    }*/
 
     @PutMapping("/coverImage/{id}")
     public ResponseEntity<Void> putSongCoverImage(@PathVariable Long id, @RequestParam String coverImage) {

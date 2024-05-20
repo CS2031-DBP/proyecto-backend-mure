@@ -25,6 +25,8 @@ public class StoryController {
         return ResponseEntity.ok(story);
     }
 
+    //todo post story
+
     @GetMapping("/user/{id}")
     public ResponseEntity<StoryResponseDTO> getStoryByAuthor(@RequestBody UserInfoForSong user, @PathVariable Long id) {
         StoryResponseDTO story = storyService.getStoryByAuthor(user, id);

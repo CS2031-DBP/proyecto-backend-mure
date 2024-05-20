@@ -21,6 +21,8 @@ public class PlaylistController {
         this.playlistService = playlistService;
     }
 
+    //todo post playlist
+
     @GetMapping("/{name}") //Lista¿
     public ResponseEntity<PlaylistResponseDTO> getPlaylistByName(@PathVariable String name) {
         PlaylistResponseDTO playlist = playlistService.getPlaylistByName(name);

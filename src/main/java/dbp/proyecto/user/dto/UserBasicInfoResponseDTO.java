@@ -1,5 +1,6 @@
 package dbp.proyecto.user.dto;
 
+import dbp.proyecto.user.domain.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -11,4 +12,5 @@ public class UserBasicInfoResponseDTO {
     private Integer age;
     private String email;
     private String profileImage;
+    private Role role;
 }

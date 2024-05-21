@@ -63,17 +63,16 @@ public class AlbumService {
             album.setDurationSeconds(duration.getSeconds());
         }
 
-        List<Long> artistIds = albumBodyDto.getArtistsIds();
-        if (artistIds != null && !artistIds.isEmpty()) {
-            for (Long artistId : artistIds) {
-                Artist artist = artistRepository.findById(artistId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
-                ArtistAlbum artistAlbum = new ArtistAlbum();
-                artistAlbum.setArtist(artist);
-                artistAlbum.setAlbum(album);
-                album.getArtistAlbums().add(artistAlbum);
-            }
+        Long artistId = albumBodyDto.getArtistId();
+        if (artistId != null) {
+            Artist artist = artistRepository.findById(artistId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
+            ArtistAlbum artistAlbum = new ArtistAlbum();
+            artistAlbum.setArtist(artist);
+            artistAlbum.setAlbum(album);
+            album.getArtistAlbums().add(artistAlbum);
         }
+
 
         List<Long> songIds = albumBodyDto.getSongsIds();
         if (songIds != null && !songIds.isEmpty()) {

@@ -1,8 +1,8 @@
 package dbp.proyecto.user.applitaction;
 
+import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.tablasIntermedias.favoriteSong.FavoriteSong;
 import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
-import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.story.domain.Story;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.domain.UserService;
@@ -32,13 +32,13 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserBasicInfoResponseDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
@@ -85,7 +85,7 @@ public class UserController {
     }
 
     @GetMapping("/posts/{id}")
-    public ResponseEntity<List<Post>> getPosts(@PathVariable Long id) {
+    public ResponseEntity<List<PostResponseDTO>> getPosts(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getPosts(id));
     }
 

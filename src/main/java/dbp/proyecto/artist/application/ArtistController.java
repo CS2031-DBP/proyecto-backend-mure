@@ -41,7 +41,7 @@ public class ArtistController {
         return ResponseEntity.created(URI.create("/artist")).body(artistUrls);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Void> updateArtistInfo(@PathVariable Long id, @RequestBody ArtistBodyInfoDTO updatedArtistResponseDTO) {
         artistService.updateArtistInfo(id, updatedArtistResponseDTO);
         return ResponseEntity.ok().build();

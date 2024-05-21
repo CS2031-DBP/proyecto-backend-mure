@@ -1,6 +1,7 @@
 package dbp.proyecto.user.domain;
 
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
+import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.tablasIntermedias.favoriteSong.FavoriteSong;
 import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
 import dbp.proyecto.post.domain.Post;
@@ -41,8 +42,12 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserBasicInfoResponseDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserBasicInfoResponseDTO.class))
+                .toList();
     }
 
     public void updateProfileImage(Long id, String profileImage) {
@@ -87,9 +92,14 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public List<Post> getPosts(Long id) {
+    public List<PostResponseDTO> getPosts(Long id) {
         User User = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return User.getPosts();
+
+        List<Post> posts = User.getPosts();
+
+        return posts.stream()
+                .map(post -> modelMapper.map(post, PostResponseDTO.class))
+                .toList();
     }
 
     public List<Story> getStories(Long id) {

@@ -47,7 +47,7 @@ public class SongController {
         return ResponseEntity.ok().body(savedSongUrls);
     }
 
-    @PutMapping("/coverImage/{id}")
+    @PatchMapping("/coverImage/{id}")
     public ResponseEntity<Void> putSongCoverImage(@PathVariable Long id, @RequestParam String coverImage) {
         songService.updateCoverImage(coverImage, id);
         return ResponseEntity.noContent().build();

@@ -15,6 +15,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+
 @Service
 public class PostService {
     private final PostRepository postRepository;
@@ -37,14 +39,26 @@ public class PostService {
 
     @Transactional
     public String createPost(PostBodyDTO postBodyDTO, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        Post post = modelMapper.map(postBodyDTO, Post.class);
-        post.setUser(user);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Post post = new Post(postBodyDTO.getId(), postBodyDTO.getDescription(), postBodyDTO.getImageUrl(), postBodyDTO.getAudioUrl(), user, postBodyDTO.getSong(), postBodyDTO.getPlaylist());
+
+        System.out.println(post.getDate());
+
+        if (postBodyDTO.getSong() != null) {
+            Song song = songRepository.findById(postBodyDTO.getSong().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+            post.setSong(song);
+        }
+
         postRepository.save(post);
         user.getPosts().add(post);
         userRepository.save(user);
+
         return "/post/" + post.getId();
     }
+
+
 
     public void changeMedia(Long id, PostMediaDTO media) {
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));

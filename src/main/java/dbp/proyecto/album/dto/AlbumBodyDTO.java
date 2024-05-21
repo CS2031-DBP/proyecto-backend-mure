@@ -11,6 +11,6 @@ public class AlbumBodyDTO {
     private String title;
     private String description;
     private Duration duration;
-    private List<Long> artistsIds;
+    private Long artistId;
     private List<Long> songsIds;
 }

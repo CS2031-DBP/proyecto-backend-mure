@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class PostResponseDTO {
+    private String username;
     @Valid
     private Song song;
     @Valid

@@ -28,16 +28,16 @@ public class StoryController {
         return ResponseEntity.ok(story);
     }
 
-    @PostMapping
-    public ResponseEntity<Void> createStory(@RequestBody StoryBodyDTO storyBodyDTO, @RequestParam Long userId) {
-        String uri = storyService.createStory(storyBodyDTO, userId);
-        return ResponseEntity.created(URI.create(uri)).build();
-    }
-
     @GetMapping("/user/{id}")
     public ResponseEntity<StoryResponseDTO> getStoryByAuthor(@RequestBody UserInfoForSong user, @PathVariable Long id) {
         StoryResponseDTO story = storyService.getStoryByAuthor(user, id);
         return ResponseEntity.ok(story);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> createStory(@RequestBody StoryBodyDTO storyBodyDTO, @RequestParam Long userId) {
+        String uri = storyService.createStory(storyBodyDTO, userId);
+        return ResponseEntity.created(URI.create(uri)).build();
     }
 
     @PatchMapping("/{id}")

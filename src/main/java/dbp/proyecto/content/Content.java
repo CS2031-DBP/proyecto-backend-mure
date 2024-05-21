@@ -31,4 +31,10 @@ public class Content {
         this.date = new Timestamp(System.currentTimeMillis());
         this.likes = 0;
     }
+
+    public Content(Song song) {
+        this.song = song;
+        this.date = new Timestamp(System.currentTimeMillis());
+        this.likes = 0;
+    }
 }

@@ -1,16 +1,17 @@
 package dbp.proyecto.story.domain;
 
 import dbp.proyecto.content.Content;
+import dbp.proyecto.playlist.domain.Playlist;
+import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
 
-@Setter
 @Getter
+@Setter
 @Entity
 public class Story extends Content {
     @Id
@@ -26,18 +27,20 @@ public class Story extends Content {
     @Column(nullable = false)
     private String videoUrl;
 
-    @Size(max = 200)
+    @Column(length = 200)
     private String text;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Story(Long id, Timestamp startdate, String videourl, String text) {
-        this.id = id;
-        this.startDate = startdate;
-        this.endDate = new Timestamp(startdate.getTime() + 86400000);
-        this.videoUrl = videourl;
+    public Story(String videoUrl, String text, User user, Song song) {
+        super(song);
+        this.startDate = new Timestamp(System.currentTimeMillis());
+        this.endDate = new Timestamp(startDate.getTime() + 86400000);
+        this.videoUrl = videoUrl;
         this.text = text;
+        this.user = user;
     }
 
     public Story() {

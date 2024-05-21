@@ -28,9 +28,8 @@ public class Post extends Content {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Post(Long id, String description, String imageUrl, String audioUrl, User user, Song song, Playlist playlist) {
+    public Post(String description, String imageUrl, String audioUrl, User user, Song song, Playlist playlist) {
         super(song, playlist);
-        this.id = id;
         this.description = description;
         this.imageUrl = imageUrl;
         this.audioUrl = audioUrl;

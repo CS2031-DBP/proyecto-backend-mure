@@ -41,7 +41,7 @@ public class PostService {
     public String createPost(PostBodyDTO postBodyDTO, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        Post post = new Post(postBodyDTO.getId(), postBodyDTO.getDescription(), postBodyDTO.getImageUrl(), postBodyDTO.getAudioUrl(), user, postBodyDTO.getSong(), postBodyDTO.getPlaylist());
+        Post post = new Post(postBodyDTO.getDescription(), postBodyDTO.getImageUrl(), postBodyDTO.getAudioUrl(), user, postBodyDTO.getSong(), postBodyDTO.getPlaylist());
 
         System.out.println(post.getDate());
 

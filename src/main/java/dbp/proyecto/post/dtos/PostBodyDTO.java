@@ -10,8 +10,6 @@ import lombok.Data;
 
 @Data
 public class PostBodyDTO {
-    @NotNull
-    private Long id;
     @Valid
     private Song song;
     @Valid

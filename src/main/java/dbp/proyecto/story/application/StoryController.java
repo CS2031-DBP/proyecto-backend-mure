@@ -2,12 +2,15 @@ package dbp.proyecto.story.application;
 
 
 import dbp.proyecto.story.domain.StoryService;
+import dbp.proyecto.story.dto.StoryBodyDTO;
 import dbp.proyecto.story.dto.StoryPatchDTO;
 import dbp.proyecto.story.dto.StoryResponseDTO;
 import dbp.proyecto.user.dto.UserInfoForSong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/story")
@@ -25,7 +28,11 @@ public class StoryController {
         return ResponseEntity.ok(story);
     }
 
-    //todo post story
+    @PostMapping
+    public ResponseEntity<Void> createStory(@RequestBody StoryBodyDTO storyBodyDTO, @RequestParam Long userId) {
+        String uri = storyService.createStory(storyBodyDTO, userId);
+        return ResponseEntity.created(URI.create(uri)).build();
+    }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<StoryResponseDTO> getStoryByAuthor(@RequestBody UserInfoForSong user, @PathVariable Long id) {

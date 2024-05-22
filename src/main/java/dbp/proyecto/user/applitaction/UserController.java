@@ -1,7 +1,8 @@
 package dbp.proyecto.user.applitaction;
 
-import dbp.proyecto.tablasIntermedias.favoriteSong.FavoriteSong;
-import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
+import dbp.proyecto.artist.domain.Artist;
+import dbp.proyecto.playlist.domain.Playlist;
+import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.story.domain.Story;
 import dbp.proyecto.user.domain.User;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -42,33 +44,15 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @PatchMapping("/profileImage/{id}")
-    public ResponseEntity<Void> updateProfileImage(@PathVariable Long id, @RequestBody String profileImage) {
-        userService.updateProfileImage(id, profileImage);
-        return ResponseEntity.ok().build();
-    }
-
-    @PatchMapping("/name/{id}")
-    public ResponseEntity<Void> updateName(@PathVariable Long id, @RequestBody String name) {
-        userService.updateName(id, name);
-        return ResponseEntity.ok().build();
-    }
-
-    @PatchMapping("/password/{id}")
-    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody String password) {
-        userService.updatePassword(id, password);
-        return ResponseEntity.ok().build();
-    }
-
-    @PatchMapping("/email/{id}")
-    public ResponseEntity<Void> updateEmail(@PathVariable Long id, @RequestBody String email) {
-        userService.updateEmail(id, email);
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        userService.updateUser(id, updatedUser);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/friends/{id}/add")
-    public ResponseEntity<Void> updateFriends(@PathVariable Long id, @RequestBody User friend) {
-        userService.updateFriendsList(id, friend);
+    public ResponseEntity<Void> addFriend(@PathVariable Long id, @RequestBody User friend) {
+        userService.addFriend(id, friend);
         return ResponseEntity.ok().build();
     }
 
@@ -94,14 +78,19 @@ public class UserController {
         return ResponseEntity.ok(userService.getStories(id));
     }
 
-    @GetMapping("/favoriteSongs/{id}")
-    public ResponseEntity<List<FavoriteSong>> getFavoriteSongs(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getFavoriteSongs(id));
+    @GetMapping("/artists/{id}")
+    public ResponseEntity<List<Artist>> getFavoriteArtists(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getFavoriteArtists(id));
     }
 
     @GetMapping("/playlists/{id}")
-    public ResponseEntity<List<PlaylistUser>> getPlaylists(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getPlaylists(id));
+    public ResponseEntity<List<Playlist>> getOwnsPlaylists(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getOwnsPlaylists(id));
+    }
+
+    @GetMapping("/songs/{id}")
+    public ResponseEntity<List<Song>> getFavoriteSongs(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getFavoriteSongs(id));
     }
 
     @GetMapping("/friends/{id}")
@@ -109,5 +98,15 @@ public class UserController {
         return ResponseEntity.ok(userService.getFriends(id));
     }
 
+    @GetMapping("/age")
+    public ResponseEntity<List<User>> findByAgeBetween(@RequestParam int minAge, @RequestParam int maxAge) {
+        return ResponseEntity.ok(userService.findByAgeBetween(minAge, maxAge));
+    }
+
+    @GetMapping("/createdBefore/{date}")
+    public ResponseEntity<List<User>> findByCreatedAtBefore(@PathVariable LocalDateTime date) {
+        List<User> users = userService.findByCreatedAtBefore(date);
+        return ResponseEntity.ok(users);
+    }
 
 }

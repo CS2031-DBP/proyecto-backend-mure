@@ -1,8 +1,8 @@
 package dbp.proyecto.post.domain;
 
+import dbp.proyecto.album.domain.Album;
+import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.exception.ResourceNotFoundException;
-import dbp.proyecto.playlist.domain.Playlist;
-import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
 import dbp.proyecto.post.dtos.PostBodyDTO;
 import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
@@ -21,12 +21,15 @@ public class PostService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final SongRepository songRepository;
+    private final AlbumRepository albumRepository;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository, ModelMapper modelMapper, SongRepository songRepository) {
+
+    public PostService(PostRepository postRepository, UserRepository userRepository, ModelMapper modelMapper, SongRepository songRepository, AlbumRepository albumRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.songRepository = songRepository;
+        this.albumRepository = albumRepository;
     }
 
     public PostResponseDTO getPostById(Long id) {
@@ -36,10 +39,19 @@ public class PostService {
     }
 
     @Transactional
-    public String createPost(PostBodyDTO postBodyDTO, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    public String createPost(PostBodyDTO postBodyDTO) {
+        User user = userRepository.findById(postBodyDTO.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Post post = modelMapper.map(postBodyDTO, Post.class);
         post.setUser(user);
+        if (postBodyDTO.getSongId() != null) {
+            Song song = songRepository.findById(postBodyDTO.getSongId()).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+            post.setSong(song);
+        }
+
+        if (postBodyDTO.getAlbumId() != null) {
+            Album album = albumRepository.findById(postBodyDTO.getAlbumId()).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
+            post.setAlbum(album);
+        }
         postRepository.save(post);
         user.getPosts().add(post);
         userRepository.save(user);
@@ -49,27 +61,34 @@ public class PostService {
     public void changeMedia(Long id, PostMediaDTO media) {
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
-        post.setImageUrl(media.getImageUrl());
-        post.setAudioUrl(media.getAudioUrl());
+        if (media.getImageUrl() != null) {
+            post.setImageUrl(media.getImageUrl());
+        }
+        if (media.getAudioUrl() != null) {
+            post.setAudioUrl(media.getAudioUrl());
+        }
+        if (media.getDescription() != null) {
+            post.setDescription(media.getDescription());
+        }
+
+        postRepository.save(post);
     }
 
-    public void changeDescription(Long id, String description) {
+    public void changeContent(Long id, Long songId, Long albumId) {
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
-        post.setDescription(description);
+        if (songId != null) {
+            Song song = songRepository.findById(songId).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+            post.setSong(song);
+        }
+
+        if (albumId != null) {
+            Album album = albumRepository.findById(albumId).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
+            post.setAlbum(album);
+        }
+
+        postRepository.save(post);
     }
-
-    public void changeSong(Long id, Long songId) {
-        Song song = songRepository.findById(songId).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
-        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
-        post.setSong(song);
-    }
-
-/*    public void changePlaylist(Long id, Long playlistId) {
-        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
-        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
-        post.setPlaylist(playlist);
-    }*/
 
     @Transactional
     public void deletePost(Long id) {

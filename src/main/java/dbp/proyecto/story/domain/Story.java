@@ -16,19 +16,14 @@ public class Story extends Content {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     private Timestamp startDate;
-
     @Column(nullable = false)
     private Timestamp endDate;
-
     @Column(nullable = false)
     private String videoUrl;
-
     @Size(max = 200)
     private String text;
-
     @ManyToOne
     private User user;
 

@@ -1,8 +1,9 @@
 package dbp.proyecto.user.domain;
 
+import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
-import dbp.proyecto.tablasIntermedias.favoriteSong.FavoriteSong;
-import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
+import dbp.proyecto.playlist.domain.Playlist;
+import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.story.domain.Story;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import dbp.proyecto.exception.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -45,32 +47,30 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void updateProfileImage(Long id, String profileImage) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        user.setProfileImage(profileImage);
-        userRepository.save(user);
-    }
+    public void updateUser(Long id, User updatedUser) {
+        User existingUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-    public void updateName(Long id, String name) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        user.setName(name);
-        userRepository.save(user);
-    }
+        if (updatedUser.getProfileImage() != null) {
+            existingUser.setProfileImage(updatedUser.getProfileImage());
+        }
 
-    public void updatePassword(Long id, String password) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        user.setPassword(password);
-        userRepository.save(user);
-    }
+        if (updatedUser.getName() != null) {
+            existingUser.setName(updatedUser.getName());
+        }
 
-    public void updateEmail(Long id, String email) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        user.setEmail(email);
-        userRepository.save(user);
+        if (updatedUser.getPassword() != null) {
+            existingUser.setPassword(updatedUser.getPassword());
+        }
+
+        if (updatedUser.getEmail() != null) {
+            existingUser.setEmail(updatedUser.getEmail());
+        }
+
+        userRepository.save(existingUser);
     }
 
     // add a new friend
-    public void updateFriendsList(Long id, User friend) {
+    public void addFriend(Long id, User friend) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.getFriends().add(friend);
         userRepository.save(user);
@@ -97,14 +97,19 @@ public class UserService {
         return User.getStories();
     }
 
-    public List<FavoriteSong> getFavoriteSongs(Long id) {
+    public List<Artist> getFavoriteArtists(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return user.getFavoriteSongs();
+        return user.getFavoriteArtists();
     }
 
-    public List<PlaylistUser> getPlaylists(Long id) {
+    public List<Playlist> getOwnsPlaylists(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return user.getPlaylists();
+        return user.getOwnsPlaylists();
+    }
+
+    public List<Song> getFavoriteSongs(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return user.getFavoriteSongs();
     }
 
     public List<User> getFriends(Long id) {
@@ -114,6 +119,14 @@ public class UserService {
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
+    public List<User> findByAgeBetween(int minAge, int maxAge) {
+        return userRepository.findByAgeBetween(minAge, maxAge);
+    }
+
+    public List<User> findByCreatedAtBefore(LocalDateTime date) {
+        return userRepository.findByCreatedAtBefore(date);
     }
 
     @Bean(name = "UserDetailsService")

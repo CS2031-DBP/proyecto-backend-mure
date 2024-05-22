@@ -29,19 +29,9 @@ public class Album {
     @Column(length = 1500)
     private String description;
 
-    @Column(nullable = false)
-    private Long durationSeconds;
-
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ArtistAlbum> artistAlbums = new ArrayList<>();
 
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Song> songs = new ArrayList<>();
-
-    public void setDuration(Duration duration) {
-        this.durationSeconds = duration != null ? duration.getSeconds() : null;
-    }
-    public Duration getDuration() {
-        return durationSeconds != null ? Duration.ofSeconds(durationSeconds) : null;
-    }
 }

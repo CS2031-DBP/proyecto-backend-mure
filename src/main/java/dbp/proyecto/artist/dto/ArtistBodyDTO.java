@@ -14,6 +14,6 @@ public class ArtistBodyDTO {
     private String description;
     private Date birthDate;
     private Boolean verified;
-    private List<Long> ArtistAlbums;
-    private List<Long> ArtistSongs;
+    private List<Long> artistAlbums; // Corrected field name
+    private List<Long> artistSongs; // Corrected field name
 }

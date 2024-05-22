@@ -10,7 +10,6 @@ import java.util.List;
 public class AlbumBodyDTO {
     private String title;
     private String description;
-    private Duration duration;
     private Long artistId;
     private List<Long> songsIds;
 }

@@ -67,6 +67,7 @@ public class SongService {
                 .collect(Collectors.toList());
     }
 
+
     public List<String> postSongs(List<SongBodyDTO> songs) {
         List<String> savedSongUrls = new ArrayList<>();
 
@@ -77,11 +78,11 @@ public class SongService {
             newSong.setGenre(song.getGenre());
             newSong.setDuration(song.getDuration());
 
-            List<Long> artists = song.getArtistsIds();
-            if (artists.isEmpty()) {
+            List<Long> artistIds = song.getArtistsIds();
+            if (artistIds.isEmpty()) {
                 throw new ResourceNotFoundException("No artists found for song: " + song.getTitle());
             }
-            for (Long artistId : artists) {
+            for (Long artistId : artistIds) {
                 Artist artist = artistRepository.findById(artistId).orElseThrow(() -> new ResourceNotFoundException("Artist not found for song: " + song.getTitle()));
                 ArtistSongs artistSongs = new ArtistSongs();
                 artistSongs.setArtist(artist);

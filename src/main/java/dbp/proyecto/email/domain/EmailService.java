@@ -23,7 +23,7 @@ public class EmailService {
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
     }
-
+/*
     public void correoLogin(String to, String name) throws MessagingException {
         Context context = new Context();
         context.setVariable("name", name);
@@ -58,5 +58,5 @@ public class EmailService {
         helper.setSubject("Viaje iniciado con exito!");
 
         mailSender.send(message);
-    }
+    }*/
 }

@@ -65,7 +65,6 @@ public class ArtistService {
             artist.setBirthDate(artistBodyDTO.getBirthDate());
             artist.setVerified(artistBodyDTO.getVerified());
 
-
             List<Long> albumIds = artistBodyDTO.getArtistAlbums() != null ? artistBodyDTO.getArtistAlbums() : new ArrayList<>();
             for (Long albumId : albumIds) {
                 Album album = albumRepository.findById(albumId).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
@@ -77,23 +76,14 @@ public class ArtistService {
                 artist.getArtistAlbums().add(artistAlbum);
             }
 
-            List<Long> songIds = artistBodyDTO.getArtistSongs() != null ? artistBodyDTO.getArtistSongs() : new ArrayList<>();
-            for (Long songId : songIds) {
-                Song song = songRepository.findById(songId).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
-
-                ArtistSongs artistSongs = new ArtistSongs();
-                artistSongs.setArtist(artist);
-                artistSongs.setSong(song);
-
-                artist.getSongs().add(artistSongs);
-            }
-
             artistRepository.save(artist);
             artistUrls.add("/artist/" + artist.getId());
         }
 
         return artistUrls;
     }
+
+
 
 
 

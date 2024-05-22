@@ -1,10 +1,13 @@
 package dbp.proyecto.tablasIntermedias.playlistUser;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class PlaylistUserId {
+@Embeddable
+public class PlaylistUserId implements Serializable {
     @Column(name = "playlist_id")
     private Long playlistId;
 

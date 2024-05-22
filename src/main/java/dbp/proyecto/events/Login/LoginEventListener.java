@@ -1,3 +1,4 @@
+/*
 package dbp.proyecto.events.Login;
 
 import dbp.proyecto.email.domain.EmailService;
@@ -20,4 +21,4 @@ public class LoginEventListener {
     public void handleHelloEmailEvent(LoginEvent event) throws MessagingException {
         emailService.correoLogin(event.getEmail(), event.getUser());
     }
-}
+}*/

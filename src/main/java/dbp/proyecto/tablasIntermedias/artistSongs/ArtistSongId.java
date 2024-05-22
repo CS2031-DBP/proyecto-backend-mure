@@ -1,8 +1,12 @@
 package dbp.proyecto.tablasIntermedias.artistSongs;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
-public class ArtistSongId {
+import java.io.Serializable;
+
+@Embeddable
+public class ArtistSongId implements Serializable {
 
     @Column(name = "artist_id")
     private Long artistId;

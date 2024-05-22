@@ -9,11 +9,13 @@ import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.tablasIntermedias.artistAlbum.ArtistAlbum;
+import dbp.proyecto.tablasIntermedias.artistAlbum.ArtistAlbumId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,53 +55,51 @@ public class AlbumService {
         return modelMapper.map(album, AlbumResponseDTO.class);
     }
 
-    public String createAlbum(AlbumBodyDTO albumBodyDto) {
-        Album album = new Album();
-        album.setTitle(albumBodyDto.getTitle());
-        album.setDescription(albumBodyDto.getDescription());
+    public List<String> createAlbum(List<AlbumBodyDTO> albumBodyDtos) {
+        List<String> albumIds = new ArrayList<>();
 
-        Duration duration = albumBodyDto.getDuration();
-        if (duration != null) {
-            album.setDurationSeconds(duration.getSeconds());
-        }
+        for (AlbumBodyDTO albumBodyDto : albumBodyDtos) {
+            Album album = new Album();
+            album.setTitle(albumBodyDto.getTitle());
+            album.setDescription(albumBodyDto.getDescription());
 
-        Long artistId = albumBodyDto.getArtistId();
-        if (artistId != null) {
-            Artist artist = artistRepository.findById(artistId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
-            ArtistAlbum artistAlbum = new ArtistAlbum();
-            artistAlbum.setArtist(artist);
-            artistAlbum.setAlbum(album);
-            album.getArtistAlbums().add(artistAlbum);
-        }
-
-
-        List<Long> songIds = albumBodyDto.getSongsIds();
-        if (songIds != null && !songIds.isEmpty()) {
-            for (Long songId : songIds) {
-                Song song = songRepository.findById(songId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Song not found"));
-                song.setAlbum(album);
-                album.getSongs().add(song);
+            List<Long> songIds = albumBodyDto.getSongsIds();
+            if (songIds != null && !songIds.isEmpty()) {
+                for (Long songId : songIds) {
+                    Song song = songRepository.findById(songId)
+                            .orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+                    song.setAlbum(album);
+                    album.getSongs().add(song);
+                }
             }
+
+
+            Album savedAlbum = albumRepository.save(album);
+
+            Long artistId = albumBodyDto.getArtistId();
+            if (artistId != null) {
+                Artist artist = artistRepository.findById(artistId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
+                ArtistAlbum artistAlbum = new ArtistAlbum();
+                artistAlbum.setId(new ArtistAlbumId(artistId, savedAlbum.getId()));
+                artistAlbum.setArtist(artist);
+                artistAlbum.setAlbum(savedAlbum);
+                savedAlbum.getArtistAlbums().add(artistAlbum);
+                albumRepository.save(savedAlbum); // Save again to persist the relationship
+            }
+
+            albumIds.add(savedAlbum.getId().toString());
         }
 
-        Album savedAlbum = albumRepository.save(album);
-        return savedAlbum.getId().toString();
+        return albumIds;
     }
+
 
 
     public void updateAlbum(Long id, AlbumBodyDTO updatedAlbumBodyDTO) {
         Album album = albumRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
         album.setTitle(updatedAlbumBodyDTO.getTitle());
         album.setDescription(updatedAlbumBodyDTO.getDescription());
-
-        Duration duration = updatedAlbumBodyDTO.getDuration();
-        if (duration != null) {
-            album.setDurationSeconds(duration.getSeconds());
-        } else {
-            album.setDurationSeconds(null);
-        }
 
         albumRepository.save(album);
     }

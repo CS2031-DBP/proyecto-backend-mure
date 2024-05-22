@@ -32,9 +32,9 @@ public class AlbumController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createAlbum(@RequestBody AlbumBodyDTO albumBodyDto) {
-        String uri = albumService.createAlbum(albumBodyDto);
-        return ResponseEntity.created(URI.create(uri)).build();
+    public ResponseEntity<List<String>> createAlbum(@RequestBody List<AlbumBodyDTO> albumBodyDto) {
+        List<String> uri = albumService.createAlbum(albumBodyDto);
+        return ResponseEntity.created(URI.create("/album")).body(uri);
     }
 
     @PatchMapping("/{id}")

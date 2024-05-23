@@ -15,6 +15,10 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PostService {
     private final PostRepository postRepository;
@@ -34,8 +38,29 @@ public class PostService {
 
     public PostResponseDTO getPostById(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
+        PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
+        postResponseDTO.setOwner(post.getUser().getName());
+        return postResponseDTO;
+    }
 
-        return modelMapper.map(post, PostResponseDTO.class);
+    // find by songId
+    public List<PostResponseDTO> getPostsBySongId(Long songId) {
+        List<Post> posts = postRepository.findBySongId(songId);
+        return posts.stream().map(post -> {
+            PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
+            postResponseDTO.setOwner(post.getUser().getName());
+            return postResponseDTO;
+        }).collect(Collectors.toList());
+    }
+
+    // find by albumId
+    public List<PostResponseDTO> getPostsByAlbumId(Long albumId) {
+        List<Post> posts = postRepository.findByAlbumId(albumId);
+        return posts.stream().map(post -> {
+            PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
+            postResponseDTO.setOwner(post.getUser().getName());
+            return postResponseDTO;
+        }).collect(Collectors.toList());
     }
 
     @Transactional
@@ -47,11 +72,11 @@ public class PostService {
             Song song = songRepository.findById(postBodyDTO.getSongId()).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
             post.setSong(song);
         }
-
         if (postBodyDTO.getAlbumId() != null) {
             Album album = albumRepository.findById(postBodyDTO.getAlbumId()).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
             post.setAlbum(album);
         }
+        post.setCreatedAt(LocalDateTime.now());
         postRepository.save(post);
         user.getPosts().add(post);
         userRepository.save(user);

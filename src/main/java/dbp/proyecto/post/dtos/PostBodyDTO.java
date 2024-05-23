@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class PostBodyDTO {
-    private Long id;
     private Long userId;
     private Long songId;
     private Long albumId;

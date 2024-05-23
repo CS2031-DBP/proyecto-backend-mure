@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import dbp.proyecto.exception.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -121,8 +122,8 @@ public class UserService {
         return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
-    public List<User> findByAgeBetween(int minAge, int maxAge) {
-        return userRepository.findByAgeBetween(minAge, maxAge);
+    public List<User> findByBirthDateBetween(LocalDate date1, LocalDate date2) {
+        return userRepository.findByBirthDateBetween(date1, date2);
     }
 
     public List<User> findByCreatedAtBefore(LocalDateTime date) {

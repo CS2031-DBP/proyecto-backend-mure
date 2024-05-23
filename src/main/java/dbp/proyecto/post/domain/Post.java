@@ -19,18 +19,26 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
-    private String description;
-    private String imageUrl;
-    private String audioUrl;
-    private LocalDateTime createdAt;
+
     @NotNull
     @Min(0)
-    private Integer likes;
+    private Integer likes = 0;
+
+    @NotBlank
+    private String description;
+
+    private String imageUrl;
+
+    private String audioUrl;
+
+    private LocalDateTime createdAt;
+
     @ManyToOne
     private Song song;
+
     @ManyToOne
     private Album album;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = false)

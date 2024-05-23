@@ -1,14 +1,10 @@
 package dbp.proyecto.artist.domain;
 
-import dbp.proyecto.tablasIntermedias.artistAlbum.ArtistAlbum;
-import dbp.proyecto.tablasIntermedias.artistSongs.ArtistSongs;
-import dbp.proyecto.tablasIntermedias.favoriteArtist.FavoriteArtist;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 
 @RestController
@@ -24,6 +25,16 @@ public class PostController {
     @GetMapping("/{id}")
     public ResponseEntity<PostResponseDTO> getPostById(@PathVariable Long id) {
         return ResponseEntity.ok(postService.getPostById(id));
+    }
+
+    @GetMapping("/song/{songId}")
+    public ResponseEntity<List<PostResponseDTO>> getPostsBySongId(@PathVariable Long songId) {
+        return ResponseEntity.ok(postService.getPostsBySongId(songId));
+    }
+
+    @GetMapping("/album/{albumId}")
+    public ResponseEntity<List<PostResponseDTO>> getPostsByAlbumId(@PathVariable Long albumId) {
+        return ResponseEntity.ok(postService.getPostsByAlbumId(albumId));
     }
 
     @PostMapping

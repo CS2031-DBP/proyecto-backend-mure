@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -98,13 +99,14 @@ public class UserController {
         return ResponseEntity.ok(userService.getFriends(id));
     }
 
-    @GetMapping("/age")
-    public ResponseEntity<List<User>> findByAgeBetween(@RequestParam int minAge, @RequestParam int maxAge) {
-        return ResponseEntity.ok(userService.findByAgeBetween(minAge, maxAge));
+    @GetMapping("/birthDateBetween")
+    public ResponseEntity<List<User>> findByBirthDateBetween(@RequestParam LocalDate date1, @RequestParam LocalDate date2) {
+        List<User> users = userService.findByBirthDateBetween(date1, date2);
+        return ResponseEntity.ok(users);
     }
 
-    @GetMapping("/createdBefore/{date}")
-    public ResponseEntity<List<User>> findByCreatedAtBefore(@PathVariable LocalDateTime date) {
+    @GetMapping("/createdBefore")
+    public ResponseEntity<List<User>> findByCreatedAtBefore(@RequestParam LocalDateTime date) {
         List<User> users = userService.findByCreatedAtBefore(date);
         return ResponseEntity.ok(users);
     }

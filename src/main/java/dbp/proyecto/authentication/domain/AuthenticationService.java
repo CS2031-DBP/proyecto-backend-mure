@@ -47,7 +47,7 @@ public class AuthenticationService {
         user.setEmail(signInDTO.getEmail());
         user.setPassword(passwordEncoder.encode(signInDTO.getPassword()));
         user.setName(signInDTO.getName());
-        user.setAge(signInDTO.getAge());
+        user.setBirthDate(signInDTO.getBirthdate());
         user.setCreatedAt(LocalDateTime.now());
         if (signInDTO.getIsAdmin()) {
             user.setRole(Role.ADMIN);

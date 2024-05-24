@@ -9,5 +9,5 @@ import java.util.List;
 public interface StoryRepository extends JpaRepository<Story, Long>{
     List<Story> findBySongId(Long songId);
     List<Story> findByCreatedAtLessThanEqualAndExpiresAtGreaterThanEqual(LocalDateTime createdAt, LocalDateTime expiresAt);
-
+    List<Story> findByUserId(Long userId);
 }

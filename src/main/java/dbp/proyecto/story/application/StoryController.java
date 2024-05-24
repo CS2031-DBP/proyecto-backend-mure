@@ -27,6 +27,17 @@ public class StoryController {
         StoryResponseDTO story = storyService.getStoryById(id);
         return ResponseEntity.ok(story);
     }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<StoryResponseDTO>> getStoriesByUserId(@PathVariable Long userId) {
+        List<StoryResponseDTO> stories = storyService.getStoriesByUserId(userId);
+        return ResponseEntity.ok(stories);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<StoryResponseDTO>> getAllStories() {
+        List<StoryResponseDTO> stories = storyService.getAllStories();
+        return ResponseEntity.ok(stories);
+    }
 
     @GetMapping("/song/{songId}")
     public ResponseEntity<List<StoryResponseDTO>> getStoriesBySongId(@PathVariable Long songId) {

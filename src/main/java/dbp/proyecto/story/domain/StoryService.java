@@ -38,6 +38,24 @@ public class StoryService {
             return storyResponseDTO;
     }
 
+    public List<StoryResponseDTO> getStoriesByUserId(Long userId) {
+        List<Story> stories = storyRepository.findByUserId(userId);
+        return stories.stream().map(story -> {
+            StoryResponseDTO storyResponseDTO = modelMapper.map(story, StoryResponseDTO.class);
+            storyResponseDTO.setOwner(story.getUser().getName());
+            return storyResponseDTO;
+        }).collect(Collectors.toList());
+    }
+
+    public List<StoryResponseDTO> getAllStories(){
+        List<Story> stories = storyRepository.findAll();
+        return stories.stream().map(story -> {
+            StoryResponseDTO storyResponseDTO = modelMapper.map(story, StoryResponseDTO.class);
+            storyResponseDTO.setOwner(story.getUser().getName());
+            return storyResponseDTO;
+        }).collect(Collectors.toList());
+    }
+
     public List<StoryResponseDTO> getStoriesBySongId(Long songId) {
         List<Story> stories = storyRepository.findBySongId(songId);
         return stories.stream().map(story -> {

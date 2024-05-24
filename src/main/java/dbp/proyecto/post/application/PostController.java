@@ -27,6 +27,16 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<PostResponseDTO>> getPostsByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(postService.getPostsByUserId(userId));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<PostResponseDTO>> getAllPosts() {
+        return ResponseEntity.ok(postService.getAllPosts());
+    }
+
     @GetMapping("/song/{songId}")
     public ResponseEntity<List<PostResponseDTO>> getPostsBySongId(@PathVariable Long songId) {
         return ResponseEntity.ok(postService.getPostsBySongId(songId));

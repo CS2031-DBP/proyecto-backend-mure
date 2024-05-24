@@ -2,9 +2,11 @@ package dbp.proyecto.user.applitaction;
 
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.playlist.domain.Playlist;
+import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.story.domain.Story;
+import dbp.proyecto.story.dto.StoryResponseDTO;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.domain.UserService;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
@@ -35,13 +37,13 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
+    public ResponseEntity<UserBasicInfoResponseDTO> getUser(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserBasicInfoResponseDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
@@ -65,18 +67,8 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteById(id);
+        userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/posts/{id}")
-    public ResponseEntity<List<Post>> getPosts(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getPosts(id));
-    }
-
-    @GetMapping("/stories/{id}")
-    public ResponseEntity<List<Story>> getStories(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getStories(id));
     }
 
     @GetMapping("/artists/{id}")

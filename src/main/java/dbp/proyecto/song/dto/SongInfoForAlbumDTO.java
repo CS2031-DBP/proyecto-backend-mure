@@ -6,11 +6,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class SongBodyDTO {
+public class SongInfoForAlbumDTO {
     private String title;
     private String genre;
+    private Integer likes;
     private String duration;
-    private String coverImage;
     private LocalDate releaseDate;
-    private List<Long> artistsIds;
+    private List<String> artistsNames;
 }

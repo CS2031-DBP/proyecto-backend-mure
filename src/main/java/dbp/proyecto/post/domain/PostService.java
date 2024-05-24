@@ -43,7 +43,24 @@ public class PostService {
         return postResponseDTO;
     }
 
-    // find by songId
+    public List<PostResponseDTO> getPostsByUserId(Long userId) {
+        List<Post> posts = postRepository.findByUserId(userId);
+        return posts.stream().map(post -> {
+            PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
+            postResponseDTO.setOwner(post.getUser().getName());
+            return postResponseDTO;
+        }).collect(Collectors.toList());
+    }
+
+    public List<PostResponseDTO> getAllPosts() {
+        List<Post> posts = postRepository.findAll();
+        return posts.stream().map(post -> {
+            PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
+            postResponseDTO.setOwner(post.getUser().getName());
+            return postResponseDTO;
+        }).collect(Collectors.toList());
+    }
+
     public List<PostResponseDTO> getPostsBySongId(Long songId) {
         List<Post> posts = postRepository.findBySongId(songId);
         return posts.stream().map(post -> {
@@ -53,7 +70,6 @@ public class PostService {
         }).collect(Collectors.toList());
     }
 
-    // find by albumId
     public List<PostResponseDTO> getPostsByAlbumId(Long albumId) {
         List<Post> posts = postRepository.findByAlbumId(albumId);
         return posts.stream().map(post -> {

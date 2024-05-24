@@ -1,55 +1,63 @@
 package dbp.proyecto.song.domain;
 
 import dbp.proyecto.album.domain.Album;
-import dbp.proyecto.tablasIntermedias.artistSongs.ArtistSongs;
-import dbp.proyecto.tablasIntermedias.favoriteSong.FavoriteSong;
-import dbp.proyecto.tablasIntermedias.playlistSongs.PlaylistSongs;
+import dbp.proyecto.artist.domain.Artist;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@Data
 public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String title;
 
-    @ManyToOne
-    private Album album;
-
-    private Long likesNum;
-
-    private Date releaseDate;
-
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String genre;
 
-    private String duration;
+    private LocalDate releaseDate;
 
-    private Integer timesPlayed;
+    @NotBlank
+    @Pattern(regexp = "\\d{2}:\\d{2}")
+    private String duration;
 
     private String coverImage;
 
-    @OneToMany(mappedBy = "song")
-    private List<PlaylistSongs> playlistSongs = new ArrayList<>();
+    @NotNull
+    private Integer likes = 0;
 
-    @OneToMany(mappedBy = "song")
-    private List<FavoriteSong> favoriteSongs = new ArrayList<>();
+    @NotNull
+    private Integer timesPlayed = 0;
 
-    @OneToMany(mappedBy = "song")
-    private List<ArtistSongs> artists = new ArrayList<>();
+    @ManyToMany(mappedBy = "songs")
+    private List<Artist> artists = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "album_id")
+    private Album album;
+
+    public int getDurationInSeconds() {
+        String[] parts = duration.split(":");
+        int minutes = Integer.parseInt(parts[0]);
+        int seconds = Integer.parseInt(parts[1]);
+        return minutes * 60 + seconds;
+    }
 
 }

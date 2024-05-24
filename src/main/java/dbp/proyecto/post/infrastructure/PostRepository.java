@@ -8,4 +8,5 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findBySongId(Long songId);
     List<Post> findByAlbumId(Long albumId);
+    List<Post> findByUserId(Long userId);
 }

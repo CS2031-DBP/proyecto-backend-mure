@@ -1,6 +1,7 @@
 package dbp.proyecto.artist.infrastructure;
 
 import dbp.proyecto.artist.domain.Artist;
+import dbp.proyecto.song.domain.Song;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +12,7 @@ public interface ArtistRepository extends JpaRepository<Artist, Long> {
     Artist findByName(String name);
     List<Artist> findByVerifiedTrue();
     List<Artist> findBySongsId(Long songId);
+    List<Artist> findBySongsContains(Song song);
 }
+
+

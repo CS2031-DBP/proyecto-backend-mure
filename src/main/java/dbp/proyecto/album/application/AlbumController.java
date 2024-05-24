@@ -36,21 +36,22 @@ public class AlbumController {
         return ResponseEntity.ok(albumService.getAlbumsByArtistId(artistId));
     }
 
-
     @GetMapping("/all")
     public ResponseEntity<List<AlbumResponseDTO>> getAllAlbums() {
         return ResponseEntity.ok(albumService.getAllAlbums());
     }
 
     @PostMapping
-    public ResponseEntity<Void> createAlbum(@RequestBody AlbumBodyDTO albumBodyDto) {
-        albumService.createAlbum(albumBodyDto);
+    public ResponseEntity<Void> createAlbum(@RequestBody List<AlbumBodyDTO> albumBodyDto) {
+        albumService.createAlbums(albumBodyDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-
-
-
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateAlbum(@PathVariable Long id, @RequestBody AlbumBodyDTO updatedAlbumBodyDTO) {
+        albumService.updateAlbum(id, updatedAlbumBodyDTO);
+        return ResponseEntity.ok().build();
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAlbum(@PathVariable Long id) {

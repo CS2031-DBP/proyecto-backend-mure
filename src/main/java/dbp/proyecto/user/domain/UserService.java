@@ -4,9 +4,7 @@ import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.playlist.domain.Playlist;
 import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
-import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.song.domain.Song;
-import dbp.proyecto.story.dto.StoryResponseDTO;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -78,12 +76,7 @@ public class UserService {
     }
 
     public void addFriend(Long userId, Long friendId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        User friend = userRepository.findById(friendId)
-                .orElseThrow(() -> new ResourceNotFoundException("Friend not found"));
-        user.getFriends().add(friend);
-        userRepository.save(user);
+
     }
 
     public void deleteFriend(Long id, Long friendId) {

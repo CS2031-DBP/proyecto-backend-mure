@@ -3,7 +3,6 @@ package dbp.proyecto.song.domain;
 import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.artist.domain.Artist;
-import dbp.proyecto.artist.dto.ArtistInfoForSongDTO;
 import dbp.proyecto.artist.infrastructure.ArtistRepository;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.song.dto.SongBodyDTO;

@@ -53,15 +53,15 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/friends/{id}/add")
-    public ResponseEntity<Void> addFriend(@PathVariable Long id, @RequestBody User friend) {
-        userService.addFriend(id, friend);
+    @PatchMapping("/friends/{id}/add/{friendId}")
+    public ResponseEntity<Void> addFriend(@PathVariable Long id, @PathVariable Long friendId) {
+        userService.addFriend(id, friendId);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/friends/{id}/delete")
-    public ResponseEntity<Void> deleteFriend(@PathVariable Long id, @RequestBody User friend) {
-        userService.deleteFriend(id, friend);
+    @PatchMapping("/friends/{id}/delete/{friendId}")
+    public ResponseEntity<Void> deleteFriend(@PathVariable Long id, @PathVariable Long friendId) {
+        userService.deleteFriend(id, friendId);
         return ResponseEntity.ok().build();
     }
 
@@ -75,11 +75,7 @@ public class UserController {
     public ResponseEntity<List<Artist>> getFavoriteArtists(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getFavoriteArtists(id));
     }
-
-    @GetMapping("/playlists/{id}")
-    public ResponseEntity<List<Playlist>> getOwnsPlaylists(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getOwnsPlaylists(id));
-    }
+    
 
     @GetMapping("/songs/{id}")
     public ResponseEntity<List<Song>> getFavoriteSongs(@PathVariable Long id) {

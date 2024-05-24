@@ -24,17 +24,14 @@ public class Song {
     private Long id;
 
     @NotBlank
-    @Size(min = 3, max = 50)
     private String title;
 
     @NotBlank
-    @Size(min = 3, max = 50)
     private String genre;
 
     private LocalDate releaseDate;
 
     @NotBlank
-    @Pattern(regexp = "\\d{2}:\\d{2}")
     private String duration;
 
     private String coverImage;
@@ -60,4 +57,17 @@ public class Song {
         return minutes * 60 + seconds;
     }
 
+    @Override
+    public String toString() {
+        return "Song{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", genre='" + genre + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", duration='" + duration + '\'' +
+                ", coverImage='" + coverImage + '\'' +
+                ", likes=" + likes +
+                ", timesPlayed=" + timesPlayed +
+                '}';
+    }
 }

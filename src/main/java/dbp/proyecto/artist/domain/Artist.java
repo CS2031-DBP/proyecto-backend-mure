@@ -41,4 +41,15 @@ public class Artist {
             inverseJoinColumns = @JoinColumn(name = "song_id"))
     private List<Song> songs = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "Artist{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", birthDate=" + birthDate +
+                ", verified=" + verified +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
 }

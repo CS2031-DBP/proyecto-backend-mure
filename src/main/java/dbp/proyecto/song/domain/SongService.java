@@ -106,6 +106,7 @@ public class SongService {
         List<Song> songs = new ArrayList<>();
         for (SongBodyDTO songBodyDTO : songBodyDTOs) {
             Song song = modelMapper.map(songBodyDTO, Song.class);
+            songRepository.save(song);
             List<Artist> artists = artistRepository.findAllById(songBodyDTO.getArtistsIds());
             if (artists.isEmpty()) {
                 throw new IllegalArgumentException("Minimum one artist is required");

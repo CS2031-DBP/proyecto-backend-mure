@@ -19,7 +19,6 @@ public class Artist {
     private Long id;
 
     @NotNull
-    @Size(min = 3, max = 50)
     private String name;
 
     @NotNull

@@ -1,42 +1,54 @@
 package dbp.proyecto.artist.domain;
 
-import dbp.proyecto.tablasIntermedias.artistAlbum.ArtistAlbum;
-import dbp.proyecto.tablasIntermedias.artistSongs.ArtistSongs;
-import dbp.proyecto.tablasIntermedias.favoriteArtist.FavoriteArtist;
+import dbp.proyecto.album.domain.Album;
+import dbp.proyecto.song.domain.Song;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "artist")
-    private List<ArtistAlbum> artistAlbums;
+    @NotNull
+    private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "artist")
-    private List<ArtistSongs> songs;
-
-    @Column(length = 1000)
-    private String description;
-
-    @Temporal(TemporalType.DATE)
-    private Date birthDate;
-
+    @NotNull
     private Boolean verified;
 
+    @Size(max = 500)
+    private String description;
+
     @OneToMany(mappedBy = "artist")
-    private List<FavoriteArtist> favoriteArtists = new ArrayList<>();
+    private List<Album> albums = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "artist_songs",
+            joinColumns = @JoinColumn(name = "artist_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
+    private List<Song> songs = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Artist{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", birthDate=" + birthDate +
+                ", verified=" + verified +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
 }

@@ -1,53 +1,102 @@
 package dbp.proyecto.story.domain;
 
 import dbp.proyecto.exception.ResourceNotFoundException;
-import dbp.proyecto.story.dto.StoryPatchDTO;
+import dbp.proyecto.song.domain.Song;
+import dbp.proyecto.song.infrastructure.SongRepository;
+import dbp.proyecto.story.dto.StoryBodyDTO;
 import dbp.proyecto.story.dto.StoryResponseDTO;
 import dbp.proyecto.story.infrastructure.StoryRepository;
-import dbp.proyecto.user.dto.UserInfoForSong;
+import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StoryService {
+
     private final StoryRepository storyRepository;
-
     private final UserRepository userRepository;
-
     private final ModelMapper modelMapper;
+    private final SongRepository songRepository;
 
-    public StoryService(StoryRepository storyRepository, UserRepository userRepository, ModelMapper modelMapper) {
+    public StoryService(StoryRepository storyRepository, UserRepository userRepository, ModelMapper modelMapper, SongRepository songRepository) {
         this.storyRepository = storyRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.songRepository = songRepository;
     }
 
     public StoryResponseDTO getStoryById(Long id) {
             Story story = storyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Story not found"));
-        return modelMapper.map(story, StoryResponseDTO.class);
+            StoryResponseDTO storyResponseDTO = modelMapper.map(story, StoryResponseDTO.class);
+            storyResponseDTO.setOwner(story.getUser().getName());
+            return storyResponseDTO;
     }
 
-    public StoryResponseDTO getStoryByAuthor(UserInfoForSong user, Long id) {
-        userRepository.findById(user.getId()).orElseThrow(() -> new ResourceNotFoundException("Author not found"));
+    public List<StoryResponseDTO> getStoriesByUserId(Long userId) {
+        List<Story> stories = storyRepository.findByUserId(userId);
+        return stories.stream().map(story -> {
+            StoryResponseDTO storyResponseDTO = modelMapper.map(story, StoryResponseDTO.class);
+            storyResponseDTO.setOwner(story.getUser().getName());
+            return storyResponseDTO;
+        }).collect(Collectors.toList());
+    }
 
-        Story story = storyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Story not found"));
-        if (!Objects.equals(story.getUser().getId(), user.getId())) {
-            throw new ResourceNotFoundException("The story does not belong to the user");
+    public List<StoryResponseDTO> getAllStories(){
+        List<Story> stories = storyRepository.findAll();
+        return stories.stream().map(story -> {
+            StoryResponseDTO storyResponseDTO = modelMapper.map(story, StoryResponseDTO.class);
+            storyResponseDTO.setOwner(story.getUser().getName());
+            return storyResponseDTO;
+        }).collect(Collectors.toList());
+    }
+
+    public List<StoryResponseDTO> getStoriesBySongId(Long songId) {
+        List<Story> stories = storyRepository.findBySongId(songId);
+        return stories.stream().map(story -> {
+            StoryResponseDTO storyResponseDTO = modelMapper.map(story, StoryResponseDTO.class);
+            storyResponseDTO.setOwner(story.getUser().getName());
+            return storyResponseDTO;
+        }).collect(Collectors.toList());
+    }
+
+    public List<StoryResponseDTO> getStoriesByCreatedAtLessThanEqualAndExpiresAtGreaterThanEqual(LocalDateTime createdAt, LocalDateTime expiresAt) {
+        List<Story> stories = storyRepository.findByCreatedAtLessThanEqualAndExpiresAtGreaterThanEqual(createdAt, expiresAt);
+        return stories.stream().map(story -> {
+            StoryResponseDTO storyResponseDTO = modelMapper.map(story, StoryResponseDTO.class);
+            storyResponseDTO.setOwner(story.getUser().getName());
+            return storyResponseDTO;
+        }).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public String createStory(StoryBodyDTO storyBodyDTO) {
+        User user = userRepository.findById(storyBodyDTO.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Story story = modelMapper.map(storyBodyDTO, Story.class);
+        story.setUser(user);
+        if (storyBodyDTO.getSongId() != null) {
+            Song song = songRepository.findById(storyBodyDTO.getSongId()).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+            story.setSong(song);
         }
-
-        return modelMapper.map(story, StoryResponseDTO.class);
-    }
-
-    public void changeContent(Long id, StoryPatchDTO data) {
-        Story story = storyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Story not found"));
-        story.setText(data.getText());
+        story.setCreatedAt(LocalDateTime.now());
+        story.setExpiresAt(LocalDateTime.now().plusDays(1));
         storyRepository.save(story);
+        user.getStories().add(story);
+        userRepository.save(user);
+        return "/story/" + story.getId();
     }
 
+    @Transactional
     public void deleteStory(Long id) {
-        storyRepository.deleteById(id);
+        Story story= storyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Story not found"));
+        User user = story.getUser();
+        user.getStories().remove(story);
+        userRepository.save(user);
+        storyRepository.delete(story);
     }
 }

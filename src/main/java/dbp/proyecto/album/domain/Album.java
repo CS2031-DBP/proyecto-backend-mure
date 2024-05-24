@@ -1,47 +1,61 @@
 package dbp.proyecto.album.domain;
 
+import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.song.domain.Song;
-import dbp.proyecto.tablasIntermedias.artistAlbum.ArtistAlbum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import java.sql.Timestamp;
-import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 @Entity
+@Data
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String title;
 
-    @Column(length = 1500)
+    @NotBlank
+    @Size(max = 500)
     private String description;
 
-    @Column(nullable = false)
-    private Long durationSeconds;
+    private LocalDate releaseDate;
 
-    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ArtistAlbum> artistAlbums = new ArrayList<>();
+    @NotBlank
+    @Pattern(regexp = "\\d{2}:\\d{2}:\\d{2}")
+    private String totalDuration;
 
-    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Integer songsCount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "artist_id")
+    private Artist artist;
+
+    @OneToMany(mappedBy = "album")
     private List<Song> songs = new ArrayList<>();
 
-    public void setDuration(Duration duration) {
-        this.durationSeconds = duration != null ? duration.getSeconds() : null;
+    public void calculateTotalDuration() {
+        int totalSeconds = 0;
+        for (Song song : songs) {
+            totalSeconds += song.getDurationInSeconds();
+        }
+        int hours = totalSeconds / 3600;
+        int minutes = (totalSeconds % 3600) / 60;
+        int seconds = totalSeconds % 60;
+        this.totalDuration = String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
-    public Duration getDuration() {
-        return durationSeconds != null ? Duration.ofSeconds(durationSeconds) : null;
+    public void calculateSongsCount() {
+        this.songsCount = songs.size();
     }
 }

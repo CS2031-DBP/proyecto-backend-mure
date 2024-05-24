@@ -1,17 +1,20 @@
 package dbp.proyecto.song.dto;
 
-import jakarta.validation.constraints.Pattern;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
+
 @Data
-public class SongBodyDTO {
+public class SongResponseDTO {
     private String title;
-    private List<Long> artistsIds;
-    private LocalDate releaseDate;
     private String genre;
+    private Integer likes;
+    private LocalDate releaseDate;
     private String duration;
     private String coverImage;
+    private String albumTitle;
+    private List<String> artistsNames;
 }
+

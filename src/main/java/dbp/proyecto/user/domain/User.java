@@ -1,10 +1,10 @@
 package dbp.proyecto.user.domain;
 
+import dbp.proyecto.artist.domain.Artist;
+import dbp.proyecto.playlist.domain.Playlist;
 import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.story.domain.Story;
-import dbp.proyecto.tablasIntermedias.favoriteSong.FavoriteSong;
-import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
 import jakarta.persistence.*;
 import lombok.Data;
 import jakarta.validation.constraints.*;
@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -40,9 +41,7 @@ public class User implements UserDetails {
     private String password;
 
     @NotNull
-    @Min(18)
-    @Max(100)
-    private Integer age;
+    private LocalDate birthDate;
 
     private LocalDateTime createdAt;
 
@@ -51,17 +50,32 @@ public class User implements UserDetails {
     @ManyToMany
     private List<User> friends;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL , orphanRemoval = true)
     private List<Post> posts;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Story> stories;
 
-    @OneToMany(mappedBy = "user")
-    private List<FavoriteSong> favoriteSongs;
+    @ManyToMany
+    @JoinTable(
+            name = "user_artist",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "artist_id"))
+    private List<Artist> favoriteArtists;
 
-    @OneToMany(mappedBy = "user")
-    private List<PlaylistUser> playlists;
+    @ManyToMany
+    @JoinTable(
+            name = "user_playlist",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "playlist_id"))
+    private List<Playlist> ownsPlaylists;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_song",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
+    private List<Song> favoriteSongs;
 
     @Transient
     private String rolePrefix = "ROLE_";

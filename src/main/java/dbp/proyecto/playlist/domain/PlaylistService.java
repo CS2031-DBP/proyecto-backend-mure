@@ -1,17 +1,19 @@
 package dbp.proyecto.playlist.domain;
 
 
+import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
-import dbp.proyecto.exception.UniqueResourceAlreadyExist;
+import dbp.proyecto.playlist.dtos.PlaylistBodyDTO;
 import dbp.proyecto.playlist.dtos.PlaylistResponseDTO;
 import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
 import dbp.proyecto.song.domain.Song;
-import dbp.proyecto.tablasIntermedias.playlistSongs.PlaylistSongs;
-import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
+import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.user.domain.User;
+import dbp.proyecto.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,147 +23,140 @@ import java.util.stream.Collectors;
 public class PlaylistService {
 
     private final PlaylistRepository playlistRepository;
-
+    private final UserRepository userRepository;
+    private final SongRepository songRepository;
     private final ModelMapper modelMapper;
+    private final AuthorizationUtils authorizationUtils;
 
     @Autowired
-    public PlaylistService(PlaylistRepository playlistRepository, ModelMapper modelMapper) {
+    public PlaylistService(PlaylistRepository playlistRepository, UserRepository userRepository, SongRepository songRepository, ModelMapper modelMapper, AuthorizationUtils authorizationUtils) {
         this.playlistRepository = playlistRepository;
+        this.userRepository = userRepository;
+        this.songRepository = songRepository;
         this.modelMapper = modelMapper;
+        this.authorizationUtils = authorizationUtils;
+    }
+
+    private PlaylistResponseDTO getPlaylistResponseDTO(Playlist playlist) {
+        PlaylistResponseDTO playlistResponseDTO = modelMapper.map(playlist, PlaylistResponseDTO.class);
+        playlistResponseDTO.setUsersNames(playlist.getUsers().stream().map(User::getName).collect(Collectors.toList()));
+        playlistResponseDTO.setSongsTitles(playlist.getSongs().stream().map(Song::getTitle).collect(Collectors.toList()));
+        return playlistResponseDTO;
+    }
+
+    public PlaylistResponseDTO getPlaylistById(Long id) {
+        Playlist playlist = playlistRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
+        String email = authorizationUtils.getCurrentUserEmail();
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User owner = playlist.getUsers().get(0);
+        if (!owner.getId().equals(currentUser.getId()) && !owner.getFriends().contains(currentUser)) {
+            throw new IllegalArgumentException("User does not have access to this playlist");
+        }
+        return getPlaylistResponseDTO(playlist);
     }
 
     public PlaylistResponseDTO getPlaylistByName(String name) {
         Playlist playlist = playlistRepository.findByName(name);
-
-        if(playlist == null) {
-            throw new RuntimeException("Playlist not found");
-        }
-
-        return modelMapper.map(playlist, PlaylistResponseDTO.class);
-    }
-
-    public PlaylistResponseDTO getPlaylistById(Long id) {
-        Playlist playlist = playlistRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
-
-        if (playlist == null) {
-            throw new RuntimeException("Playlist not found");
-        }
-
-        return modelMapper.map(playlist, PlaylistResponseDTO.class);
-    }
-
-    public List<Song> getSongs(Long id) {
-        Playlist playlist = playlistRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
-
-
-        List<PlaylistSongs> songs = playlist.getSongs();
-
-        return songs.stream()
-                .map(PlaylistSongs::getSong)
-                .collect(Collectors.toList());
-    }
-
-
-    public List<User> getUsers(Long id) {
-        Playlist playlist = playlistRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
-
-
-        List<PlaylistUser> users = playlist.getUsers();
-
-        return users.stream()
-                .map(PlaylistUser::getUser)
-                .collect(Collectors.toList());
-
-    }
-
-    public void addSong(Song song, Long id) {
-        Playlist playlist = playlistRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
-
-        boolean songExists = playlist.getSongs().stream()
-                .anyMatch(playlistSong -> playlistSong.getSong().equals(song));
-
-        if (songExists) {
-            throw new UniqueResourceAlreadyExist("Song already exists in the playlist");
-        }
-
-        PlaylistSongs playlistSongs = new PlaylistSongs();
-        playlistSongs.setSong(song);
-        playlistSongs.setPlaylist(playlist);
-
-        playlist.getSongs().add(playlistSongs);
-
-        playlistRepository.save(playlist);
-    }
-
-    public void deleteSong(Song song, Long id) {
-        Playlist playlist = playlistRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
-
-        boolean songExists = playlist.getSongs().stream()
-                .anyMatch(playlistSong -> playlistSong.getSong().equals(song));
-
-        if (!songExists) {
-            throw new ResourceNotFoundException("Song already exists in the playlist");
-        }
-
-        playlist.getSongs().removeIf(playlistSong -> playlistSong.getSong().equals(song));
-
-        playlistRepository.save(playlist);
-    }
-
-    public void addAuthors(User users, Long id) {
-        Playlist playlist = playlistRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
-
-        boolean userExists = playlist.getUsers().stream()
-                .anyMatch(playlistUser -> playlistUser.getUser().equals(users));
-
-        if (userExists) {
-            throw new UniqueResourceAlreadyExist("User already exists in the playlist");
-        }
-
-        PlaylistUser playlistUser = new PlaylistUser();
-        playlistUser.setUser(users);
-        playlistUser.setPlaylist(playlist);
-
-        playlist.getUsers().add(playlistUser);
-
-        playlistRepository.save(playlist);
-    }
-
-    public void deleteAuthors(User users, Long id) {
-        Playlist playlist = playlistRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
-
-        boolean userExists = playlist.getUsers().stream()
-                .anyMatch(playlistUser -> playlistUser.getUser().equals(users));
-
-        if (!userExists) {
-            throw new ResourceNotFoundException("User do not exist in the playlist");
-        }
-
-        playlist.getUsers().removeIf(playlistUser -> playlistUser.getUser().equals(users));
-
-        playlistRepository.save(playlist);
-    }
-
-    public void deletePlaylist(Long id) {
-        Playlist playlist = playlistRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
-
-        playlistRepository.delete(playlist);
-    }
-
-    public void deletePlaylistByName(String name) {
-        Playlist playlist = playlistRepository.findByName(name);
-
         if (playlist == null) {
             throw new ResourceNotFoundException("Playlist not found");
         }
+        return getPlaylistResponseDTO(playlist);
+    }
 
+    public List<PlaylistResponseDTO> getPlaylistsByUserId(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return user.getOwnsPlaylists().stream()
+                .map(playlist -> {
+                    PlaylistResponseDTO playlistResponseDTO = getPlaylistResponseDTO(playlist);
+                    List<String> usersNames = playlist.getUsers().stream()
+                            .filter(u -> !u.getId().equals(userId))
+                            .map(User::getName)
+                            .collect(Collectors.toList());
+                    playlistResponseDTO.setUsersNames(usersNames);
+                    return playlistResponseDTO;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<PlaylistResponseDTO> getAllPlaylists() {
+        List<Playlist> playlists = playlistRepository.findAll();
+        return playlists.stream()
+                .map(this::getPlaylistResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void createPlaylist(PlaylistBodyDTO playlistBodyDTO) {
+        User user = userRepository.findById(playlistBodyDTO.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        List<Song> songs = songRepository.findAllById(playlistBodyDTO.getSongsIds());
+        if (songs.size() != playlistBodyDTO.getSongsIds().size()) {
+            throw new ResourceNotFoundException("One or more songs not found");
+        }
+        Playlist playlist = new Playlist();
+        playlist.setName(playlistBodyDTO.getName());
+        playlist.setUsers(List.of(user));
+        playlist.setSongs(songs);
+        playlistRepository.save(playlist);
+        user.getOwnsPlaylists().add(playlist);
+        userRepository.save(user);
+    }
+
+    public void addSongToPlaylist(Long playlistId, Long songId) {
+        Playlist playlist = playlistRepository.findById(playlistId)
+                .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
+        User owner = playlist.getUsers().get(0);
+        String email = authorizationUtils.getCurrentUserEmail();
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (!owner.getId().equals(currentUser.getId())) {
+            throw new IllegalArgumentException("Only the owner can add songs to the playlist");
+        }
+
+        Song song = songRepository.findById(songId)
+                .orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+
+        playlist.getSongs().add(song);
+        playlistRepository.save(playlist);
+    }
+
+    public void removeSongFromPlaylist(Long playlistId, Long songId) {
+        Playlist playlist = playlistRepository.findById(playlistId)
+                .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
+
+        User owner = playlist.getUsers().get(0);
+        String email = authorizationUtils.getCurrentUserEmail();
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (!owner.getId().equals(currentUser.getId())) {
+            throw new IllegalArgumentException("Only the owner can remove songs from the playlist");
+        }
+
+        Song song = songRepository.findById(songId)
+                .orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+
+        playlist.getSongs().remove(song);
+        playlistRepository.save(playlist);
+    }
+
+    @Transactional
+    public void deletePlaylist(Long id, Long userId) {
+        Playlist playlist = playlistRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
+        User owner = playlist.getUsers().get(0);
+        if (!owner.getId().equals(userId)) {
+            throw new IllegalArgumentException("Only the owner can delete the playlist");
+        }
+        for (User user : playlist.getUsers()) {
+            user.getOwnsPlaylists().remove(playlist);
+            userRepository.save(user);
+        }
         playlistRepository.delete(playlist);
     }
 }

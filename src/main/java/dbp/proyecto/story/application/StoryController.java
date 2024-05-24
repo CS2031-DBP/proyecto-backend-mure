@@ -2,12 +2,15 @@ package dbp.proyecto.story.application;
 
 
 import dbp.proyecto.story.domain.StoryService;
-import dbp.proyecto.story.dto.StoryPatchDTO;
+import dbp.proyecto.story.dto.StoryBodyDTO;
 import dbp.proyecto.story.dto.StoryResponseDTO;
-import dbp.proyecto.user.dto.UserInfoForSong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/story")
@@ -24,24 +27,39 @@ public class StoryController {
         StoryResponseDTO story = storyService.getStoryById(id);
         return ResponseEntity.ok(story);
     }
-
-    //todo post story
-
-    @GetMapping("/user/{id}")
-    public ResponseEntity<StoryResponseDTO> getStoryByAuthor(@RequestBody UserInfoForSong user, @PathVariable Long id) {
-        StoryResponseDTO story = storyService.getStoryByAuthor(user, id);
-        return ResponseEntity.ok(story);
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<StoryResponseDTO>> getStoriesByUserId(@PathVariable Long userId) {
+        List<StoryResponseDTO> stories = storyService.getStoriesByUserId(userId);
+        return ResponseEntity.ok(stories);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Void> changeContent(@PathVariable Long id, @RequestBody StoryPatchDTO data) {
-        storyService.changeContent(id, data);
-        return ResponseEntity.ok().build();
+    @GetMapping("/all")
+    public ResponseEntity<List<StoryResponseDTO>> getAllStories() {
+        List<StoryResponseDTO> stories = storyService.getAllStories();
+        return ResponseEntity.ok(stories);
+    }
+
+    @GetMapping("/song/{songId}")
+    public ResponseEntity<List<StoryResponseDTO>> getStoriesBySongId(@PathVariable Long songId) {
+        List<StoryResponseDTO> stories = storyService.getStoriesBySongId(songId);
+        return ResponseEntity.ok(stories);
+    }
+
+    @GetMapping("/time")
+    public ResponseEntity<List<StoryResponseDTO>> getStoriesByCreatedAtLessThanEqualAndExpiresAtGreaterThanEqual(@RequestParam LocalDateTime createdAt, @RequestParam LocalDateTime expiresAt) {
+        List<StoryResponseDTO> stories = storyService.getStoriesByCreatedAtLessThanEqualAndExpiresAtGreaterThanEqual(createdAt, expiresAt);
+        return ResponseEntity.ok(stories);
+    }
+
+    @PostMapping
+    public ResponseEntity<String> createStory(@RequestBody StoryBodyDTO storyBodyDTO) {
+        String uri = storyService.createStory(storyBodyDTO);
+        return ResponseEntity.created(URI.create(uri)).build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStory(@PathVariable Long id) {
         storyService.deleteStory(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,11 +1,12 @@
 package dbp.proyecto.song.application;
 
 import dbp.proyecto.song.domain.SongService;
-
 import dbp.proyecto.song.dto.SongBodyDTO;
-import dbp.proyecto.song.dto.SongsResponseDTO;
-import dbp.proyecto.tablasIntermedias.artistSongs.ArtistSongs;
+import dbp.proyecto.song.dto.SongInfoForAlbumDTO;
+import dbp.proyecto.song.dto.SongInfoForArtistDTO;
+import dbp.proyecto.song.dto.SongResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,29 +23,39 @@ public class SongController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SongsResponseDTO> getSongById(@PathVariable Long id) {
-        return ResponseEntity.ok(songService.getSongsdtoById(id));
+    public ResponseEntity<SongResponseDTO> getSongById(@PathVariable Long id) {
+        return ResponseEntity.ok(songService.getSongById(id));
     }
 
-    @GetMapping("/title/{title}")
-    public ResponseEntity<List<SongsResponseDTO>> getSongByTitle(@PathVariable String title) {
-        return ResponseEntity.ok(songService.getSongsDtoByTittle(title));
+    @GetMapping("/title")
+    public ResponseEntity<SongResponseDTO> getSongByTitle(@RequestParam String title) {
+        return ResponseEntity.ok(songService.getSongByTitle(title));
     }
 
-    @GetMapping("/artist/{artist}")
-    public ResponseEntity<List<SongsResponseDTO>> getSongByArtist(@PathVariable List<ArtistSongs> artist) {
-        return ResponseEntity.ok(songService.getSongByArtists(artist));
+    @GetMapping("/genre")
+    public ResponseEntity<List<SongResponseDTO>> getSongsByGenre(@RequestParam String genre) {
+        return ResponseEntity.ok(songService.getSongsByGenre(genre));
     }
 
-    @GetMapping("/genre/{genre}")
-    public ResponseEntity<List<SongsResponseDTO>> getSongByGenre(@PathVariable String genre) {
-        return ResponseEntity.ok(songService.getSongByGenre(genre));
+    @GetMapping("/artist/{artistId}")
+    public ResponseEntity<List<SongInfoForArtistDTO>> getSongsByArtist(@PathVariable Long artistId) {
+        return ResponseEntity.ok(songService.getSongsByArtist(artistId));
+    }
+
+    @GetMapping("/album/{albumId}")
+    public ResponseEntity<List<SongInfoForAlbumDTO>> getSongsByAlbum(@PathVariable Long albumId) {
+        return ResponseEntity.ok(songService.getSongsByAlbum(albumId));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<SongResponseDTO>> getAllSongs() {
+        return ResponseEntity.ok(songService.getAllSongs());
     }
 
     @PostMapping
-    public ResponseEntity<List<String>> postSongs(@RequestBody List<SongBodyDTO> songs) {
-        List<String> savedSongUrls = songService.postSongs(songs);
-        return ResponseEntity.ok().body(savedSongUrls);
+    public ResponseEntity<Void> createSongs(@RequestBody List<SongBodyDTO> songBodyDTOs) {
+        songService.createSongs(songBodyDTOs);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PatchMapping("/coverImage/{id}")

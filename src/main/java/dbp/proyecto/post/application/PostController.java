@@ -2,12 +2,14 @@ package dbp.proyecto.post.application;
 
 import dbp.proyecto.post.domain.PostService;
 import dbp.proyecto.post.dtos.PostBodyDTO;
+import dbp.proyecto.post.dtos.PostContentDTO;
 import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 
 @RestController
@@ -25,9 +27,29 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<PostResponseDTO>> getPostsByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(postService.getPostsByUserId(userId));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<PostResponseDTO>> getAllPosts() {
+        return ResponseEntity.ok(postService.getAllPosts());
+    }
+
+    @GetMapping("/song/{songId}")
+    public ResponseEntity<List<PostResponseDTO>> getPostsBySongId(@PathVariable Long songId) {
+        return ResponseEntity.ok(postService.getPostsBySongId(songId));
+    }
+
+    @GetMapping("/album/{albumId}")
+    public ResponseEntity<List<PostResponseDTO>> getPostsByAlbumId(@PathVariable Long albumId) {
+        return ResponseEntity.ok(postService.getPostsByAlbumId(albumId));
+    }
+
     @PostMapping
-    public ResponseEntity<Void> createPost(@RequestBody PostBodyDTO postBodyDTO, @RequestParam Long userId) {
-        String uri = postService.createPost(postBodyDTO, userId);
+    public ResponseEntity<Void> createPost(@RequestBody PostBodyDTO postBodyDTO) {
+        String uri = postService.createPost(postBodyDTO);
         return ResponseEntity.created(URI.create(uri)).build();
     }
 
@@ -37,23 +59,11 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/description/{id}")
-    public ResponseEntity<Void> changeDescription(@PathVariable Long id, @RequestParam String description) {
-        postService.changeDescription(id, description);
+    @PatchMapping("/content/{id}")
+    public ResponseEntity<Void> updatePostContent(@PathVariable Long id, @RequestBody PostContentDTO content) {
+        postService.changeContent(id, content.getSongId(), content.getAlbumId());
         return ResponseEntity.ok().build();
     }
-
-    @PatchMapping("/song/{id}")
-    public ResponseEntity<Void> changeSong(@PathVariable Long id, @RequestParam Long songId) {
-        postService.changeSong(id, songId);
-        return ResponseEntity.ok().build();
-    }
-
-/*    @PatchMapping("/playlist/{id}") //todo
-    public ResponseEntity<Void> changePlaylist(@PathVariable Long id, @RequestParam Long playlistId) {
-        postService.changePlaylist(id, playlistId);
-        return ResponseEntity.ok().build();
-    }*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {

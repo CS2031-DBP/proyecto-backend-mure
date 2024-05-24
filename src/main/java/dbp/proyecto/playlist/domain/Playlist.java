@@ -1,11 +1,11 @@
 package dbp.proyecto.playlist.domain;
 
-import dbp.proyecto.tablasIntermedias.playlistSongs.PlaylistSongs;
-import dbp.proyecto.tablasIntermedias.playlistUser.PlaylistUser;
+import dbp.proyecto.song.domain.Song;
+import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,21 +15,13 @@ public class Playlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(unique = true)
     private String name;
 
-    public Playlist(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    @ManyToMany(mappedBy = "ownsPlaylists")
+    private List<User> users;
 
-    public Playlist() {
-    }
-
-    @OneToMany(mappedBy = "playlist")
-    private List<PlaylistUser> users;
-
-    @OneToMany(mappedBy = "playlist"    )
-    private List<PlaylistSongs> songs;
-
+    @OneToMany
+    private List<Song> songs;
 }

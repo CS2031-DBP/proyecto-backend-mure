@@ -1,19 +1,16 @@
 package dbp.proyecto.artist.dto;
 
-import dbp.proyecto.tablasIntermedias.artistAlbum.ArtistAlbum;
-import dbp.proyecto.tablasIntermedias.artistSongs.ArtistSongs;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public class ArtistResponseDTO {
     private String name;
     private String description;
     private Date birthDate;
-    private List<ArtistAlbum> artistAlbums;
-    private List<ArtistSongs> songs;
+    private Boolean verified;
+    private List<String> albumsTitles;
+    private List<String> songsNames;
 }

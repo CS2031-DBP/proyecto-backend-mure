@@ -9,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -36,7 +35,12 @@ public class StoryController {
         return ResponseEntity.ok(stories);
     }
 
-    // GET STORIES ME
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/me")
+    public ResponseEntity<List<StoryResponseDTO>> getStoriesByCurrentUser() {
+        List<StoryResponseDTO> stories = storyService.getStoriesByCurrentUser();
+        return ResponseEntity.ok(stories);
+    }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
@@ -52,13 +56,15 @@ public class StoryController {
         return ResponseEntity.ok(stories);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    // current user
+    /*
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/time")
     public ResponseEntity<List<StoryResponseDTO>> getStoriesByCreatedAtLessThanEqualAndExpiresAtGreaterThanEqual(@RequestParam LocalDateTime createdAt, @RequestParam LocalDateTime expiresAt) {
         List<StoryResponseDTO> stories = storyService.getStoriesByCreatedAtLessThanEqualAndExpiresAtGreaterThanEqual(createdAt, expiresAt);
         return ResponseEntity.ok(stories);
     }
+
+     */
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
@@ -68,7 +74,6 @@ public class StoryController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    // is admin or owner
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStory(@PathVariable Long id) {
         storyService.deleteStory(id);

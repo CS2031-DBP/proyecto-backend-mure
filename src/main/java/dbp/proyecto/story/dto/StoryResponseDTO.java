@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class StoryResponseDTO {
     private String owner;
     private LocalDateTime createdAt;
+    private LocalDateTime expiresAt;
     private String videoUrl;
     private String text;
     private Integer likes;

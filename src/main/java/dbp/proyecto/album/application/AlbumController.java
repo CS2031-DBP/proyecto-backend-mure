@@ -42,7 +42,7 @@ public class AlbumController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/artist/name") // ✔️
+    @GetMapping("/artistName") // ✔️
     public ResponseEntity<List<AlbumInfoForArtistDTO>> getAlbumsByArtistName(@RequestParam String artistName) {
         return ResponseEntity.ok(albumService.getAlbumsByArtistName(artistName));
     }

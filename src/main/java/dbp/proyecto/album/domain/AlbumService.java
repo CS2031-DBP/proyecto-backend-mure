@@ -131,12 +131,6 @@ public class AlbumService {
         album.calculateTotalDuration();
         album.calculateSongsCount();
         albumRepository.save(album);
-        for (Song song : album.getSongs()) {
-            song.setAlbum(album);
-            songRepository.save(song);
-        }
-        // Update artist
-        artistRepository.save(album.getArtist());
     }
 
     @Transactional

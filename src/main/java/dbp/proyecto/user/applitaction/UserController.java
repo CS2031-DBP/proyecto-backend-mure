@@ -10,6 +10,7 @@ import dbp.proyecto.story.dto.StoryResponseDTO;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.domain.UserService;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
+import dbp.proyecto.user.dto.UserBodyDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,26 +31,34 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/me")
+    @GetMapping("/me") // ✔️
     public ResponseEntity<UserBasicInfoResponseDTO> getMe() {
         return ResponseEntity.ok(userService.getMe());
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // ✔️
     public ResponseEntity<UserBasicInfoResponseDTO> getUser(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/all")
+    @GetMapping("/all") // ✔️
     public ResponseEntity<List<UserBasicInfoResponseDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+    @GetMapping("/friends/{id}") // ✔️
+    public ResponseEntity<List<UserBasicInfoResponseDTO>> getFriends(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getFriends(id));
+    }
+
+    // todo get friends me
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PatchMapping("/{id}") // ✔️
+    public ResponseEntity<Void> updateUser(@PathVariable Long id, @RequestBody UserBodyDTO updatedUser) {
         userService.updateUser(id, updatedUser);
         return ResponseEntity.noContent().build();
     }
@@ -57,7 +66,7 @@ public class UserController {
     // todo patch mapping para user me
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PatchMapping("/friends/{id}/add/{friendId}")
+    @PatchMapping("/friends/{id}/add/{friendId}") // ✔️
     public ResponseEntity<Void> addFriend(@PathVariable Long id, @PathVariable Long friendId) {
         userService.addFriend(id, friendId);
         return ResponseEntity.noContent().build();
@@ -65,7 +74,7 @@ public class UserController {
 
     // todo patch mapping para user me
 
-    @PatchMapping("/friends/{id}/delete/{friendId}")
+    @PatchMapping("/friends/{id}/delete/{friendId}") // ✔️
     public ResponseEntity<Void> deleteFriend(@PathVariable Long id, @PathVariable Long friendId) {
         userService.deleteFriend(id, friendId);
         return ResponseEntity.noContent().build();
@@ -75,7 +84,7 @@ public class UserController {
 
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") // ✔️
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
@@ -98,28 +107,6 @@ public class UserController {
 
      */
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/friends/{id}")
-    public ResponseEntity<List<User>> getFriends(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getFriends(id));
-    }
 
-    // todo get friends me
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    // current user
-    @GetMapping("/birthDateBetween")
-    public ResponseEntity<List<User>> findByBirthDateBetween(@RequestParam LocalDate date1, @RequestParam LocalDate date2) {
-        List<User> users = userService.findByBirthDateBetween(date1, date2);
-        return ResponseEntity.ok(users);
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    // current user
-    @GetMapping("/createdBefore")
-    public ResponseEntity<List<User>> findByCreatedAtBefore(@RequestParam LocalDateTime date) {
-        List<User> users = userService.findByCreatedAtBefore(date);
-        return ResponseEntity.ok(users);
-    }
 
 }

@@ -6,10 +6,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 public class UserBasicInfoResponseDTO {
     private String name;
-    private Integer age;
+    private LocalDate birthDate;
     private String email;
     private String profileImage;
     private Role role;

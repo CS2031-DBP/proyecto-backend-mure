@@ -4,6 +4,7 @@ import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.song.domain.Song;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -29,9 +30,9 @@ public class Album {
     @Size(max = 500)
     private String description;
 
+    @NotNull
     private LocalDate releaseDate;
 
-    @NotBlank
     @Pattern(regexp = "\\d{2}:\\d{2}:\\d{2}")
     private String totalDuration;
 

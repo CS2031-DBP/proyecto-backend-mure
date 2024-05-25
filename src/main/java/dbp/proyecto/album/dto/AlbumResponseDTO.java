@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class AlbumResponseDTO {
+    private Long id;
     private String title;
     private String description;
     private LocalDate releaseDate;

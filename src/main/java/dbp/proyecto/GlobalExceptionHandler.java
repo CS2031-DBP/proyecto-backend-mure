@@ -1,7 +1,7 @@
 package dbp.proyecto;
 
 import dbp.proyecto.exception.ResourceNotFoundException;
-import dbp.proyecto.exception.UnauthorizeOperationException;
+import dbp.proyecto.exception.UnauthorizedOperationException;
 import dbp.proyecto.exception.UniqueResourceAlreadyExist;
 import dbp.proyecto.exception.UserAlreadyExistException;
 import org.springframework.http.HttpStatus;
@@ -51,8 +51,8 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler(UnauthorizeOperationException.class)
-    public String handleUnauthorizeOperationException(UnauthorizeOperationException ex) {
+    @ExceptionHandler(UnauthorizedOperationException.class)
+    public String handleUnauthorizeOperationException(UnauthorizedOperationException ex) {
         return ex.getMessage();
     }
 }

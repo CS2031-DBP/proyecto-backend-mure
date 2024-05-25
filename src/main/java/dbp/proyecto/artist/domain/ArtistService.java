@@ -1,6 +1,5 @@
 package dbp.proyecto.artist.domain;
 
-import dbp.proyecto.album.domain.AlbumService;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.artist.dto.ArtistBodyDTO;
 import dbp.proyecto.artist.dto.ArtistInfoForSongDTO;
@@ -9,9 +8,6 @@ import dbp.proyecto.artist.infrastructure.ArtistRepository;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.song.domain.Song;
-
-import dbp.proyecto.song.dto.SongInfoForArtistDTO;
-import dbp.proyecto.song.dto.SongResponseDTO;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,8 +68,15 @@ public class ArtistService {
         return getArtistResponseDTO(artist);
     }
 
-    public List<ArtistInfoForSongDTO> getArtistsBySong(Long songId) {
+    public List<ArtistInfoForSongDTO> getArtistsBySongId(Long songId) {
         Song song = songRepository.findById(songId).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+        return song.getArtists().stream()
+                .map(artist -> modelMapper.map(artist, ArtistInfoForSongDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<ArtistInfoForSongDTO> getArtistsBySongTitle(String songTitle) {
+        Song song = songRepository.findByTitle(songTitle);
         return song.getArtists().stream()
                 .map(artist -> modelMapper.map(artist, ArtistInfoForSongDTO.class))
                 .collect(Collectors.toList());

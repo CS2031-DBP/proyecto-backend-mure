@@ -1,6 +1,5 @@
 package dbp.proyecto.artist.application;
 
-import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.artist.domain.ArtistService;
 import dbp.proyecto.artist.dto.ArtistBodyDTO;
 import dbp.proyecto.artist.dto.ArtistInfoForSongDTO;
@@ -44,11 +43,15 @@ public class ArtistController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/songs/{songId}") // ✔️
-    public ResponseEntity<List<ArtistInfoForSongDTO>> getArtistsBySong(@PathVariable Long songId) {
-        return ResponseEntity.ok(artistService.getArtistsBySong(songId));
+    public ResponseEntity<List<ArtistInfoForSongDTO>> getArtistsBySongId(@PathVariable Long songId) {
+        return ResponseEntity.ok(artistService.getArtistsBySongId(songId));
     }
 
-    //todo agregar artists by songName
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/songTitle") // ✔️
+    public ResponseEntity<List<ArtistInfoForSongDTO>> getArtistsBySongTitle(@RequestParam String title) {
+        return ResponseEntity.ok(artistService.getArtistsBySongTitle(title));
+    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/all") // ✔️

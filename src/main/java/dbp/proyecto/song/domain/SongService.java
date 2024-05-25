@@ -48,6 +48,18 @@ public class SongService {
         return songResponseDTO;
     }
 
+    private List<SongInfoForArtistDTO> getSongInfoForArtistDTOS(Artist artist) {
+        List<Song> songs = artist.getSongs();
+
+        return songs.stream().map(song -> {
+            SongInfoForArtistDTO songInfoForArtistDTO = modelMapper.map(song, SongInfoForArtistDTO.class);
+            if(song.getAlbum() != null){
+                songInfoForArtistDTO.setAlbumTitle(song.getAlbum().getTitle());
+            }
+            return songInfoForArtistDTO;
+        }).collect(Collectors.toList());
+    }
+
     public SongResponseDTO getSongById(Long id) {
         Song song = songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
         return getSongResponseDTO(song);
@@ -72,20 +84,20 @@ public class SongService {
                 .collect(Collectors.toList());
     }
 
-    public List<SongInfoForArtistDTO> getSongsByArtist(Long artistId) {
+    public List<SongInfoForArtistDTO> getSongsByArtistId(Long artistId) {
         Artist artist = artistRepository.findById(artistId).orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
-        List<Song> songs = artist.getSongs();
-
-        return songs.stream().map(song -> {
-            SongInfoForArtistDTO songInfoForArtistDTO = modelMapper.map(song, SongInfoForArtistDTO.class);
-            if(song.getAlbum() != null){
-                songInfoForArtistDTO.setAlbumTitle(song.getAlbum().getTitle());
-            }
-            return songInfoForArtistDTO;
-        }).collect(Collectors.toList());
+        return getSongInfoForArtistDTOS(artist);
     }
 
-    public List<SongInfoForAlbumDTO> getSongsByAlbum(Long albumId) {
+    public List<SongInfoForArtistDTO> getSongsByArtistName(String artistName) {
+        Artist artist = artistRepository.findByName(artistName);
+        if(artist == null){
+            throw new ResourceNotFoundException("Artist not found");
+        }
+        return getSongInfoForArtistDTOS(artist);
+    }
+
+    public List<SongInfoForAlbumDTO> getSongsByAlbumId(Long albumId) {
         List<Song> songs = songRepository.findByAlbumId(albumId);
         if (songs.isEmpty()) {
             throw new ResourceNotFoundException("Album not found");

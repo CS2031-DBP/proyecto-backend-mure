@@ -1,23 +1,16 @@
 package dbp.proyecto.user.applitaction;
 
 import dbp.proyecto.artist.domain.Artist;
-import dbp.proyecto.playlist.domain.Playlist;
-import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.song.domain.Song;
-import dbp.proyecto.post.domain.Post;
-import dbp.proyecto.story.domain.Story;
-import dbp.proyecto.story.dto.StoryResponseDTO;
-import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.domain.UserService;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
 import dbp.proyecto.user.dto.UserBodyDTO;
+import dbp.proyecto.user.dto.UserInfoForUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -50,63 +43,82 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/friends/{id}") // ✔️
-    public ResponseEntity<List<UserBasicInfoResponseDTO>> getFriends(@PathVariable Long id) {
+    public ResponseEntity<List<UserInfoForUserDTO>> getFriends(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getFriends(id));
     }
 
-    // todo get friends me
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/friends/me") // ✔️
+    public ResponseEntity<List<UserInfoForUserDTO>> getFriendsByCurrentUser() {
+        return ResponseEntity.ok(userService.getFriendsByCurrentUser());
+    }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PatchMapping("/{id}") // ✔️
-    public ResponseEntity<Void> updateUser(@PathVariable Long id, @RequestBody UserBodyDTO updatedUser) {
-        userService.updateUser(id, updatedUser);
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/update/me") // ✔️
+    public ResponseEntity<Void> updateUser(@RequestBody UserBodyDTO updatedUser) {
+        userService.updateUser(updatedUser);
         return ResponseEntity.noContent().build();
     }
 
-    // todo patch mapping para user me
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PatchMapping("/friends/{id}/add/{friendId}") // ✔️
-    public ResponseEntity<Void> addFriend(@PathVariable Long id, @PathVariable Long friendId) {
-        userService.addFriend(id, friendId);
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/friends/add/{friendId}") // ✔️
+    public ResponseEntity<Void> addFriend(@PathVariable Long friendId) {
+        userService.addFriend(friendId);
         return ResponseEntity.noContent().build();
     }
 
-    // todo patch mapping para user me
-
-    @PatchMapping("/friends/{id}/delete/{friendId}") // ✔️
-    public ResponseEntity<Void> deleteFriend(@PathVariable Long id, @PathVariable Long friendId) {
-        userService.deleteFriend(id, friendId);
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/friends/remove/{friendId}") // ✔️
+    public ResponseEntity<Void> removeFriend(@PathVariable Long friendId) {
+        userService.removeFriend(friendId);
         return ResponseEntity.noContent().build();
     }
 
-    // todo patch mapping para user me
-
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/{id}") // ✔️
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
     }
 
-    // todo delete user me
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/addFavoriteSong/{songId}") // ✔️
+    public ResponseEntity<Void> addFavoriteSong(@PathVariable Long songId) {
+        userService.addFavoriteSong(songId);
+        return ResponseEntity.noContent().build();
+    }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/removeFavoriteSong/{songId}") // ✔️
+    public ResponseEntity<Void> removeFavoriteSong(@PathVariable Long songId) {
+        userService.removeFavoriteSong(songId);
+        return ResponseEntity.noContent().build();
+    }
 
-    /*
-    @GetMapping("/artists/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/addFavoriteArtist/{artistId}") // ✔️
+    public ResponseEntity<Void> addFavoriteArtist(@PathVariable Long artistId) {
+        userService.addFavoriteArtist(artistId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/removeFavoriteArtist/{artistId}") // ✔️
+    public ResponseEntity<Void> removeFavoriteArtist(@PathVariable Long artistId) {
+        userService.removeFavoriteArtist(artistId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/favoriteArtists/{id}")
     public ResponseEntity<List<Artist>> getFavoriteArtists(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getFavoriteArtists(id));
     }
-    
 
-    @GetMapping("/songs/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/favoriteSongs/{id}")
     public ResponseEntity<List<Song>> getFavoriteSongs(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getFavoriteSongs(id));
     }
-
-     */
-
-
 
 }

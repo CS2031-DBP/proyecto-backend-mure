@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -19,8 +20,8 @@ public class Playlist {
     private String name;
 
     @ManyToMany(mappedBy = "ownsPlaylists")
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     @OneToMany
-    private List<Song> songs;
+    private List<Song> songs = new ArrayList<>();
 }

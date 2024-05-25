@@ -55,6 +55,7 @@ public class Album {
         int seconds = totalSeconds % 60;
         this.totalDuration = String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
+
     public void calculateSongsCount() {
         this.songsCount = songs.size();
     }

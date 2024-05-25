@@ -5,7 +5,6 @@ import dbp.proyecto.authentication.dto.LogInDTO;
 import dbp.proyecto.authentication.dto.SignInDTO;
 import dbp.proyecto.configuration.JwtService;
 import dbp.proyecto.email.domain.EmailService;
-import dbp.proyecto.events.Login.LoginEvent;
 import dbp.proyecto.events.SignIn.SignInEvent;
 import dbp.proyecto.exception.UserAlreadyExistException;
 import dbp.proyecto.user.domain.Role;
@@ -42,7 +41,7 @@ public class AuthenticationService {
         if (!passwordEncoder.matches(logInDTO.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Invalid password");
         }
-/*        applicationEventPublisher.publishEvent(new LoginEvent(logInDTO.getEmail(), user.getName()));*/
+
         JwtAuthenticationResponseDTO response = new JwtAuthenticationResponseDTO();
         response.setToken(jwtService.generateToken(user));
         return response;
@@ -51,7 +50,7 @@ public class AuthenticationService {
         if (userRepository.findByEmail(signInDTO.getEmail()).isPresent()) {
             throw new UserAlreadyExistException("Email already exist");
         }
-/*        applicationEventPublisher.publishEvent(new SignInEvent(signInDTO.getEmail(), signInDTO.getName()));*/
+        applicationEventPublisher.publishEvent(new SignInEvent(signInDTO.getEmail(), signInDTO.getName()));
         User user = new User();
         user.setEmail(signInDTO.getEmail());
         user.setPassword(passwordEncoder.encode(signInDTO.getPassword()));

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Éxito - Viaje Iniciado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+        color: #4CAF50;
+        }
+        p {
+            color: #333;
+        }
+        .texto{
+            color: #ce3a7b;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            align-content: center;
+        }
+    </style>
+</head>
+<body>
+<h1>¡Bienvenido a Mure: Share your Music Taste!</h1>
+<img src="https://i.ibb.co/160TLGJ/Mure-Loco.jpg" alt="Logo Mure">
+<p>Muchas gracias <span th:text="${name}"></span> Por decidir formar parte de la famiilia de Mure</p>
+
+<div class="texto">
+    <p>¡Que tengas un buen día!</p>
+    <p>Atentamente, el equipo de Mure</p>
+</div>
+</body>
+</html>

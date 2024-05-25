@@ -23,12 +23,12 @@ public class EmailService {
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
     }
-/*
-    public void correoLogin(String to, String name) throws MessagingException {
+
+    public void correoSingIn(String to, String name) throws MessagingException {
         Context context = new Context();
         context.setVariable("name", name);
 
-        String process = templateEngine.process("email-template.html", context);
+        String process = templateEngine.process("sing-in-template.html", context);
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message,
@@ -41,22 +41,4 @@ public class EmailService {
 
         mailSender.send(message);
     }
-
-    public void correoSingIn(String to, String name) throws MessagingException {
-        Context context = new Context();
-        context.setVariable("name", name);
-
-        String process = templateEngine.process("email-template.html", context);
-
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message,
-                MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-                StandardCharsets.UTF_8.name());
-
-        helper.setTo(to);
-        helper.setText(process, true);
-        helper.setSubject("Viaje iniciado con exito!");
-
-        mailSender.send(message);
-    }*/
 }

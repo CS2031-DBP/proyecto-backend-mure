@@ -23,7 +23,7 @@ public class Post {
 
     @NotNull
     @Min(0)
-    private Integer likes = 0;
+    private Integer likes;
 
     @NotBlank
     @Size(max = 500)

@@ -37,10 +37,10 @@ public class Song {
     private String coverImage;
 
     @NotNull
-    private Integer likes = 0;
+    private Integer likes;
 
     @NotNull
-    private Integer timesPlayed = 0;
+    private Integer timesPlayed;
 
     @ManyToMany(mappedBy = "songs")
     private List<Artist> artists = new ArrayList<>();

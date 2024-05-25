@@ -32,7 +32,7 @@ public class Story {
 
     @NotNull
     @Min(0)
-    private Integer likes = 0;
+    private Integer likes;
 
     @ManyToOne
     private Song song;

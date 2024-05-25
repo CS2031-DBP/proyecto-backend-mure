@@ -8,6 +8,7 @@ class MureApplicationTests {
 
 	@Test
 	void contextLoads() {
+		assert true;
 	}
 
 }

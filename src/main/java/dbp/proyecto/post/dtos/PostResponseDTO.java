@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class PostResponseDTO {
+    private Long id;
     private String owner;
     private Song song;
     private Album album;

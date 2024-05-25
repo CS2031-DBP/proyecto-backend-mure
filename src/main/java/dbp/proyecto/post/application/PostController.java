@@ -34,7 +34,11 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostsByUserId(userId));
     }
 
-    // falta getPostsMe()
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/me")
+    public ResponseEntity<List<PostResponseDTO>> getPostsByCurrentUser() {
+        return ResponseEntity.ok(postService.getPostsByCurrentUser());
+    }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     // real paginacion
@@ -63,7 +67,6 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    // owner
     @PatchMapping("/media/{id}")
     public ResponseEntity<Void> changeMedia(@PathVariable Long id, @RequestBody PostMediaDTO media) {
         postService.changeMedia(id, media);
@@ -71,7 +74,6 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    // owner
     @PatchMapping("/content/{id}")
     public ResponseEntity<Void> updatePostContent(@PathVariable Long id, @RequestBody PostContentDTO content) {
         postService.changeContent(id, content.getSongId(), content.getAlbumId());
@@ -79,7 +81,6 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    // is admin o resource owner
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
         postService.deletePost(id);

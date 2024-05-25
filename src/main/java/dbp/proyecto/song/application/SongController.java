@@ -43,16 +43,20 @@ public class SongController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/artist/{artistId}")
-    public ResponseEntity<List<SongInfoForArtistDTO>> getSongsByArtist(@PathVariable Long artistId) {
-        return ResponseEntity.ok(songService.getSongsByArtist(artistId));
+    public ResponseEntity<List<SongInfoForArtistDTO>> getSongsByArtistId(@PathVariable Long artistId) {
+        return ResponseEntity.ok(songService.getSongsByArtistId(artistId));
     }
 
-    //todo falta get songs by artistName
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/artistName")
+    public ResponseEntity<List<SongInfoForArtistDTO>> getSongsByArtistName(@RequestParam String artistName) {
+        return ResponseEntity.ok(songService.getSongsByArtistName(artistName));
+    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/album/{albumId}")
-    public ResponseEntity<List<SongInfoForAlbumDTO>> getSongsByAlbum(@PathVariable Long albumId) {
-        return ResponseEntity.ok(songService.getSongsByAlbum(albumId));
+    public ResponseEntity<List<SongInfoForAlbumDTO>> getSongsByAlbumId(@PathVariable Long albumId) {
+        return ResponseEntity.ok(songService.getSongsByAlbumId(albumId));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -69,8 +73,8 @@ public class SongController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PatchMapping("/coverImage/{id}")
-    public ResponseEntity<Void> putSongCoverImage(@PathVariable Long id, @RequestParam String coverImage) {
+    @PatchMapping("/{id}/coverImage")
+    public ResponseEntity<Void> updateCoverImage(@PathVariable Long id, @RequestParam String coverImage) {
         songService.updateCoverImage(coverImage, id);
         return ResponseEntity.noContent().build();
     }

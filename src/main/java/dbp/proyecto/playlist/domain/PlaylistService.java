@@ -3,6 +3,7 @@ package dbp.proyecto.playlist.domain;
 
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
+import dbp.proyecto.exception.UnauthorizedOperationException;
 import dbp.proyecto.playlist.dtos.PlaylistBodyDTO;
 import dbp.proyecto.playlist.dtos.PlaylistResponseDTO;
 import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
@@ -47,8 +48,8 @@ public class PlaylistService {
     public PlaylistResponseDTO getPlaylistById(Long id) {
         Playlist playlist = playlistRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
-        if (!authorizationUtils.isAdminOrResourceOwner(playlist.getUsers().get(0).getId())) {
-            throw new IllegalArgumentException("User does not have access to this playlist");
+        if (!authorizationUtils.isAdmin()) {
+            throw new UnauthorizedOperationException("User does not have access to this playlist");
         }
         return getPlaylistResponseDTO(playlist);
     }
@@ -66,13 +67,15 @@ public class PlaylistService {
         User owner = playlist.getUsers().get(0);
 
         if (!owner.getId().equals(currentUser.getId()) && !owner.getFriends().contains(currentUser)) {
-            throw new IllegalArgumentException("User does not have access to this playlist");
+            throw new UnauthorizedOperationException("User does not have access to this playlist");
         }
 
         return getPlaylistResponseDTO(playlist);
     }
 
     public List<PlaylistResponseDTO> getPlaylistsByUserId(Long userId) {
+        if (!authorizationUtils.isAdmin())
+            throw new UnauthorizedOperationException("User does not have access to this playlist");
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return user.getOwnsPlaylists().stream()
@@ -98,6 +101,8 @@ public class PlaylistService {
     }
 
     public List<PlaylistResponseDTO> getAllPlaylists() {
+        if (!authorizationUtils.isAdmin())
+            throw new UnauthorizedOperationException("User does not have access to this playlist");
         List<Playlist> playlists = playlistRepository.findAll();
         return playlists.stream()
                 .map(this::getPlaylistResponseDTO)
@@ -131,7 +136,7 @@ public class PlaylistService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!owner.getId().equals(currentUser.getId())) {
-            throw new IllegalArgumentException("Only the owner can add songs to the playlist");
+            throw new UnauthorizedOperationException("Only the owner can add songs to the playlist");
         }
 
         Song song = songRepository.findById(songId)
@@ -152,7 +157,7 @@ public class PlaylistService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!owner.getId().equals(currentUser.getId())) {
-            throw new IllegalArgumentException("Only the owner can remove songs from the playlist");
+            throw new UnauthorizedOperationException("Only the owner can remove songs from the playlist");
         }
 
         Song song = songRepository.findById(songId)
@@ -170,8 +175,8 @@ public class PlaylistService {
         Playlist playlist = playlistRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
         User owner = playlist.getUsers().get(0);
-        if (!owner.getId().equals(currentUser.getId())) {
-            throw new IllegalArgumentException("Only the owner can delete the playlist");
+        if (!owner.getId().equals(currentUser.getId()) && !authorizationUtils.isAdmin()) {
+            throw new UnauthorizedOperationException("Only the owner or an admin can delete the playlist");
         }
         for (User user : playlist.getUsers()) {
             user.getOwnsPlaylists().remove(playlist);

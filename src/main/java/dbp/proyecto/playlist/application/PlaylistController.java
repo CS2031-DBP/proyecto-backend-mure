@@ -23,7 +23,7 @@ public class PlaylistController {
         this.playlistService = playlistService;
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<PlaylistResponseDTO> getPlaylistById(@PathVariable Long id) {
         PlaylistResponseDTO playlist = playlistService.getPlaylistById(id);
@@ -45,7 +45,7 @@ public class PlaylistController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/user")
+    @GetMapping("/me")
     public ResponseEntity<List<PlaylistResponseDTO>> getPlaylistsByCurrentUser() {
         List<PlaylistResponseDTO> playlists = playlistService.getPlaylistsByCurrentUser();
         return ResponseEntity.ok(playlists);

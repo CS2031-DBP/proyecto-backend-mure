@@ -2,7 +2,9 @@ package dbp.proyecto.post.domain;
 
 import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
+import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
+import dbp.proyecto.exception.UnauthorizedOperationException;
 import dbp.proyecto.post.dtos.PostBodyDTO;
 import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
@@ -26,17 +28,22 @@ public class PostService {
     private final ModelMapper modelMapper;
     private final SongRepository songRepository;
     private final AlbumRepository albumRepository;
+    private final AuthorizationUtils authorizationUtils;
 
 
-    public PostService(PostRepository postRepository, UserRepository userRepository, ModelMapper modelMapper, SongRepository songRepository, AlbumRepository albumRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, ModelMapper modelMapper, SongRepository songRepository, AlbumRepository albumRepository, AuthorizationUtils authorizationUtils) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.songRepository = songRepository;
         this.albumRepository = albumRepository;
+        this.authorizationUtils = authorizationUtils;
     }
 
     public PostResponseDTO getPostById(Long id) {
+        if (!authorizationUtils.isAdmin()) {
+            throw new UnauthorizedOperationException("Only an admin can access this post");
+        }
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
         PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
         postResponseDTO.setOwner(post.getUser().getName());
@@ -44,7 +51,21 @@ public class PostService {
     }
 
     public List<PostResponseDTO> getPostsByUserId(Long userId) {
+        if (!authorizationUtils.isAdmin()) {
+            throw new UnauthorizedOperationException("Only an admin can access this post");
+        }
         List<Post> posts = postRepository.findByUserId(userId);
+        return posts.stream().map(post -> {
+            PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
+            postResponseDTO.setOwner(post.getUser().getName());
+            return postResponseDTO;
+        }).collect(Collectors.toList());
+    }
+
+    public List<PostResponseDTO> getPostsByCurrentUser() {
+        String email = authorizationUtils.getCurrentUserEmail();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        List<Post> posts = postRepository.findByUserId(user.getId());
         return posts.stream().map(post -> {
             PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
             postResponseDTO.setOwner(post.getUser().getName());
@@ -62,6 +83,9 @@ public class PostService {
     }
 
     public List<PostResponseDTO> getPostsBySongId(Long songId) {
+        if (!authorizationUtils.isAdmin()) {
+            throw new UnauthorizedOperationException("Only an admin can access this post");
+        }
         List<Post> posts = postRepository.findBySongId(songId);
         return posts.stream().map(post -> {
             PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
@@ -71,6 +95,9 @@ public class PostService {
     }
 
     public List<PostResponseDTO> getPostsByAlbumId(Long albumId) {
+        if (!authorizationUtils.isAdmin()) {
+            throw new UnauthorizedOperationException("Only an admin can access this post");
+        }
         List<Post> posts = postRepository.findByAlbumId(albumId);
         return posts.stream().map(post -> {
             PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
@@ -100,8 +127,12 @@ public class PostService {
     }
 
     public void changeMedia(Long id, PostMediaDTO media) {
+        String email = authorizationUtils.getCurrentUserEmail();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        if (!authorizationUtils.isAdminOrResourceOwner(user.getId())) {
+            throw new UnauthorizedOperationException("Only the owner can change the media of this post");
+        }
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
-
         if (media.getImageUrl() != null) {
             post.setImageUrl(media.getImageUrl());
         }
@@ -111,11 +142,15 @@ public class PostService {
         if (media.getDescription() != null) {
             post.setDescription(media.getDescription());
         }
-
         postRepository.save(post);
     }
 
     public void changeContent(Long id, Long songId, Long albumId) {
+        String email = authorizationUtils.getCurrentUserEmail();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        if (!authorizationUtils.isAdminOrResourceOwner(user.getId())) {
+            throw new UnauthorizedOperationException("Only the owner can change the content of this post");
+        }
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         if (songId != null) {
@@ -133,6 +168,11 @@ public class PostService {
 
     @Transactional
     public void deletePost(Long id) {
+        String email = authorizationUtils.getCurrentUserEmail();
+        User currentUser = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        if (!authorizationUtils.isAdminOrResourceOwner(currentUser.getId())) {
+            throw new UnauthorizedOperationException("Only the owner can delete this post");
+        }
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
         User user = post.getUser();
         user.getPosts().remove(post);

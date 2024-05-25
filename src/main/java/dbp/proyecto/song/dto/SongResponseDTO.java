@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 public class SongResponseDTO {
+    private String id;
     private String title;
     private String genre;
     private Integer likes;

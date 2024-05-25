@@ -4,10 +4,7 @@ import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.artist.domain.Artist;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -29,6 +26,7 @@ public class Song {
     @NotBlank
     private String genre;
 
+    @NotNull
     private LocalDate releaseDate;
 
     @NotBlank
@@ -37,9 +35,11 @@ public class Song {
     private String coverImage;
 
     @NotNull
+    @Min(0)
     private Integer likes;
 
     @NotNull
+    @Min(0)
     private Integer timesPlayed;
 
     @ManyToMany(mappedBy = "songs")

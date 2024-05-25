@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class StoryResponseDTO {
+    private Long id;
     private String owner;
     private LocalDateTime createdAt;
     private LocalDateTime expiresAt;

@@ -56,16 +56,6 @@ public class StoryController {
         return ResponseEntity.ok(stories);
     }
 
-    /*
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/time")
-    public ResponseEntity<List<StoryResponseDTO>> getStoriesByCreatedAtLessThanEqualAndExpiresAtGreaterThanEqual(@RequestParam LocalDateTime createdAt, @RequestParam LocalDateTime expiresAt) {
-        List<StoryResponseDTO> stories = storyService.getStoriesByCreatedAtLessThanEqualAndExpiresAtGreaterThanEqual(createdAt, expiresAt);
-        return ResponseEntity.ok(stories);
-    }
-
-     */
-
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     public ResponseEntity<String> createStory(@RequestBody StoryBodyDTO storyBodyDTO) {

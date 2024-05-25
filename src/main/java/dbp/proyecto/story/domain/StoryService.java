@@ -89,18 +89,6 @@ public class StoryService {
         }).collect(Collectors.toList());
     }
 
-    /*
-    public List<StoryResponseDTO> getStoriesByCreatedAtLessThanEqualAndExpiresAtGreaterThanEqual(LocalDateTime createdAt, LocalDateTime expiresAt) {
-        List<Story> stories = storyRepository.findByCreatedAtLessThanEqualAndExpiresAtGreaterThanEqual(createdAt, expiresAt);
-        return stories.stream().map(story -> {
-            StoryResponseDTO storyResponseDTO = modelMapper.map(story, StoryResponseDTO.class);
-            storyResponseDTO.setOwner(story.getUser().getName());
-            return storyResponseDTO;
-        }).collect(Collectors.toList());
-    }
-
-     */
-
     @Transactional
     public String createStory(StoryBodyDTO storyBodyDTO) {
         User user = userRepository.findById(storyBodyDTO.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));

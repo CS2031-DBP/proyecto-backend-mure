@@ -73,8 +73,8 @@ public class SongController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PatchMapping("/coverImage/{id}")
-    public ResponseEntity<Void> putSongCoverImage(@PathVariable Long id, @RequestParam String coverImage) {
+    @PatchMapping("/{id}/coverImage")
+    public ResponseEntity<Void> updateCoverImage(@PathVariable Long id, @RequestParam String coverImage) {
         songService.updateCoverImage(coverImage, id);
         return ResponseEntity.noContent().build();
     }

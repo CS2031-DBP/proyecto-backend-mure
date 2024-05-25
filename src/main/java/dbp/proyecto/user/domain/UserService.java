@@ -9,6 +9,7 @@ import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
 import dbp.proyecto.user.dto.UserBodyDTO;
+import dbp.proyecto.user.dto.UserInfoForUserDTO;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import dbp.proyecto.exception.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -42,6 +44,20 @@ public class UserService {
         this.playlistRepository = playlistRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
+    }
+
+
+    private List<UserInfoForUserDTO> getUserInfoForUserDTOS(User user) {
+        return user.getFriends().stream()
+                .map(friend -> {
+                    UserInfoForUserDTO userInfo = modelMapper.map(friend, UserInfoForUserDTO.class);
+                    List<String> friendsNames = friend.getFriends().stream()
+                            .map(User::getName)
+                            .collect(Collectors.toList());
+                    userInfo.setFriendsNames(friendsNames);
+                    return userInfo;
+                })
+                .collect(Collectors.toList());
     }
 
     public UserBasicInfoResponseDTO getMe() {
@@ -65,21 +81,17 @@ public class UserService {
                 .toList();
     }
 
-    public List<UserBasicInfoResponseDTO> getFriends(Long id) {
+    public List<UserInfoForUserDTO> getFriends(Long id) {
         if (!authorizationUtils.isAdmin())
             throw new UnauthorizedOperationException("You are not authorized to perform this action");
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return user.getFriends().stream()
-                .map(friend -> modelMapper.map(friend, UserBasicInfoResponseDTO.class))
-                .toList();
+        return getUserInfoForUserDTOS(user);
     }
 
-    public List<UserBasicInfoResponseDTO> getFriendsByCurrentUser(){
+    public List<UserInfoForUserDTO> getFriendsByCurrentUser(){
         String email = authorizationUtils.getCurrentUserEmail();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return user.getFriends().stream()
-                .map(friend -> modelMapper.map(friend, UserBasicInfoResponseDTO.class))
-                .toList();
+        return getUserInfoForUserDTOS(user);
     }
 
     public void updateUser(UserBodyDTO updatedUser) {
@@ -212,22 +224,6 @@ public class UserService {
         }
         return user.getFavoriteSongs();
     }
-
-    /*
-    public List<UserBasicInfoResponseDTO> findByBirthDateBetween(LocalDate date1, LocalDate date2) {
-        List<User> users = userRepository.findByBirthDateBetween(date1, date2);
-        return users.stream()
-                .map(user -> modelMapper.map(user, UserBasicInfoResponseDTO.class))
-                .toList();
-    }
-
-    public List<UserBasicInfoResponseDTO> findByCreatedAtBefore(LocalDateTime date) {
-        List<User> users = userRepository.findByCreatedAtBefore(date);
-        return users.stream()
-                .map(user -> modelMapper.map(user, UserBasicInfoResponseDTO.class))
-                .toList();
-    }
-     */
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));

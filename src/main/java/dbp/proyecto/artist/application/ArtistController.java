@@ -48,7 +48,7 @@ public class ArtistController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/songTitle")
+    @GetMapping("/songTitle") // ✔️
     public ResponseEntity<List<ArtistInfoForSongDTO>> getArtistsBySongTitle(@RequestParam String title) {
         return ResponseEntity.ok(artistService.getArtistsBySongTitle(title));
     }

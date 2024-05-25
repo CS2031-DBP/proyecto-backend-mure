@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class SongInfoForAlbumDTO {
+    private Long id;
     private String title;
     private String genre;
     private Integer likes;

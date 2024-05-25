@@ -5,6 +5,7 @@ import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.user.domain.UserService;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
 import dbp.proyecto.user.dto.UserBodyDTO;
+import dbp.proyecto.user.dto.UserInfoForUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,13 +43,13 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/friends/{id}") // ✔️
-    public ResponseEntity<List<UserBasicInfoResponseDTO>> getFriends(@PathVariable Long id) {
+    public ResponseEntity<List<UserInfoForUserDTO>> getFriends(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getFriends(id));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/friends/me") // ✔️
-    public ResponseEntity<List<UserBasicInfoResponseDTO>> getFriendsByCurrentUser() {
+    public ResponseEntity<List<UserInfoForUserDTO>> getFriendsByCurrentUser() {
         return ResponseEntity.ok(userService.getFriendsByCurrentUser());
     }
 
@@ -119,18 +120,5 @@ public class UserController {
     public ResponseEntity<List<Song>> getFavoriteSongs(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getFavoriteSongs(id));
     }
-
-    /*
-    @GetMapping("/artists/{id}")
-    public ResponseEntity<List<Artist>> getFavoriteArtists(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getFavoriteArtists(id));
-    }
-    
-
-    @GetMapping("/songs/{id}")
-    public ResponseEntity<List<Song>> getFavoriteSongs(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getFavoriteSongs(id));
-    }
-     */
 
 }

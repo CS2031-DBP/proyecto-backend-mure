@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class ArtistResponseDTO {
+    private Long id;
     private String name;
     private String description;
     private Date birthDate;

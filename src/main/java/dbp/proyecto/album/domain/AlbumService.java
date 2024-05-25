@@ -147,11 +147,9 @@ public class AlbumService {
             songRepository.save(song);
         }
 
-        // Eliminar el álbum de la lista de álbumes del artista y guardar el artista
         artist.getAlbums().remove(album);
         artistRepository.save(artist);
 
-        // Finalmente eliminar el álbum
         albumRepository.delete(album);
     }
 

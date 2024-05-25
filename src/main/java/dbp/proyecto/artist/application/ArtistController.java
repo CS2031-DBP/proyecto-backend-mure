@@ -23,32 +23,32 @@ public class ArtistController {
         this.artistService = artistService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // ✔️
     public ResponseEntity<ArtistResponseDTO> getArtistById(@PathVariable Long id) {
         return ResponseEntity.ok(artistService.getArtistById(id));
     }
 
-    @GetMapping("/verified")
+    @GetMapping("/verified") // ✔️
     public ResponseEntity<List<ArtistResponseDTO>> getVerifiedArtists() {
         return ResponseEntity.ok(artistService.findVerifiedArtists());
     }
 
-    @GetMapping("/name")
+    @GetMapping("/name") // ✔️
     public ResponseEntity<ArtistResponseDTO> getArtistByName(@RequestParam String name) {
         return ResponseEntity.ok(artistService.getArtistByName(name));
     }
 
-    @GetMapping("/songs/{songId}")
+    @GetMapping("/songs/{songId}") // ✔️
     public ResponseEntity<List<ArtistInfoForSongDTO>> getArtistBySong(@PathVariable Long songId) {
         return ResponseEntity.ok(artistService.getArtistsBySong(songId));
     }
 
-    @GetMapping("/all")
+    @GetMapping("/all")  // ✔️
     public ResponseEntity<List<ArtistResponseDTO>> getAllArtists() {
         return ResponseEntity.ok(artistService.getAllArtists());
     }
 
-    @PostMapping
+    @PostMapping // ✔️
     public ResponseEntity<Void> createArtists(@RequestBody List<ArtistBodyDTO> artistBodyDTOs) {
         artistService.createArtists(artistBodyDTOs);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -60,7 +60,7 @@ public class ArtistController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") // ✔️
     public ResponseEntity<Void> deleteArtist(@PathVariable Long id) {
         artistService.deleteArtist(id);
         return ResponseEntity.noContent().build();

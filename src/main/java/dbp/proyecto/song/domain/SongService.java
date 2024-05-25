@@ -75,9 +75,12 @@ public class SongService {
     public List<SongInfoForArtistDTO> getSongsByArtist(Long artistId) {
         Artist artist = artistRepository.findById(artistId).orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
         List<Song> songs = artist.getSongs();
+
         return songs.stream().map(song -> {
             SongInfoForArtistDTO songInfoForArtistDTO = modelMapper.map(song, SongInfoForArtistDTO.class);
-            songInfoForArtistDTO.setAlbumTitle(song.getAlbum().getTitle());
+            if(song.getAlbum() != null){
+                songInfoForArtistDTO.setAlbumTitle(song.getAlbum().getTitle());
+            }
             return songInfoForArtistDTO;
         }).collect(Collectors.toList());
     }
@@ -141,8 +144,10 @@ public class SongService {
             artistRepository.save(artist);
         }
         Album album = song.getAlbum();
-        album.getSongs().remove(song);
-        albumRepository.save(album);
+        if(album != null && album.getSongs() != null){
+            album.getSongs().remove(song);
+            albumRepository.save(album);
+        }
         songRepository.delete(song);
     }
 }

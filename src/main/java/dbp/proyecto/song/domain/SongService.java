@@ -83,8 +83,10 @@ public class SongService {
     }
 
     public List<SongInfoForAlbumDTO> getSongsByAlbum(Long albumId) {
-        Album album = albumRepository.findById(albumId).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
-        List<Song> songs = album.getSongs();
+        List<Song> songs = songRepository.findByAlbumId(albumId);
+        if (songs.isEmpty()) {
+            throw new ResourceNotFoundException("Album not found");
+        }
         return songs.stream().map(song -> {
             SongInfoForAlbumDTO songInfoForAlbumDTO = modelMapper.map(song, SongInfoForAlbumDTO.class);
             List<String> artistsNames = song.getArtists().stream()

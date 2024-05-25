@@ -6,6 +6,7 @@ import dbp.proyecto.playlist.domain.Playlist;
 import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
 import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
+import dbp.proyecto.user.dto.UserBodyDTO;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class UserService {
                 .toList();
     }
 
-    public void updateUser(Long id, User updatedUser) {
+    public void updateUser(Long id, UserBodyDTO updatedUser) {
         User existingUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (updatedUser.getProfileImage() != null) {
@@ -64,7 +65,7 @@ public class UserService {
             existingUser.setName(updatedUser.getName());
         }
 
-        if (updatedUser.getPassword() != null) {
+        if (updatedUser.getPassword() != null) { // hay que decodificar la contraseña nuevamente
             existingUser.setPassword(updatedUser.getPassword());
         }
 
@@ -76,7 +77,19 @@ public class UserService {
     }
 
     public void addFriend(Long userId, Long friendId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User friend = userRepository.findById(friendId)
+                .orElseThrow(() -> new ResourceNotFoundException("Friend not found"));
 
+        if (user.getFriends().contains(friend)) {
+            throw new UniqueResourceAlreadyExist("User is already a friend");
+        }
+
+        user.getFriends().add(friend);
+        friend.getFriends().add(user);
+        userRepository.save(user);
+        userRepository.save(friend);
     }
 
     public void deleteFriend(Long id, Long friendId) {
@@ -84,8 +97,16 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         User friend = userRepository.findById(friendId)
                 .orElseThrow(() -> new ResourceNotFoundException("Friend not found"));
+
+        if(!user.getFriends().contains(friend)){
+            throw new ResourceNotFoundException("Friend not found");
+        }
+
         user.getFriends().remove(friend);
+        friend.getFriends().remove(user);
+
         userRepository.save(user);
+        userRepository.save(friend);
     }
 
     @Transactional
@@ -116,17 +137,25 @@ public class UserService {
         return user.getFavoriteSongs();
     }
 
-    public List<User> getFriends(Long id) {
+    public List<UserBasicInfoResponseDTO> getFriends(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return user.getFriends();
+        return user.getFriends().stream()
+                .map(friend -> modelMapper.map(friend, UserBasicInfoResponseDTO.class))
+                .toList();
     }
 
-    public List<User> findByBirthDateBetween(LocalDate date1, LocalDate date2) {
-        return userRepository.findByBirthDateBetween(date1, date2);
+    public List<UserBasicInfoResponseDTO> findByBirthDateBetween(LocalDate date1, LocalDate date2) {
+        List<User> users = userRepository.findByBirthDateBetween(date1, date2);
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserBasicInfoResponseDTO.class))
+                .toList();
     }
 
-    public List<User> findByCreatedAtBefore(LocalDateTime date) {
-        return userRepository.findByCreatedAtBefore(date);
+    public List<UserBasicInfoResponseDTO> findByCreatedAtBefore(LocalDateTime date) {
+        List<User> users = userRepository.findByCreatedAtBefore(date);
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserBasicInfoResponseDTO.class))
+                .toList();
     }
 
     public User findByEmail(String email) {

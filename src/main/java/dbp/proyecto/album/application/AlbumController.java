@@ -24,51 +24,51 @@ public class AlbumController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // ✔️
     public ResponseEntity<AlbumResponseDTO> getAlbumById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(albumService.getAlbumById(id));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/title")
+    @GetMapping("/title") // ✔️
     public ResponseEntity<AlbumResponseDTO> getAlbumByTitle(@RequestParam String title) {
         return ResponseEntity.ok(albumService.getAlbumByTitle(title));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/artist/{artistId}")
+    @GetMapping("/artist/{artistId}") // ✔️
     public ResponseEntity<List<AlbumInfoForArtistDTO>> getAlbumsByArtistId(@PathVariable Long artistId) {
         return ResponseEntity.ok(albumService.getAlbumsByArtistId(artistId));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/artist/name")
+    @GetMapping("/artist/name") // ✔️
     public ResponseEntity<List<AlbumInfoForArtistDTO>> getAlbumsByArtistName(@RequestParam String artistName) {
         return ResponseEntity.ok(albumService.getAlbumsByArtistName(artistName));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/all")
+    @GetMapping("/all") // ✔️
     public ResponseEntity<List<AlbumResponseDTO>> getAllAlbums() {
         return ResponseEntity.ok(albumService.getAllAlbums());
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping
+    @PostMapping // ✔️
     public ResponseEntity<Void> createAlbum(@RequestBody List<AlbumBodyDTO> albumBodyDto) {
         albumService.createsAlbums(albumBodyDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}") // ✔️
     public ResponseEntity<Void> updateAlbum(@PathVariable Long id, @RequestBody AlbumUpdateDTO albumUpdateDTO) {
         albumService.updateAlbum(id, albumUpdateDTO);
         return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") // ✔️
     public ResponseEntity<Void> deleteAlbum(@PathVariable Long id) {
         albumService.deleteAlbum(id);
         return ResponseEntity.noContent().build();

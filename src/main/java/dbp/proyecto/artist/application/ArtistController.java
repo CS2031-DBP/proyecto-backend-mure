@@ -25,53 +25,53 @@ public class ArtistController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // ✔️
     public ResponseEntity<ArtistResponseDTO> getArtistById(@PathVariable Long id) {
         return ResponseEntity.ok(artistService.getArtistById(id));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/verified")
+    @GetMapping("/verified") // ✔️
     public ResponseEntity<List<ArtistResponseDTO>> getVerifiedArtists() {
         return ResponseEntity.ok(artistService.findVerifiedArtists());
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/name")
+    @GetMapping("/name") // ✔️
     public ResponseEntity<ArtistResponseDTO> getArtistByName(@RequestParam String name) {
         return ResponseEntity.ok(artistService.getArtistByName(name));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/songs/{songId}")
+    @GetMapping("/songs/{songId}") // ✔️
     public ResponseEntity<List<ArtistInfoForSongDTO>> getArtistsBySong(@PathVariable Long songId) {
         return ResponseEntity.ok(artistService.getArtistsBySong(songId));
     }
 
-    // agregar artists by songName
+    //todo agregar artists by songName
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/all")
+    @GetMapping("/all") // ✔️
     public ResponseEntity<List<ArtistResponseDTO>> getAllArtists() {
         return ResponseEntity.ok(artistService.getAllArtists());
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping
+    @PostMapping // ✔️
     public ResponseEntity<Void> createArtists(@RequestBody List<ArtistBodyDTO> artistBodyDTOs) {
         artistService.createArtists(artistBodyDTOs);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateArtistInfo(@PathVariable Long id, @RequestBody Artist updatedArtist) {
+    @PatchMapping("/{id}") // ✔️
+    public ResponseEntity<Void> updateArtistInfo(@PathVariable Long id, @RequestBody ArtistBodyDTO updatedArtist) {
         artistService.updateArtistInfo(id, updatedArtist);
         return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") // ✔️
     public ResponseEntity<Void> deleteArtist(@PathVariable Long id) {
         artistService.deleteArtist(id);
         return ResponseEntity.noContent().build();

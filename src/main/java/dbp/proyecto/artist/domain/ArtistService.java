@@ -97,19 +97,19 @@ public class ArtistService {
         artistRepository.saveAll(artists);
     }
 
-    public void updateArtistInfo(Long id, Artist updatedArtist) {
+    public void updateArtistInfo(Long id, ArtistBodyDTO updatedArtist) {
         Artist artist = artistRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
         if (updatedArtist.getName() != null) {
             artist.setName(updatedArtist.getName());
+        }
+        if (updatedArtist.getDescription() != null) {
+            artist.setDescription(updatedArtist.getDescription());
         }
         if (updatedArtist.getBirthDate() != null) {
             artist.setBirthDate(updatedArtist.getBirthDate());
         }
         if (updatedArtist.getVerified() != null) {
             artist.setVerified(updatedArtist.getVerified());
-        }
-        if (updatedArtist.getDescription() != null) {
-            artist.setDescription(updatedArtist.getDescription());
         }
         artistRepository.save(artist);
     }

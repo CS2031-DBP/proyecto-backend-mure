@@ -13,5 +13,5 @@ public class AlbumResponseDTO {
     private Integer songsCount;
     private String totalDuration;
     private String artistName;
-    private List<String> songsNames;
+    private List<String> songsTitles;
 }

@@ -45,10 +45,10 @@ public class ArtistService {
                 .collect(Collectors.toList());
         artistResponseDTO.setAlbumsTitles(albumTitles);
 
-        List<String> songNames = artist.getSongs().stream()
+        List<String> songTitles = artist.getSongs().stream()
                 .map(Song::getTitle)
                 .collect(Collectors.toList());
-        artistResponseDTO.setSongsNames(songNames);
+        artistResponseDTO.setSongTitles(songTitles);
 
         return artistResponseDTO;
     }
@@ -81,10 +81,12 @@ public class ArtistService {
 
     public List<ArtistResponseDTO> getAllArtists() {
         List<Artist> artists = artistRepository.findAll();
-
-        return artists.stream().map(this::getArtistResponseDTO).collect(Collectors.toList());
+        return artists.stream()
+                .map(this::getArtistResponseDTO)
+                .collect(Collectors.toList());
     }
 
+    @Transactional
     public void createArtists(List<ArtistBodyDTO> artistBodyDTOs) {
         List<Artist> artists = new ArrayList<>();
 

@@ -3,10 +3,11 @@ package dbp.proyecto.user.domain;
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.artist.infrastructure.ArtistRepository;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
-import dbp.proyecto.playlist.domain.Playlist;
 import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
+import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.song.infrastructure.SongRepository;
+import dbp.proyecto.story.infrastructure.StoryRepository;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
 import dbp.proyecto.user.dto.UserBodyDTO;
 import dbp.proyecto.user.dto.UserInfoForUserDTO;
@@ -32,16 +33,20 @@ public class UserService {
     private final ArtistRepository artistRepository;
     private final AuthorizationUtils authorizationUtils;
     private final PlaylistRepository playlistRepository;
+    private final PostRepository postRepository;
+    private final StoryRepository storyRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, SongRepository songRepository, ArtistRepository artistRepository, AuthorizationUtils authorizationUtils, PlaylistRepository playlistRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, SongRepository songRepository, ArtistRepository artistRepository, AuthorizationUtils authorizationUtils, PlaylistRepository playlistRepository, PostRepository postRepository, StoryRepository storyRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.songRepository = songRepository;
         this.artistRepository = artistRepository;
         this.authorizationUtils = authorizationUtils;
         this.playlistRepository = playlistRepository;
+        this.postRepository = postRepository;
+        this.storyRepository = storyRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
     }
@@ -146,14 +151,9 @@ public class UserService {
         if (!authorizationUtils.isAdminOrResourceOwner(id))
             throw new UnauthorizedOperationException("You are not authorized to perform this action");
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        for (Playlist playlist : user.getOwnsPlaylists()) {
-            if (playlist.getUsers().get(0).getId().equals(user.getId())) {
-                playlistRepository.delete(playlist);
-            } else {
-                playlist.getUsers().remove(user);
-                playlistRepository.save(playlist);
-            }
-        }
+        playlistRepository.deleteAll(user.getOwnsPlaylists());
+        postRepository.deleteAll(user.getPosts());
+        storyRepository.deleteAll(user.getStories());
         for (User friend : user.getFriends()) {
             friend.getFriends().remove(user);
             userRepository.save(friend);

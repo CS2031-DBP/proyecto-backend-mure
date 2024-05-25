@@ -11,6 +11,7 @@ public class SongResponseDTO {
     private String title;
     private String genre;
     private Integer likes;
+    private Integer timesPlayed;
     private LocalDate releaseDate;
     private String duration;
     private String coverImage;

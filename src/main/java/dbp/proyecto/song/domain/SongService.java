@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -104,8 +105,13 @@ public class SongService {
     @Transactional
     public void createSongs(List<SongBodyDTO> songBodyDTOs) {
         List<Song> songs = new ArrayList<>();
+        Random random = new Random();
         for (SongBodyDTO songBodyDTO : songBodyDTOs) {
             Song song = modelMapper.map(songBodyDTO, Song.class);
+            int likes = 50000 + random.nextInt(450001);
+            song.setLikes(likes);
+            int timesPlayed = 50000 + random.nextInt(9550001);
+            song.setTimesPlayed(timesPlayed);
             songRepository.save(song);
             List<Artist> artists = artistRepository.findAllById(songBodyDTO.getArtistsIds());
             if (artists.isEmpty()) {

@@ -5,7 +5,9 @@ import dbp.proyecto.playlist.domain.PlaylistService;
 import dbp.proyecto.playlist.dtos.PlaylistBodyDTO;
 import dbp.proyecto.playlist.dtos.PlaylistResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,51 +23,66 @@ public class PlaylistController {
         this.playlistService = playlistService;
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{id}")
     public ResponseEntity<PlaylistResponseDTO> getPlaylistById(@PathVariable Long id) {
         PlaylistResponseDTO playlist = playlistService.getPlaylistById(id);
         return ResponseEntity.ok(playlist);
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<PlaylistResponseDTO> getPlaylistByName(@PathVariable String name) {
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/name")
+    public ResponseEntity<PlaylistResponseDTO> getPlaylistByName(@RequestParam String name) {
         PlaylistResponseDTO playlist = playlistService.getPlaylistByName(name);
         return ResponseEntity.ok(playlist);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/user/{id}")
     public ResponseEntity<List<PlaylistResponseDTO>> getPlaylistsByUserId(@PathVariable Long id) {
         List<PlaylistResponseDTO> playlists = playlistService.getPlaylistsByUserId(id);
         return ResponseEntity.ok(playlists);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/user")
+    public ResponseEntity<List<PlaylistResponseDTO>> getPlaylistsByCurrentUser() {
+        List<PlaylistResponseDTO> playlists = playlistService.getPlaylistsByCurrentUser();
+        return ResponseEntity.ok(playlists);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<PlaylistResponseDTO>> getAllPlaylists() {
         List<PlaylistResponseDTO> playlists = playlistService.getAllPlaylists();
         return ResponseEntity.ok(playlists);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     public ResponseEntity<Void> createPlaylist(@RequestBody PlaylistBodyDTO playlistBodyDTO) {
         playlistService.createPlaylist(playlistBodyDTO);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PatchMapping("/{id}/addSong/{songId}")
     public ResponseEntity<Void> addSongToPlaylist(@PathVariable Long id, @PathVariable Long songId) {
         playlistService.addSongToPlaylist(id, songId);
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PatchMapping("/{id}/removeSong/{songId}")
     public ResponseEntity<Void> removeSongFromPlaylist(@PathVariable Long id, @PathVariable Long songId) {
         playlistService.removeSongFromPlaylist(id, songId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{id}/{userId}")
-    public ResponseEntity<Void> deletePlaylist(@PathVariable Long id, @PathVariable Long userId) {
-        playlistService.deletePlaylist(id, userId);
-        return ResponseEntity.ok().build();
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePlaylist(@PathVariable Long id) {
+        playlistService.deletePlaylist(id);
+        return ResponseEntity.noContent().build();
     }
 }

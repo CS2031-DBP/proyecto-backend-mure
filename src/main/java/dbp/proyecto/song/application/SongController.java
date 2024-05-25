@@ -8,6 +8,7 @@ import dbp.proyecto.song.dto.SongResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,48 +23,59 @@ public class SongController {
         this.songService = songService;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<SongResponseDTO> getSongById(@PathVariable Long id) {
         return ResponseEntity.ok(songService.getSongById(id));
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/title")
     public ResponseEntity<SongResponseDTO> getSongByTitle(@RequestParam String title) {
         return ResponseEntity.ok(songService.getSongByTitle(title));
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/genre")
     public ResponseEntity<List<SongResponseDTO>> getSongsByGenre(@RequestParam String genre) {
         return ResponseEntity.ok(songService.getSongsByGenre(genre));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/artist/{artistId}")
     public ResponseEntity<List<SongInfoForArtistDTO>> getSongsByArtist(@PathVariable Long artistId) {
         return ResponseEntity.ok(songService.getSongsByArtist(artistId));
     }
 
+    // falta get songs by artistName
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/album/{albumId}")
     public ResponseEntity<List<SongInfoForAlbumDTO>> getSongsByAlbum(@PathVariable Long albumId) {
         return ResponseEntity.ok(songService.getSongsByAlbum(albumId));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<SongResponseDTO>> getAllSongs() {
         return ResponseEntity.ok(songService.getAllSongs());
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Void> createSongs(@RequestBody List<SongBodyDTO> songBodyDTOs) {
         songService.createSongs(songBodyDTOs);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping("/coverImage/{id}")
     public ResponseEntity<Void> putSongCoverImage(@PathVariable Long id, @RequestParam String coverImage) {
         songService.updateCoverImage(coverImage, id);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSong(@PathVariable Long id) {
         songService.deleteSong(id);

@@ -12,5 +12,5 @@ public class ArtistResponseDTO {
     private Date birthDate;
     private Boolean verified;
     private List<String> albumsTitles;
-    private List<String> songsNames;
+    private List<String> songTitles;
 }

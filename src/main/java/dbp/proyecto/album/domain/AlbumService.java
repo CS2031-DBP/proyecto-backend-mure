@@ -3,6 +3,7 @@ package dbp.proyecto.album.domain;
 import dbp.proyecto.album.dto.AlbumBodyDTO;
 import dbp.proyecto.album.dto.AlbumInfoForArtistDTO;
 import dbp.proyecto.album.dto.AlbumResponseDTO;
+import dbp.proyecto.album.dto.AlbumUpdateDTO;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.artist.infrastructure.ArtistRepository;
@@ -14,7 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +36,9 @@ public class AlbumService {
     private AlbumResponseDTO getAlbumResponseDTO(Album album) {
         AlbumResponseDTO albumResponseDTO = modelMapper.map(album, AlbumResponseDTO.class);
         albumResponseDTO.setArtistName(album.getArtist().getName());
-        albumResponseDTO.setSongsNames(album.getSongs().stream().map(Song::getTitle).collect(Collectors.toList()));
+        albumResponseDTO.setSongsTitles(album.getSongs().stream()
+                .map(Song::getTitle)
+                .collect(Collectors.toList()));
         return albumResponseDTO;
     }
 
@@ -57,27 +59,27 @@ public class AlbumService {
                 .collect(Collectors.toList());
     }
 
+    public List<AlbumInfoForArtistDTO> getAlbumsByArtistName(String artistName) {
+        List<Album> albums = albumRepository.findByArtistName(artistName);
+        return albums.stream()
+                .map(album -> modelMapper.map(album, AlbumInfoForArtistDTO.class))
+                .collect(Collectors.toList());
+    }
+
     public List<AlbumResponseDTO> getAllAlbums() {
         List<Album> albums = albumRepository.findAll();
-
-        if(albums.isEmpty()){
-            throw new ResourceNotFoundException("Albums not found");
-        }
-
         return albums.stream()
-                .map(album -> modelMapper.map(album, AlbumResponseDTO.class))
+                .map(this::getAlbumResponseDTO)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public void createAlbums(List<AlbumBodyDTO> albumBodyDtos) {
-        Artist a = new Artist();
-        for (AlbumBodyDTO albumBodyDto : albumBodyDtos) {
+    public void createsAlbums(List<AlbumBodyDTO> albumBodyDTOs) {
+        for (AlbumBodyDTO albumBodyDto : albumBodyDTOs) {
             Album album = new Album();
             album.setTitle(albumBodyDto.getTitle());
             album.setDescription(albumBodyDto.getDescription());
             album.setReleaseDate(albumBodyDto.getReleaseDate());
-
             Long artistId = albumBodyDto.getArtistId();
             if (artistId == null) {
                 throw new IllegalArgumentException("ArtistId is required");
@@ -97,11 +99,7 @@ public class AlbumService {
             album.calculateTotalDuration();
             album.calculateSongsCount();
             albumRepository.save(album);
-
             artist.getAlbums().add(album);
-            a = artistRepository.save(artist);
-
-
             for (Song song : album.getSongs()) {
                 song.setAlbum(album);
                 songRepository.save(song);
@@ -109,31 +107,36 @@ public class AlbumService {
         }
     }
 
-    public void updateAlbum(Long id, AlbumBodyDTO updatedAlbumBodyDTO) {
+    public void updateAlbum(Long id, AlbumUpdateDTO albumUpdateDTO) {
         Album album = albumRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
-        if(updatedAlbumBodyDTO.getTitle() != null) {
-            album.setTitle(updatedAlbumBodyDTO.getTitle());
+        if (albumUpdateDTO.getTitle() != null) {
+            album.setTitle(albumUpdateDTO.getTitle());
         }
-        if(updatedAlbumBodyDTO.getDescription() != null) {
-            album.setDescription(updatedAlbumBodyDTO.getDescription());
+        if (albumUpdateDTO.getDescription() != null) {
+            album.setDescription(albumUpdateDTO.getDescription());
         }
-        if (updatedAlbumBodyDTO.getReleaseDate() != null) {
-            album.setReleaseDate(updatedAlbumBodyDTO.getReleaseDate());
+        if (albumUpdateDTO.getSongsIds() != null) {
+            List<Song> songs = album.getSongs();
+            for (Song song : songs) {
+                song.setAlbum(null);
+                songRepository.save(song);
+            }
+            album.getSongs().clear();
+            for (Long songId : albumUpdateDTO.getSongsIds()) {
+                Song song = songRepository.findById(songId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+                album.getSongs().add(song);
+            }
         }
-        if (updatedAlbumBodyDTO.getArtistId() != null) {
-            Artist artist = artistRepository.findById(updatedAlbumBodyDTO.getArtistId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
-            album.setArtist(artist);
-        }
-        if (updatedAlbumBodyDTO.getSongsIds() != null) {
-            List<Song> songs = updatedAlbumBodyDTO.getSongsIds().stream()
-                    .map(songId -> songRepository.findById(songId)
-                            .orElseThrow(() -> new ResourceNotFoundException("Song not found")))
-                    .collect(Collectors.toList());
-            album.setSongs(songs);
-        }
-
+        album.calculateTotalDuration();
+        album.calculateSongsCount();
         albumRepository.save(album);
+        for (Song song : album.getSongs()) {
+            song.setAlbum(album);
+            songRepository.save(song);
+        }
+        // Update artist
+        artistRepository.save(album.getArtist());
     }
 
     @Transactional
@@ -146,12 +149,8 @@ public class AlbumService {
             song.setAlbum(null);
             songRepository.save(song);
         }
-
-        // Eliminar el álbum de la lista de álbumes del artista y guardar el artista
         artist.getAlbums().remove(album);
         artistRepository.save(artist);
-
-        // Finalmente eliminar el álbum
         albumRepository.delete(album);
     }
 

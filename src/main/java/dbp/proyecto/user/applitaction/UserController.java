@@ -29,7 +29,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/me")
     public ResponseEntity<UserBasicInfoResponseDTO> getMe() {
         return ResponseEntity.ok(userService.getMe());
@@ -41,36 +41,50 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<UserBasicInfoResponseDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping("/{id}")
     public ResponseEntity<Void> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
         userService.updateUser(id, updatedUser);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
+    // todo patch mapping para user me
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping("/friends/{id}/add/{friendId}")
     public ResponseEntity<Void> addFriend(@PathVariable Long id, @PathVariable Long friendId) {
         userService.addFriend(id, friendId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
+
+    // todo patch mapping para user me
 
     @PatchMapping("/friends/{id}/delete/{friendId}")
     public ResponseEntity<Void> deleteFriend(@PathVariable Long id, @PathVariable Long friendId) {
         userService.deleteFriend(id, friendId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
+    // todo patch mapping para user me
+
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
     }
 
+    // todo delete user me
+
+
+    /*
     @GetMapping("/artists/{id}")
     public ResponseEntity<List<Artist>> getFavoriteArtists(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getFavoriteArtists(id));
@@ -82,17 +96,26 @@ public class UserController {
         return ResponseEntity.ok(userService.getFavoriteSongs(id));
     }
 
+     */
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/friends/{id}")
     public ResponseEntity<List<User>> getFriends(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getFriends(id));
     }
 
+    // todo get friends me
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    // current user
     @GetMapping("/birthDateBetween")
     public ResponseEntity<List<User>> findByBirthDateBetween(@RequestParam LocalDate date1, @RequestParam LocalDate date2) {
         List<User> users = userService.findByBirthDateBetween(date1, date2);
         return ResponseEntity.ok(users);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    // current user
     @GetMapping("/createdBefore")
     public ResponseEntity<List<User>> findByCreatedAtBefore(@RequestParam LocalDateTime date) {
         List<User> users = userService.findByCreatedAtBefore(date);

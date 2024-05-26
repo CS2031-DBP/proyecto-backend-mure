@@ -12,6 +12,9 @@ import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -68,9 +71,10 @@ public class StoryService {
         return stories.stream().map(this::getStoryResponseDTO).collect(Collectors.toList());
     }
 
-    public List<StoryResponseDTO> getAllStories(){
-        List<Story> stories = storyRepository.findAll();
-        return stories.stream().map(this::getStoryResponseDTO).collect(Collectors.toList());
+    public Page<StoryResponseDTO> getAllStories(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Story> stories = storyRepository.findAll(pageable);
+        return stories.map(this::getStoryResponseDTO);
     }
 
     public List<StoryResponseDTO> getStoriesBySongId(Long songId) {

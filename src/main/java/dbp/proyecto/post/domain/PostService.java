@@ -16,6 +16,9 @@ import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -80,9 +83,10 @@ public class PostService {
         return posts.stream().map(this::getPostResponseDTO).collect(Collectors.toList());
     }
 
-    public List<PostResponseDTO> getAllPosts() {
-        List<Post> posts = postRepository.findAll();
-        return posts.stream().map(this::getPostResponseDTO).collect(Collectors.toList());
+    public Page<PostResponseDTO> getAllPosts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Post> posts = postRepository.findAll(pageable);
+        return posts.map(this::getPostResponseDTO);
     }
 
     public List<PostResponseDTO> getPostsBySongId(Long songId) {

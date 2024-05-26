@@ -204,13 +204,14 @@ public class UserService {
             throw new UnauthorizedOperationException("Only the owner or a friend can view the favorite albums");
         }
         List<Album> favoriteAlbums = user.getFavoriteAlbums();
-        return favoriteAlbums.stream()
+        List<AlbumInfoForUserDTO> albumInfoList = favoriteAlbums.stream()
                 .map(album -> {
                     AlbumInfoForUserDTO dto = modelMapper.map(album, AlbumInfoForUserDTO.class);
                     dto.setArtistName(album.getArtist().getName());
                     return dto;
                 })
                 .collect(Collectors.toList());
+        return albumInfoList;
     }
 
     public User findByEmail(String email) {

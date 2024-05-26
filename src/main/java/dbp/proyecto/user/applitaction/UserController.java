@@ -1,6 +1,6 @@
 package dbp.proyecto.user.applitaction;
 
-import dbp.proyecto.artist.dto.ArtistInfoForUserDTO;
+import dbp.proyecto.album.dto.AlbumInfoForUserDTO;
 import dbp.proyecto.song.dto.SongInfoForUserDTO;
 import dbp.proyecto.user.domain.UserService;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
@@ -82,37 +82,9 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PatchMapping("/addFavoriteSong/{songId}") // ✔️
-    public ResponseEntity<Void> addFavoriteSong(@PathVariable Long songId) {
-        userService.addFavoriteSong(songId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @PatchMapping("/removeFavoriteSong/{songId}") // ✔️
-    public ResponseEntity<Void> removeFavoriteSong(@PathVariable Long songId) {
-        userService.removeFavoriteSong(songId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @PatchMapping("/addFavoriteArtist/{artistId}") // ✔️
-    public ResponseEntity<Void> addFavoriteArtist(@PathVariable Long artistId) {
-        userService.addFavoriteArtist(artistId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @PatchMapping("/removeFavoriteArtist/{artistId}") // ✔️
-    public ResponseEntity<Void> removeFavoriteArtist(@PathVariable Long artistId) {
-        userService.removeFavoriteArtist(artistId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/favoriteArtists/{id}")
-    public ResponseEntity<List<ArtistInfoForUserDTO>> getFavoriteArtists(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getFavoriteArtists(id));
+    @GetMapping("/favoriteAlbums/{id}")
+    public ResponseEntity<List<AlbumInfoForUserDTO>> getFavoriteAlbums(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getFavoriteAlbums(id));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

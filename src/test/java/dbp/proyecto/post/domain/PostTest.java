@@ -90,7 +90,6 @@ public class PostTest {
     public void testPostNull(){
         Post post = new Post();
         assertNull(post.getDescription());
-        assertNull(post.getLikes());
         assertNull(post.getCreatedAt());
         assertNull(post.getImageUrl());
         assertNull(post.getAudioUrl());

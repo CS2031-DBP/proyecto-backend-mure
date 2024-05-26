@@ -82,6 +82,13 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/like/{id}")
+    public ResponseEntity<Void> likePost(@PathVariable Long id) {
+        postService.likePost(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
         postService.deletePost(id);

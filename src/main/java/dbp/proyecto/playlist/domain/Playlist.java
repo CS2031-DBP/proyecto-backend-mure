@@ -26,6 +26,10 @@ public class Playlist {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "playlist_songs",
+            joinColumns = @JoinColumn(name = "playlist_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
     private List<Song> songs = new ArrayList<>();
 }

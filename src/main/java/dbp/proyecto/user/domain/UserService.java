@@ -1,11 +1,13 @@
 package dbp.proyecto.user.domain;
 
 import dbp.proyecto.artist.domain.Artist;
+import dbp.proyecto.artist.dto.ArtistInfoForUserDTO;
 import dbp.proyecto.artist.infrastructure.ArtistRepository;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
 import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.domain.Song;
+import dbp.proyecto.song.dto.SongInfoForUserDTO;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.story.infrastructure.StoryRepository;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
@@ -201,7 +203,7 @@ public class UserService {
         userRepository.save(currentUser);
     }
 
-    public List<Artist> getFavoriteArtists(Long id) {
+    public List<ArtistInfoForUserDTO> getFavoriteArtists(Long id) {
         String email = authorizationUtils.getCurrentUserEmail();
         User currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -210,10 +212,12 @@ public class UserService {
         if (!user.getId().equals(currentUser.getId()) && !user.getFriends().contains(currentUser)) {
             throw new UnauthorizedOperationException("Only the owner or a friend can view the favorite artists");
         }
-        return user.getFavoriteArtists();
+        return user.getFavoriteArtists().stream()
+                .map(artist -> modelMapper.map(artist, ArtistInfoForUserDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public List<Song> getFavoriteSongs(Long id) {
+    public List<SongInfoForUserDTO> getFavoriteSongs(Long id) {
         String email = authorizationUtils.getCurrentUserEmail();
         User currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -222,7 +226,9 @@ public class UserService {
         if (!user.getId().equals(currentUser.getId()) && !user.getFriends().contains(currentUser)) {
             throw new UnauthorizedOperationException("Only the owner or a friend can view the favorite songs");
         }
-        return user.getFavoriteSongs();
+        return user.getFavoriteSongs().stream()
+                .map(song -> modelMapper.map(song, SongInfoForUserDTO.class))
+                .collect(Collectors.toList());
     }
 
     public User findByEmail(String email) {

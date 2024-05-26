@@ -100,21 +100,28 @@ public class PlaylistService {
     }
 
     @Transactional
-    public void createPlaylist(PlaylistBodyDTO playlistBodyDTO) {
-        User user = userRepository.findById(playlistBodyDTO.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    public void createPlaylists(List<PlaylistBodyDTO> playlistBodyDTOs) {
+        for (PlaylistBodyDTO playlistBodyDTO : playlistBodyDTOs) {
+            User user = userRepository.findById(playlistBodyDTO.getUserId())
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        List<Song> songs = songRepository.findAllById(playlistBodyDTO.getSongsIds());
-        if (songs.size() != playlistBodyDTO.getSongsIds().size()) {
-            throw new ResourceNotFoundException("One or more songs not found");
+            List<Song> songs = songRepository.findAllById(playlistBodyDTO.getSongsIds());
+            if (songs.size() != playlistBodyDTO.getSongsIds().size()) {
+                throw new IllegalArgumentException("Some songs do not exist or are repeated");
+            }
+            Playlist playlist = new Playlist();
+            playlist.setName(playlistBodyDTO.getName());
+            playlist.setUser(user);
+            playlist.setSongs(songs);
+            playlistRepository.save(playlist);
+            user.getOwnsPlaylists().add(playlist);
         }
-        Playlist playlist = new Playlist();
-        playlist.setName(playlistBodyDTO.getName());
-        playlist.setUser(user);
-        playlist.setSongs(songs);
-        playlistRepository.save(playlist);
-        user.getOwnsPlaylists().add(playlist);
-        userRepository.save(user);
+        userRepository.saveAll(playlistBodyDTOs.stream()
+                .map(PlaylistBodyDTO::getUserId)
+                .distinct()
+                .map(userId -> userRepository.findById(userId)
+                        .orElseThrow(() -> new ResourceNotFoundException("User not found")))
+                .collect(Collectors.toList()));
     }
 
     public void addSongToPlaylist(Long playlistId, Long songId) {
@@ -131,6 +138,10 @@ public class PlaylistService {
 
         Song song = songRepository.findById(songId)
                 .orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+
+        if (playlist.getSongs().contains(song)) {
+            throw new IllegalArgumentException("The song is already in the playlist");
+        }
 
         playlist.getSongs().add(song);
         playlistRepository.save(playlist);
@@ -152,6 +163,10 @@ public class PlaylistService {
 
         Song song = songRepository.findById(songId)
                 .orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+
+        if (!playlist.getSongs().contains(song)) {
+            throw new IllegalArgumentException("The song is not in the playlist");
+        }
 
         playlist.getSongs().remove(song);
         playlistRepository.save(playlist);

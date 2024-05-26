@@ -45,7 +45,7 @@ public class PlaylistTest {
         user.setBirthDate(LocalDate.parse("1990-01-01"));
         user.setRole(Role.USER);
         user.setOwnsPlaylists(Collections.singletonList(playlist));
-        playlist.setUsers(Collections.singletonList(user));
+        playlist.setUser(user);
     }
 
     @Test
@@ -53,8 +53,7 @@ public class PlaylistTest {
         assertNotNull(playlist);
         assertEquals("Playlist 1", playlist.getName());
         assertEquals(3, playlist.getSongs().size());
-        assertNotNull(playlist.getUsers());
-        assertEquals(1, playlist.getUsers().size());
+        assertNotNull(playlist.getUser());
     }
 
     @Test
@@ -78,32 +77,10 @@ public class PlaylistTest {
     }
 
     @Test
-    public void testAddUser() {
-        User user2 = new User();
-        user2.setName("User 2");
-        user2.setEmail("user2@example.com");
-        user2.setBirthDate(LocalDate.parse("1991-01-01"));
-        user2.setRole(Role.USER);
-        user2.setOwnsPlaylists(Collections.singletonList(playlist));
-        List<User> users = new ArrayList<>(playlist.getUsers());
-        users.add(user2);
-        playlist.setUsers(users);
-        assertEquals(2, playlist.getUsers().size());
-    }
-
-    @Test
-    public void testRemoveUser(){
-        List<User> users = new ArrayList<>(playlist.getUsers());
-        users.remove(0);
-        playlist.setUsers(users);
-        assertEquals(0, playlist.getUsers().size());
-    }
-
-    @Test
     public void testPlaylistNull(){
         Playlist playlist = new Playlist();
         assertNull(playlist.getName());
+        assertNull(playlist.getUser());
         assertTrue(playlist.getSongs().isEmpty());
-        assertTrue(playlist.getUsers().isEmpty());
     }
 }

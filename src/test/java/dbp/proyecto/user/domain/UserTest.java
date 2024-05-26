@@ -93,7 +93,7 @@ public class UserTest {
         assertNull(user.getBirthDate());
         assertNull(user.getCreatedAt());
         assertNull(user.getRole());
-        assertNull(user.getProfileImage());
+        assertEquals("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Free-Download.png", user.getProfileImage());
         assertTrue(user.getFriends().isEmpty());
     }
 }

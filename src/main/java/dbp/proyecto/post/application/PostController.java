@@ -5,11 +5,11 @@ import dbp.proyecto.post.dtos.PostBodyDTO;
 import dbp.proyecto.post.dtos.PostContentDTO;
 import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -61,9 +61,9 @@ public class PostController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
-    public ResponseEntity<Void> createPost(@RequestBody PostBodyDTO postBodyDTO) {
-        String uri = postService.createPost(postBodyDTO);
-        return ResponseEntity.created(URI.create(uri)).build();
+    public ResponseEntity<Void> createPosts(@RequestBody List<PostBodyDTO> postBodyDTOs) {
+        postService.createPosts(postBodyDTOs);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

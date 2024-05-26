@@ -1,5 +1,6 @@
 package dbp.proyecto.user.domain;
 
+import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.playlist.domain.Playlist;
 import dbp.proyecto.post.domain.Post;
@@ -62,10 +63,10 @@ public class User implements UserDetails {
 
     @ManyToMany
     @JoinTable(
-            name = "user_artist",
+            name = "user_albums",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "artist_id"))
-    private List<Artist> favoriteArtists;
+            inverseJoinColumns = @JoinColumn(name = "album_id"))
+    private List<Album> favoriteAlbums;
 
     @ManyToMany
     @JoinTable(

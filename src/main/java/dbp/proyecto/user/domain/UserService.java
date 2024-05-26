@@ -2,7 +2,6 @@ package dbp.proyecto.user.domain;
 
 import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.album.dto.AlbumInfoForUserDTO;
-import dbp.proyecto.artist.dto.ArtistInfoForUserDTO;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
 import dbp.proyecto.post.domain.Post;
@@ -10,7 +9,6 @@ import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.song.dto.SongInfoForUserDTO;
-import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.story.infrastructure.StoryRepository;
 import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
 import dbp.proyecto.user.dto.UserBodyDTO;
@@ -33,7 +31,6 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final SongRepository songRepository;
     private final AuthorizationUtils authorizationUtils;
     private final PlaylistRepository playlistRepository;
     private final PostRepository postRepository;
@@ -42,9 +39,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, SongRepository songRepository, AuthorizationUtils authorizationUtils, PlaylistRepository playlistRepository, PostRepository postRepository, StoryRepository storyRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, AuthorizationUtils authorizationUtils, PlaylistRepository playlistRepository, PostRepository postRepository, StoryRepository storyRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.songRepository = songRepository;
         this.authorizationUtils = authorizationUtils;
         this.playlistRepository = playlistRepository;
         this.postRepository = postRepository;
@@ -204,14 +200,13 @@ public class UserService {
             throw new UnauthorizedOperationException("Only the owner or a friend can view the favorite albums");
         }
         List<Album> favoriteAlbums = user.getFavoriteAlbums();
-        List<AlbumInfoForUserDTO> albumInfoList = favoriteAlbums.stream()
+        return favoriteAlbums.stream()
                 .map(album -> {
                     AlbumInfoForUserDTO dto = modelMapper.map(album, AlbumInfoForUserDTO.class);
                     dto.setArtistName(album.getArtist().getName());
                     return dto;
                 })
                 .collect(Collectors.toList());
-        return albumInfoList;
     }
 
     public User findByEmail(String email) {

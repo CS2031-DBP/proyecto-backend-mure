@@ -19,7 +19,7 @@ ___
 
 ## Diagrama Entidad-Relación
 ___
-![ER Mure](https://github.com/CS2031-DBP/proyecto-backend-mure/assets/103973127/ff8383b6-20db-47af-bd95-5b0319a2a587)
+![ER Mure Final](https://github.com/CS2031-DBP/proyecto-backend-mure/assets/103973127/2e3f8ead-cff0-4f8a-968e-c7238b516574)
 
 
 Enlace diagrama creado con dbdiagram.io: [Diagrama ER - Mure](https://dbdiagram.io/d/Back-end-Mure-6652f2a3f84ecd1d22280266)

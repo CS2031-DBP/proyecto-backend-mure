@@ -92,6 +92,7 @@ Posts 📝
 | POST   | /post                       | Crear uno o más posts.                             |
 | PATCH  | /post/media/{id}            | Actualizar el contenido multimedia de un post.     |
 | PATCH  | /post/content/{id}          | Actualizar el contenido de un post (canción y/o álbum relacionado). |
+| PATCH  | /post/like/{id  }           | Actualizar el numero de likes de un post     |
 | DELETE | /post/{id}                  | Eliminar un post por su ID.                        |
 
 <br>
@@ -137,11 +138,7 @@ User 👤
 | PATCH  | /user/friends/add/{friendId}          | Añadir un amigo al usuario actual.                  |
 | PATCH  | /user/friends/remove/{friendId}       | Eliminar un amigo del usuario actual.               |
 | DELETE | /user/{id}                            | Eliminar un usuario por su ID.                      |
-| PATCH  | /user/addFavoriteSong/{songId}        | Añadir una canción favorita al usuario actual.      |
-| PATCH  | /user/removeFavoriteSong/{songId}     | Eliminar una canción favorita del usuario actual.   |
-| PATCH  | /user/addFavoriteArtist/{artistId}    | Añadir un artista favorito al usuario actual.       |
-| PATCH  | /user/removeFavoriteArtist/{artistId} | Eliminar un artista favorito del usuario actual.    |
-| GET    | /user/favoriteArtists/{id}            | Obtener los artistas favoritos de un usuario por su ID. |
+| GET    | /user/favoriteAlbums/{id}             | Obtener los albumes favoritos de un usuario por su ID. |
 | GET    | /user/favoriteSongs/{id}              | Obtener las canciones favoritas de un usuario por su ID. |
 
 ## Licencia 📝

@@ -9,6 +9,6 @@ import java.util.List;
 public class PlaylistResponseDTO {
     private Long id;
     private String name;
-    private List<String> usersNames;
+    private String userName;
     private List<String> songsTitles;
 }

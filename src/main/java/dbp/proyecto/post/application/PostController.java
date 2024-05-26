@@ -5,6 +5,7 @@ import dbp.proyecto.post.dtos.PostBodyDTO;
 import dbp.proyecto.post.dtos.PostContentDTO;
 import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,10 +42,10 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    // real paginacion
     @GetMapping("/all")
-    public ResponseEntity<List<PostResponseDTO>> getAllPosts() {
-        return ResponseEntity.ok(postService.getAllPosts());
+    public ResponseEntity<Page<PostResponseDTO>> getAllPosts(@RequestParam int page, @RequestParam int size) {
+         Page<PostResponseDTO> response = postService.getAllPosts(page, size);
+         return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

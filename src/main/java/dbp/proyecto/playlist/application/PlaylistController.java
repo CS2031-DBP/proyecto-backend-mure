@@ -60,8 +60,8 @@ public class PlaylistController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
-    public ResponseEntity<Void> createPlaylist(@RequestBody PlaylistBodyDTO playlistBodyDTO) {
-        playlistService.createPlaylist(playlistBodyDTO);
+    public ResponseEntity<Void> createPlaylist(@RequestBody List<PlaylistBodyDTO> playlistBodyDTOs) {
+        playlistService.createPlaylists(playlistBodyDTOs);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

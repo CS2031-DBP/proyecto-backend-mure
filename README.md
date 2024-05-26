@@ -19,7 +19,8 @@ ___
 
 ## Diagrama Entidad-Relación
 ___
-<img src="Entity Relationship Diagram.png" alt="Diagrama Entidad Relación" />
+![EntidadRelacionMure](https://github.com/CS2031-DBP/proyecto-backend-mure/assets/103973127/38fad536-70ce-4845-aa34-fb7541c0a520)
+
 
 Enlace diagrama creado con dbdiagram.io: [Diagrama ER - Mure](https://dbdiagram.io/d/Back-end-Mure-6652f2a3f84ecd1d22280266)
 

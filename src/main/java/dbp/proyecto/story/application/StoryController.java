@@ -4,11 +4,11 @@ import dbp.proyecto.story.domain.StoryService;
 import dbp.proyecto.story.dto.StoryBodyDTO;
 import dbp.proyecto.story.dto.StoryResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -58,9 +58,9 @@ public class StoryController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
-    public ResponseEntity<String> createStory(@RequestBody StoryBodyDTO storyBodyDTO) {
-        String uri = storyService.createStory(storyBodyDTO);
-        return ResponseEntity.created(URI.create(uri)).build();
+    public ResponseEntity<Void> createStory(@RequestBody StoryBodyDTO storyBodyDTO) {
+        storyService.createStory(storyBodyDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

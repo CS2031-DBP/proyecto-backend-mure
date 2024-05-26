@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -107,10 +108,13 @@ public class PostService {
     }
 
     @Transactional
-    public String createPost(PostBodyDTO postBodyDTO) {
+    public void createPost(PostBodyDTO postBodyDTO) {
         User user = userRepository.findById(postBodyDTO.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Post post = modelMapper.map(postBodyDTO, Post.class);
+        Random random = new Random();
         post.setUser(user);
+        int likes = random.nextInt(201);
+        post.setLikes(likes);
         if (postBodyDTO.getSongId() != null) {
             Song song = songRepository.findById(postBodyDTO.getSongId()).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
             post.setSong(song);
@@ -123,7 +127,6 @@ public class PostService {
         postRepository.save(post);
         user.getPosts().add(post);
         userRepository.save(user);
-        return "/post/" + post.getId();
     }
 
     public void changeMedia(Long id, PostMediaDTO media) {

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,10 +91,13 @@ public class StoryService {
     }
 
     @Transactional
-    public String createStory(StoryBodyDTO storyBodyDTO) {
+    public void createStory(StoryBodyDTO storyBodyDTO) {
         User user = userRepository.findById(storyBodyDTO.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Story story = modelMapper.map(storyBodyDTO, Story.class);
+        Random random = new Random();
         story.setUser(user);
+        int likes = random.nextInt(301);
+        story.setLikes(likes);
         if (storyBodyDTO.getSongId() != null) {
             Song song = songRepository.findById(storyBodyDTO.getSongId()).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
             story.setSong(song);
@@ -103,7 +107,6 @@ public class StoryService {
         storyRepository.save(story);
         user.getStories().add(story);
         userRepository.save(user);
-        return "/story/" + story.getId();
     }
 
     @Transactional

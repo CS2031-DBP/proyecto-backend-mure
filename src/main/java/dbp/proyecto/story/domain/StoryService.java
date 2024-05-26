@@ -36,14 +36,21 @@ public class StoryService {
         this.authorizationUtils = authorizationUtils;
     }
 
+    private StoryResponseDTO getStoryResponseDTO(Story story) {
+        StoryResponseDTO storyResponseDTO = modelMapper.map(story, StoryResponseDTO.class);
+        storyResponseDTO.setOwner(story.getUser().getName());
+        if (story.getSong() != null) {
+            storyResponseDTO.setSongTitle(story.getSong().getTitle());
+        }
+        return storyResponseDTO;
+    }
+
     public StoryResponseDTO getStoryById(Long id) {
         if (!authorizationUtils.isAdmin()) {
             throw new UnauthorizedOperationException("You are not authorized to perform this action");
         }
         Story story = storyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Story not found"));
-        StoryResponseDTO storyResponseDTO = modelMapper.map(story, StoryResponseDTO.class);
-        storyResponseDTO.setOwner(story.getUser().getName());
-        return storyResponseDTO;
+        return getStoryResponseDTO(story);
     }
 
     public List<StoryResponseDTO> getStoriesByUserId(Long userId) {
@@ -51,31 +58,19 @@ public class StoryService {
             throw new UnauthorizedOperationException("You are not authorized to perform this action");
         }
         List<Story> stories = storyRepository.findByUserId(userId);
-        return stories.stream().map(story -> {
-            StoryResponseDTO storyResponseDTO = modelMapper.map(story, StoryResponseDTO.class);
-            storyResponseDTO.setOwner(story.getUser().getName());
-            return storyResponseDTO;
-        }).collect(Collectors.toList());
+        return stories.stream().map(this::getStoryResponseDTO).collect(Collectors.toList());
     }
 
     public List<StoryResponseDTO> getStoriesByCurrentUser() {
         String email = authorizationUtils.getCurrentUserEmail();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         List<Story> stories = storyRepository.findByUserId(user.getId());
-        return stories.stream().map(story -> {
-            StoryResponseDTO storyResponseDTO = modelMapper.map(story, StoryResponseDTO.class);
-            storyResponseDTO.setOwner(story.getUser().getName());
-            return storyResponseDTO;
-        }).collect(Collectors.toList());
+        return stories.stream().map(this::getStoryResponseDTO).collect(Collectors.toList());
     }
 
     public List<StoryResponseDTO> getAllStories(){
         List<Story> stories = storyRepository.findAll();
-        return stories.stream().map(story -> {
-            StoryResponseDTO storyResponseDTO = modelMapper.map(story, StoryResponseDTO.class);
-            storyResponseDTO.setOwner(story.getUser().getName());
-            return storyResponseDTO;
-        }).collect(Collectors.toList());
+        return stories.stream().map(this::getStoryResponseDTO).collect(Collectors.toList());
     }
 
     public List<StoryResponseDTO> getStoriesBySongId(Long songId) {
@@ -83,30 +78,32 @@ public class StoryService {
             throw new ResourceNotFoundException("Unauthorized");
         }
         List<Story> stories = storyRepository.findBySongId(songId);
-        return stories.stream().map(story -> {
-            StoryResponseDTO storyResponseDTO = modelMapper.map(story, StoryResponseDTO.class);
-            storyResponseDTO.setOwner(story.getUser().getName());
-            return storyResponseDTO;
-        }).collect(Collectors.toList());
+        return stories.stream().map(this::getStoryResponseDTO).collect(Collectors.toList());
     }
 
     @Transactional
-    public void createStory(StoryBodyDTO storyBodyDTO) {
-        User user = userRepository.findById(storyBodyDTO.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        Story story = modelMapper.map(storyBodyDTO, Story.class);
-        Random random = new Random();
-        story.setUser(user);
-        int likes = random.nextInt(301);
-        story.setLikes(likes);
-        if (storyBodyDTO.getSongId() != null) {
-            Song song = songRepository.findById(storyBodyDTO.getSongId()).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
-            story.setSong(song);
+    public void createStories(List<StoryBodyDTO> storyBodyDTOs) {
+        for (StoryBodyDTO storyBodyDTO : storyBodyDTOs) {
+            User user = userRepository.findById(storyBodyDTO.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            Story story = new Story();
+            story.setVideoUrl(storyBodyDTO.getVideoUrl());
+            if (storyBodyDTO.getText() != null) {
+                story.setText(storyBodyDTO.getText());
+            }
+            Random random = new Random();
+            story.setUser(user);
+            int likes = random.nextInt(301);
+            story.setLikes(likes);
+            if (storyBodyDTO.getSongId() != null) {
+                Song song = songRepository.findById(storyBodyDTO.getSongId()).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+                story.setSong(song);
+            }
+            story.setCreatedAt(LocalDateTime.now());
+            story.setExpiresAt(LocalDateTime.now().plusDays(1));
+            storyRepository.save(story);
+            user.getStories().add(story);
         }
-        story.setCreatedAt(LocalDateTime.now());
-        story.setExpiresAt(LocalDateTime.now().plusDays(1));
-        storyRepository.save(story);
-        user.getStories().add(story);
-        userRepository.save(user);
+        userRepository.saveAll(storyBodyDTOs.stream().map(StoryBodyDTO::getUserId).distinct().map(userId -> userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"))).collect(Collectors.toList()));
     }
 
     @Transactional

@@ -58,8 +58,8 @@ public class StoryController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
-    public ResponseEntity<Void> createStory(@RequestBody StoryBodyDTO storyBodyDTO) {
-        storyService.createStory(storyBodyDTO);
+    public ResponseEntity<Void> createStory(@RequestBody List<StoryBodyDTO> storyBodyDTOs) {
+        storyService.createStories(storyBodyDTOs);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

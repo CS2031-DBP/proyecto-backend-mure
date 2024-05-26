@@ -1,6 +1,5 @@
 package dbp.proyecto.story.dto;
 
-import dbp.proyecto.song.domain.Song;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -14,5 +13,5 @@ public class StoryResponseDTO {
     private String videoUrl;
     private String text;
     private Integer likes;
-    private Song song;
+    private String songTitle;
 }

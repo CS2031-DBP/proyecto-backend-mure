@@ -61,8 +61,8 @@ public class PostController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
-    public ResponseEntity<Void> createPost(@RequestBody PostBodyDTO postBodyDTO) {
-        postService.createPost(postBodyDTO);
+    public ResponseEntity<Void> createPosts(@RequestBody List<PostBodyDTO> postBodyDTOs) {
+        postService.createPosts(postBodyDTOs);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

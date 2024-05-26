@@ -46,7 +46,7 @@ public class User implements UserDetails {
 
     private LocalDateTime createdAt;
 
-    private String profileImage;
+    private String profileImage = "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Free-Download.png";
 
     @ManyToMany
     private List<User> friends = new ArrayList<>();

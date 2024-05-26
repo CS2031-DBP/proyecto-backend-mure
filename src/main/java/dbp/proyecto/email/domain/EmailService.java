@@ -37,7 +37,7 @@ public class EmailService {
 
         helper.setTo(to);
         helper.setText(process, true);
-        helper.setSubject("Viaje iniciado con exito!");
+        helper.setSubject("Bienvenido a la experiencia con Mure!");
 
         mailSender.send(message);
     }

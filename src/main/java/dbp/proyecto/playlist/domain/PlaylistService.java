@@ -40,7 +40,7 @@ public class PlaylistService {
 
     private PlaylistResponseDTO getPlaylistResponseDTO(Playlist playlist) {
         PlaylistResponseDTO playlistResponseDTO = modelMapper.map(playlist, PlaylistResponseDTO.class);
-        playlistResponseDTO.setUsersNames(playlist.getUsers().stream().map(User::getName).collect(Collectors.toList()));
+        playlistResponseDTO.setUserName(playlist.getUser().getName());
         playlistResponseDTO.setSongsTitles(playlist.getSongs().stream().map(Song::getTitle).collect(Collectors.toList()));
         return playlistResponseDTO;
     }
@@ -59,17 +59,15 @@ public class PlaylistService {
         if (playlist == null) {
             throw new ResourceNotFoundException("Playlist not found");
         }
-
         String email = authorizationUtils.getCurrentUserEmail();
         User currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        User owner = playlist.getUsers().get(0);
+        User owner = playlist.getUser();
 
         if (!owner.getId().equals(currentUser.getId()) && !owner.getFriends().contains(currentUser)) {
             throw new UnauthorizedOperationException("User does not have access to this playlist");
         }
-
         return getPlaylistResponseDTO(playlist);
     }
 
@@ -79,15 +77,7 @@ public class PlaylistService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return user.getOwnsPlaylists().stream()
-                .map(playlist -> {
-                    PlaylistResponseDTO playlistResponseDTO = getPlaylistResponseDTO(playlist);
-                    List<String> usersNames = playlist.getUsers().stream()
-                            .filter(u -> !u.getId().equals(userId))
-                            .map(User::getName)
-                            .collect(Collectors.toList());
-                    playlistResponseDTO.setUsersNames(usersNames);
-                    return playlistResponseDTO;
-                })
+                .map(this::getPlaylistResponseDTO)
                 .collect(Collectors.toList());
     }
 
@@ -120,7 +110,7 @@ public class PlaylistService {
         }
         Playlist playlist = new Playlist();
         playlist.setName(playlistBodyDTO.getName());
-        playlist.setUsers(List.of(user));
+        playlist.setUser(user);
         playlist.setSongs(songs);
         playlistRepository.save(playlist);
         user.getOwnsPlaylists().add(playlist);
@@ -130,7 +120,7 @@ public class PlaylistService {
     public void addSongToPlaylist(Long playlistId, Long songId) {
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
-        User owner = playlist.getUsers().get(0);
+        User owner = playlist.getUser();
         String email = authorizationUtils.getCurrentUserEmail();
         User currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -151,7 +141,7 @@ public class PlaylistService {
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
 
-        User owner = playlist.getUsers().get(0);
+        User owner = playlist.getUser();
         String email = authorizationUtils.getCurrentUserEmail();
         User currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -174,14 +164,12 @@ public class PlaylistService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Playlist playlist = playlistRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
-        User owner = playlist.getUsers().get(0);
+        User owner = playlist.getUser();
         if (!owner.getId().equals(currentUser.getId()) && !authorizationUtils.isAdmin()) {
             throw new UnauthorizedOperationException("Only the owner or an admin can delete the playlist");
         }
-        for (User user : playlist.getUsers()) {
-            user.getOwnsPlaylists().remove(playlist);
-            userRepository.save(user);
-        }
+        owner.getOwnsPlaylists().remove(playlist);
+        userRepository.save(owner);
         playlistRepository.delete(playlist);
     }
 }

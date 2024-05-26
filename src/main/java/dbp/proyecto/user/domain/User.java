@@ -57,19 +57,15 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Story> stories = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Playlist> ownsPlaylists;
+
     @ManyToMany
     @JoinTable(
             name = "user_artist",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "artist_id"))
     private List<Artist> favoriteArtists;
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_playlist",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "playlist_id"))
-    private List<Playlist> ownsPlaylists;
 
     @ManyToMany
     @JoinTable(

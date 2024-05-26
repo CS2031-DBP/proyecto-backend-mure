@@ -26,61 +26,129 @@ Enlace diagrama creado con dbdiagram.io: [Diagrama ER - Mure](https://dbdiagram.
 
 <br>
 
+## Endpoints 🛣️
+
+Album 🎵
+| Método | Endpoint                    | Descripción                               |
+|--------|-----------------------------|-------------------------------------------|
+| GET    | /album/{id}                 | Obtener un álbum por su ID.               |
+| GET    | /album/title                | Obtener un álbum por su título.           |
+| GET    | /album/artist/{artistId}    | Obtener los álbumes de un artista por su ID. |
+| GET    | /album/artistName           | Obtener los álbumes de un artista por su nombre. |
+| GET    | /album/all                  | Obtener todos los álbumes.                |
+| POST   | /album                      | Crear uno o más álbumes.                  |
+| PATCH  | /album/{id}                 | Actualizar un álbum por su ID.            |
+| DELETE | /album/{id}                 | Eliminar un álbum por su ID.              |
+
+<br>
+
+Artists 🎤
+| Método | Endpoint                    | Descripción                                              |
+|--------|-----------------------------|----------------------------------------------------------|
+| GET    | /artist/{id}                | Obtener un artista por su ID.                            |
+| GET    | /artist/verified            | Obtener todos los artistas verificados.                  |
+| GET    | /artist/name                | Obtener un artista por su nombre.                        |
+| GET    | /artist/songs/{songId}      | Obtener los artistas que participan en una canción por su ID. |
+| GET    | /artist/songTitle           | Obtener los artistas que participan en una canción por su título. |
+| GET    | /artist/all                 | Obtener todos los artistas.                              |
+| POST   | /artist                     | Crear uno o más artistas.                                |
+| PATCH  | /artist/{id}                | Actualizar la información de un artista por su ID.       |
+| DELETE | /artist/{id}                | Eliminar un artista por su ID.                           |
+
+<br>
+
+Authentication 🔐
+| Método | Endpoint        | Descripción                      |
+|--------|-----------------|----------------------------------|
+| POST   | /auth/login     | Iniciar sesión con un usuario existente. |
+| POST   | /auth/signin    | Registrar un nuevo usuario.      |
+
+<br>
+
+Playlists 📋
+| Método | Endpoint                              | Descripción                                |
+|--------|---------------------------------------|--------------------------------------------|
+| GET    | /playlist/{id}                        | Obtener una playlist por su ID.            |
+| GET    | /playlist/name                        | Obtener una playlist por su nombre.        |
+| GET    | /playlist/user/{id}                   | Obtener las playlists de un usuario por su ID. |
+| GET    | /playlist/me                          | Obtener las playlists del usuario actual.  |
+| GET    | /playlist/all                         | Obtener todas las playlists.               |
+| POST   | /playlist                             | Crear una o más playlists.                 |
+| PATCH  | /playlist/{id}/addSong/{songId}       | Añadir una canción a una playlist.         |
+| PATCH  | /playlist/{id}/removeSong/{songId}    | Eliminar una canción de una playlist.      |
+| DELETE | /playlist/{id}                        | Eliminar una playlist por su ID.           |
+
+<br>
+
+Posts 📝
+| Método | Endpoint                    | Descripción                                        |
+|--------|-----------------------------|----------------------------------------------------|
+| GET    | /post/{id}                  | Obtener un post por su ID.                         |
+| GET    | /post/user/{userId}         | Obtener los posts de un usuario por su ID.         |
+| GET    | /post/me                    | Obtener los posts del usuario actual.              |
+| GET    | /post/all                   | Obtener todos los posts.                           |
+| GET    | /post/song/{songId}         | Obtener los posts relacionados con una canción por su ID. |
+| GET    | /post/album/{albumId}       | Obtener los posts relacionados con un álbum por su ID. |
+| POST   | /post                       | Crear uno o más posts.                             |
+| PATCH  | /post/media/{id}            | Actualizar el contenido multimedia de un post.     |
+| PATCH  | /post/content/{id}          | Actualizar el contenido de un post (canción y/o álbum relacionado). |
+| DELETE | /post/{id}                  | Eliminar un post por su ID.                        |
+
+<br>
+
+Songs 🎶
+| Método | Endpoint                    | Descripción                                  |
+|--------|-----------------------------|----------------------------------------------|
+| GET    | /songs/{id}                 | Obtener una canción por su ID.               |
+| GET    | /songs/title                | Obtener una canción por su título.           |
+| GET    | /songs/genre                | Obtener canciones por género.                |
+| GET    | /songs/artist/{artistId}    | Obtener las canciones de un artista por su ID. |
+| GET    | /songs/artistName           | Obtener las canciones de un artista por su nombre. |
+| GET    | /songs/album/{albumId}      | Obtener las canciones de un álbum por su ID. |
+| GET    | /songs/all                  | Obtener todas las canciones.                 |
+| POST   | /songs                      | Crear una o más canciones.                   |
+| PATCH  | /songs/{id}/coverImage      | Actualizar la imagen de portada de una canción. |
+| DELETE | /songs/{id}                 | Eliminar una canción por su ID.              |
+
+<br>
+
+Stories 📖
+| Método | Endpoint                    | Descripción                                         |
+|--------|-----------------------------|-----------------------------------------------------|
+| GET    | /story/{id}                 | Obtener una historia por su ID.                     |
+| GET    | /story/user/{userId}        | Obtener las historias de un usuario por su ID.      |
+| GET    | /story/me                   | Obtener las historias del usuario actual.           |
+| GET    | /story/all                  | Obtener todas las historias.                        |
+| GET    | /story/song/{songId}        | Obtener las historias relacionadas con una canción por su ID. |
+| POST   | /story                      | Crear una o más historias.                          |
+| DELETE | /story/{id}                 | Eliminar una historia por su ID.                    |
+
+<br>
+
+User 👤
+| Método | Endpoint                              | Descripción                                         |
+|--------|---------------------------------------|-----------------------------------------------------|
+| GET    | /user/me                              | Obtener información básica del usuario actual.      |
+| GET    | /user/{id}                            | Obtener información básica de un usuario por su ID. |
+| GET    | /user/all                             | Obtener información básica de todos los usuarios.   |
+| GET    | /user/friends/{id}                    | Obtener los amigos de un usuario por su ID.         |
+| GET    | /user/friends/me                      | Obtener los amigos del usuario actual.              |
+| PATCH  | /user/update/me                       | Actualizar la información del usuario actual.       |
+| PATCH  | /user/friends/add/{friendId}          | Añadir un amigo al usuario actual.                  |
+| PATCH  | /user/friends/remove/{friendId}       | Eliminar un amigo del usuario actual.               |
+| DELETE | /user/{id}                            | Eliminar un usuario por su ID.                      |
+| PATCH  | /user/addFavoriteSong/{songId}        | Añadir una canción favorita al usuario actual.      |
+| PATCH  | /user/removeFavoriteSong/{songId}     | Eliminar una canción favorita del usuario actual.   |
+| PATCH  | /user/addFavoriteArtist/{artistId}    | Añadir un artista favorito al usuario actual.       |
+| PATCH  | /user/removeFavoriteArtist/{artistId} | Eliminar un artista favorito del usuario actual.    |
+| GET    | /user/favoriteArtists/{id}            | Obtener los artistas favoritos de un usuario por su ID. |
+| GET    | /user/favoriteSongs/{id}              | Obtener las canciones favoritas de un usuario por su ID. |
+
 ## Licencia 📝
 ___
 Este proyecto tiene licencia bajo el archivo [LICENSE](https://github.com/CS2031-DBP/proyecto-backend-mure/blob/main/LICENSE)
 
 <br>
-
-
-## Endpoints 📡
-___
-- **Comment**
-    - Get User Comment
-    - Post Comment
-    - Update Comment
-    - Delete comment
-- **Playlist**
-    - Get Playlist from Authors
-    - Get playlist that contains a song
-    - Get playlist from name
-    - Post playlist
-    - Add song
-    - Delete Song // Es update
-    - Add authors
-    - Delete authors // Es update
-    - Delete Playlist
-- **Post**
-    - Get Post from an specific author
-    - Get Post that contains a song
-    - Get Post from id
-    - Post Post
-    - Change content
-    - Change media
-    - Delete Post
-- **Song**
-    - Get Song from an specific author
-    - Get Song from id
-    - Get Song from name
-    - Get Song from Date
-    - Get song from genre
-- **Story**
-    - Get Story from an specific author
-    - Get Story from id
-    - Post Story
-    - Change content
-    - Delete Story
-- **User**
-    - Get User (name, profile image, friends) from name
-    - Get UserPlaylists
-    - Get UserPosts
-    - Get UserStories
-    - Post User
-    - Change profile image
-    - Change name
-    - Change password
-    - Change email
-    - Delete User
 
 <br>
 

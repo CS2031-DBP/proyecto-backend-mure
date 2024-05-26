@@ -3,6 +3,7 @@ package dbp.proyecto.post.domain;
 import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
+import dbp.proyecto.events.updateFavs.UpdateFavsEvent;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UnauthorizedOperationException;
 import dbp.proyecto.post.dtos.PostBodyDTO;
@@ -15,6 +16,7 @@ import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,15 +32,17 @@ public class PostService {
     private final SongRepository songRepository;
     private final AlbumRepository albumRepository;
     private final AuthorizationUtils authorizationUtils;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
 
-    public PostService(PostRepository postRepository, UserRepository userRepository, ModelMapper modelMapper, SongRepository songRepository, AlbumRepository albumRepository, AuthorizationUtils authorizationUtils) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, ModelMapper modelMapper, SongRepository songRepository, AlbumRepository albumRepository, AuthorizationUtils authorizationUtils, ApplicationEventPublisher applicationEventPublisher) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.songRepository = songRepository;
         this.albumRepository = albumRepository;
         this.authorizationUtils = authorizationUtils;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     private PostResponseDTO getPostResponseDTO(Post post) {
@@ -185,5 +189,16 @@ public class PostService {
         user.getPosts().remove(post);
         userRepository.save(user);
         postRepository.delete(post);
+    }
+
+    public void likePost(Long id) {
+        String email = authorizationUtils.getCurrentUserEmail();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
+
+        applicationEventPublisher.publishEvent(new UpdateFavsEvent(user, post));
+
+        post.setLikes(post.getLikes() + 1);
+        postRepository.save(post);
     }
 }

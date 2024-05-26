@@ -1,12 +1,14 @@
 package dbp.proyecto.user.domain;
 
-import dbp.proyecto.artist.domain.Artist;
+import dbp.proyecto.album.domain.Album;
+import dbp.proyecto.album.dto.AlbumInfoForUserDTO;
 import dbp.proyecto.artist.dto.ArtistInfoForUserDTO;
-import dbp.proyecto.artist.infrastructure.ArtistRepository;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
+import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.domain.Song;
+import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.song.dto.SongInfoForUserDTO;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.story.infrastructure.StoryRepository;
@@ -32,7 +34,6 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final SongRepository songRepository;
-    private final ArtistRepository artistRepository;
     private final AuthorizationUtils authorizationUtils;
     private final PlaylistRepository playlistRepository;
     private final PostRepository postRepository;
@@ -41,10 +42,9 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, SongRepository songRepository, ArtistRepository artistRepository, AuthorizationUtils authorizationUtils, PlaylistRepository playlistRepository, PostRepository postRepository, StoryRepository storyRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, SongRepository songRepository, AuthorizationUtils authorizationUtils, PlaylistRepository playlistRepository, PostRepository postRepository, StoryRepository storyRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.songRepository = songRepository;
-        this.artistRepository = artistRepository;
         this.authorizationUtils = authorizationUtils;
         this.playlistRepository = playlistRepository;
         this.postRepository = postRepository;
@@ -163,58 +163,14 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public void addFavoriteSong(Long songId) {
-        String email = authorizationUtils.getCurrentUserEmail();
-        User currentUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        Song song = songRepository.findById(songId)
-                .orElseThrow(() -> new ResourceNotFoundException("Song not found"));
-        currentUser.getFavoriteSongs().add(song);
-        userRepository.save(currentUser);
-    }
-
-    public void removeFavoriteSong(Long songId) {
-        String email = authorizationUtils.getCurrentUserEmail();
-        User currentUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        Song song = songRepository.findById(songId)
-                .orElseThrow(() -> new ResourceNotFoundException("Song not found"));
-        currentUser.getFavoriteSongs().remove(song);
-        userRepository.save(currentUser);
-    }
-
-    public void addFavoriteArtist(Long artistId) {
-        String email = authorizationUtils.getCurrentUserEmail();
-        User currentUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        Artist artist = artistRepository.findById(artistId)
-                .orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
-        currentUser.getFavoriteArtists().add(artist);
-        userRepository.save(currentUser);
-    }
-
-    public void removeFavoriteArtist(Long artistId) {
-        String email = authorizationUtils.getCurrentUserEmail();
-        User currentUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        Artist artist = artistRepository.findById(artistId)
-                .orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
-        currentUser.getFavoriteArtists().remove(artist);
-        userRepository.save(currentUser);
-    }
-
-    public List<ArtistInfoForUserDTO> getFavoriteArtists(Long id) {
-        String email = authorizationUtils.getCurrentUserEmail();
-        User currentUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        if (!user.getId().equals(currentUser.getId()) && !user.getFriends().contains(currentUser)) {
-            throw new UnauthorizedOperationException("Only the owner or a friend can view the favorite artists");
+    public void updateFavorites(User user, Post post) {
+        if(post.getSong() != null && !user.getFavoriteSongs().contains(post.getSong())){
+            user.getFavoriteSongs().add(post.getSong());
         }
-        return user.getFavoriteArtists().stream()
-                .map(artist -> modelMapper.map(artist, ArtistInfoForUserDTO.class))
-                .collect(Collectors.toList());
+        else if(post.getAlbum() != null && !user.getFavoriteAlbums().contains(post.getAlbum())){
+            user.getFavoriteAlbums().add(post.getAlbum());
+        }
+        userRepository.save(user);
     }
 
     public List<SongInfoForUserDTO> getFavoriteSongs(Long id) {
@@ -226,8 +182,34 @@ public class UserService {
         if (!user.getId().equals(currentUser.getId()) && !user.getFriends().contains(currentUser)) {
             throw new UnauthorizedOperationException("Only the owner or a friend can view the favorite songs");
         }
-        return user.getFavoriteSongs().stream()
-                .map(song -> modelMapper.map(song, SongInfoForUserDTO.class))
+        List<Song> favoriteSongs = user.getFavoriteSongs();
+        return favoriteSongs.stream()
+                .map(song -> {
+                    SongInfoForUserDTO dto = modelMapper.map(song, SongInfoForUserDTO.class);
+                    dto.setArtistNames(song.getArtists().stream()
+                            .map(Artist::getName)
+                            .collect(Collectors.toList()));
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<AlbumInfoForUserDTO> getFavoriteAlbums(Long id) {
+        String email = authorizationUtils.getCurrentUserEmail();
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        if (!user.getId().equals(currentUser.getId()) && !user.getFriends().contains(currentUser)) {
+            throw new UnauthorizedOperationException("Only the owner or a friend can view the favorite albums");
+        }
+        List<Album> favoriteAlbums = user.getFavoriteAlbums();
+        return favoriteAlbums.stream()
+                .map(album -> {
+                    AlbumInfoForUserDTO dto = modelMapper.map(album, AlbumInfoForUserDTO.class);
+                    dto.setArtistName(album.getArtist().getName());
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -244,4 +226,6 @@ public class UserService {
             return (UserDetails) user;
         };
     }
+
+
 }

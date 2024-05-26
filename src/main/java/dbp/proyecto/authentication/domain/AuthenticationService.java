@@ -24,15 +24,13 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final ApplicationEventPublisher applicationEventPublisher;
-    private final EmailService emailService;
 
     @Autowired
-    public AuthenticationService(UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, ApplicationEventPublisher applicationEventPublisher, EmailService emailService) {
+    public AuthenticationService(UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, ApplicationEventPublisher applicationEventPublisher) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
         this.applicationEventPublisher = applicationEventPublisher;
-        this.emailService = emailService;
     }
 
     public JwtAuthenticationResponseDTO login(LogInDTO logInDTO) {

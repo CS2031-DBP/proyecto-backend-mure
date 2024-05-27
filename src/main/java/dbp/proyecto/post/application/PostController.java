@@ -71,21 +71,21 @@ public class PostController {
     @PatchMapping("/media/{id}")
     public ResponseEntity<Void> changeMedia(@PathVariable Long id, @RequestBody PostMediaDTO media) {
         postService.changeMedia(id, media);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PatchMapping("/content/{id}")
     public ResponseEntity<Void> updatePostContent(@PathVariable Long id, @RequestBody PostContentDTO content) {
         postService.changeContent(id, content.getSongId(), content.getAlbumId());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PatchMapping("/like/{id}")
     public ResponseEntity<Void> likePost(@PathVariable Long id) {
         postService.likePost(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

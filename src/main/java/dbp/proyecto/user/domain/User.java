@@ -1,7 +1,6 @@
 package dbp.proyecto.user.domain;
 
 import dbp.proyecto.album.domain.Album;
-import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.playlist.domain.Playlist;
 import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.song.domain.Song;

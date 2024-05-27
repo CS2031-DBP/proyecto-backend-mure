@@ -1,7 +1,6 @@
 package dbp.proyecto.album.infrastructure;
 
 import dbp.proyecto.album.domain.Album;
-import dbp.proyecto.album.domain.AlbumService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

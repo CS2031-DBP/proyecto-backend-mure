@@ -69,7 +69,7 @@ public class PlaylistController {
     @PatchMapping("/{id}/addSong/{songId}")
     public ResponseEntity<Void> addSongToPlaylist(@PathVariable Long id, @PathVariable Long songId) {
         playlistService.addSongToPlaylist(id, songId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

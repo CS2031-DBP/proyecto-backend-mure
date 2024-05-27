@@ -4,7 +4,6 @@ import dbp.proyecto.authentication.dto.JwtAuthenticationResponseDTO;
 import dbp.proyecto.authentication.dto.LogInDTO;
 import dbp.proyecto.authentication.dto.SignInDTO;
 import dbp.proyecto.configuration.JwtService;
-import dbp.proyecto.email.domain.EmailService;
 import dbp.proyecto.events.SignIn.SignInEvent;
 import dbp.proyecto.exception.UserAlreadyExistException;
 import dbp.proyecto.user.domain.Role;

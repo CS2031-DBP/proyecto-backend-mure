@@ -1,6 +1,5 @@
 package dbp.proyecto.song.dto;
 
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.time.LocalDate;

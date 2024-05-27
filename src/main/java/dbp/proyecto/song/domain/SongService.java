@@ -162,6 +162,7 @@ public class SongService {
             album.getSongs().remove(song);
             albumRepository.save(album);
         }
+        song.setArtists(null);
         songRepository.delete(song);
     }
 }

@@ -1,0 +1,7 @@
+{
+  "email": "testuser@example.com",
+  "password": "TestPassword123",
+  "name": "Test User",
+  "birthdate": "1990-01-01",
+  "isAdmin": false
+}

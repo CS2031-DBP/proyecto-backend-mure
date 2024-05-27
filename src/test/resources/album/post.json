@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Test Album 1",
+    "description": "This is test album 1",
+    "releaseDate": "2022-01-01",
+    "artistId": 1,
+    "songsIds": [1, 2]
+  },
+  {
+    "title": "Test Album 2",
+    "description": "This is test album 2",
+    "releaseDate": "2022-02-01",
+    "artistId": 2,
+    "songsIds": [2, 3]
+  },
+  {
+    "title": "Test Album 3",
+    "description": "This is test album 3",
+    "releaseDate": "2022-03-01",
+    "artistId": 3,
+    "songsIds": [1, 3]
+  }
+]

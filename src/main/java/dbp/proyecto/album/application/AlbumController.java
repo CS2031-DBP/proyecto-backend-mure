@@ -55,7 +55,7 @@ public class AlbumController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping // ✔️
-    public ResponseEntity<Void> createAlbum(@RequestBody List<AlbumBodyDTO> albumBodyDto) {
+    public ResponseEntity<Void> createAlbums(@RequestBody List<AlbumBodyDTO> albumBodyDto) {
         albumService.createsAlbums(albumBodyDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

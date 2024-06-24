@@ -31,10 +31,12 @@ public class User implements UserDetails {
 
     @NotBlank
     @Size(min = 3, max = 50)
+    @Column(unique = true)
     private String name;
 
     @NotBlank
     @Email
+    @Column(unique = true)
     private String email;
 
     @NotBlank

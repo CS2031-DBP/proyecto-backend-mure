@@ -49,6 +49,9 @@ public class AlbumService {
 
     public AlbumResponseDTO getAlbumByTitle(String title) {
         Album album = albumRepository.findByTitle(title);
+        if (album == null){
+            throw new ResourceNotFoundException("Album not found");
+        }
         return getAlbumResponseDTO(album);
     }
 

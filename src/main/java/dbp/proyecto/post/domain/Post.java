@@ -23,7 +23,7 @@ public class Post {
 
     @NotNull
     @Min(0)
-    private Integer likes=0;
+    private Integer likes = 0;
 
     @NotBlank
     @Size(max = 500)
@@ -36,13 +36,17 @@ public class Post {
     private LocalDateTime createdAt;
 
     @ManyToOne
+    @JoinColumn(name = "song_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Song song;
 
     @ManyToOne
+    @JoinColumn(name = "album_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Album album;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 }

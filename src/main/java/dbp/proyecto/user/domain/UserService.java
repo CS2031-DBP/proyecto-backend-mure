@@ -99,22 +99,26 @@ public class UserService {
 
     public void updateUser(UserBodyDTO updatedUser) {
         String email = authorizationUtils.getCurrentUserEmail();
-        User existingUser = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        if (updatedUser.getProfileImage() != null) {
+        User existingUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (updatedUser.getProfileImage() != null && !updatedUser.getProfileImage().isEmpty()) {
             existingUser.setProfileImage(updatedUser.getProfileImage());
         }
-        if (updatedUser.getName() != null) {
+        if (updatedUser.getName() != null && !updatedUser.getName().isEmpty()) {
             existingUser.setName(updatedUser.getName());
         }
-        if (updatedUser.getPassword() != null) {
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
             String encodedPassword = passwordEncoder.encode(updatedUser.getPassword());
             existingUser.setPassword(encodedPassword);
         }
-        if (updatedUser.getEmail() != null) {
+        if (updatedUser.getEmail() != null && !updatedUser.getEmail().isEmpty()) {
             existingUser.setEmail(updatedUser.getEmail());
         }
+
         userRepository.save(existingUser);
     }
+
 
     public void addFriend(Long friendId) {
         String email = authorizationUtils.getCurrentUserEmail();

@@ -2,7 +2,7 @@ package dbp.proyecto.song.domain;
 
 import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.artist.domain.Artist;
-import jakarta.persistence.Entity;
+import dbp.proyecto.post.domain.Post;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -49,6 +49,9 @@ public class Song {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "album_id")
     private Album album;
+
+    @OneToMany(mappedBy = "song", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> posts = new ArrayList<>();
 
     public int getDurationInSeconds() {
         String[] parts = duration.split(":");

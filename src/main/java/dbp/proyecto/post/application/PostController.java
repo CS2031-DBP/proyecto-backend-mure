@@ -35,19 +35,6 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostsByUserId(userId));
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/me")
-    public ResponseEntity<List<PostResponseDTO>> getPostsByCurrentUser() {
-        return ResponseEntity.ok(postService.getPostsByCurrentUser());
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/all")
-    public ResponseEntity<Page<PostResponseDTO>> getAllPosts(@RequestParam int page, @RequestParam int size) {
-         Page<PostResponseDTO> response = postService.getAllPosts(page, size);
-         return ResponseEntity.ok(response);
-    }
-
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/song/{songId}")
     public ResponseEntity<List<PostResponseDTO>> getPostsBySongId(@PathVariable Long songId) {
@@ -58,6 +45,19 @@ public class PostController {
     @GetMapping("/album/{albumId}")
     public ResponseEntity<List<PostResponseDTO>> getPostsByAlbumId(@PathVariable Long albumId) {
         return ResponseEntity.ok(postService.getPostsByAlbumId(albumId));
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/me")
+    public ResponseEntity<List<PostResponseDTO>> getPostsByCurrentUser() {
+        return ResponseEntity.ok(postService.getPostsByCurrentUser());
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/all")
+    public ResponseEntity<Page<PostResponseDTO>> getAllPosts(@RequestParam int page, @RequestParam int size) {
+        Page<PostResponseDTO> response = postService.getAllPosts(page, size);
+        return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

@@ -5,14 +5,19 @@ import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.artist.infrastructure.ArtistRepository;
 import dbp.proyecto.exception.ResourceNotFoundException;
+import dbp.proyecto.post.domain.Post;
+import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.dto.SongBodyDTO;
 import dbp.proyecto.song.dto.SongInfoForAlbumDTO;
 import dbp.proyecto.song.dto.SongInfoForArtistDTO;
 import dbp.proyecto.song.dto.SongResponseDTO;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,13 +31,15 @@ public class SongService {
     private final SongRepository songRepository;
     private final ArtistRepository artistRepository;
     private final AlbumRepository albumRepository;
+    private final PostRepository postRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public SongService(SongRepository songRepository, ArtistRepository artistRepository, AlbumRepository albumRepository, ModelMapper modelMapper) {
+    public SongService(SongRepository songRepository, ArtistRepository artistRepository, AlbumRepository albumRepository, PostRepository postRepository, ModelMapper modelMapper) {
         this.songRepository = songRepository;
         this.artistRepository = artistRepository;
         this.albumRepository = albumRepository;
+        this.postRepository = postRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -112,11 +119,10 @@ public class SongService {
         }).collect(Collectors.toList());
     }
 
-    public List<SongResponseDTO> getAllSongs() {
-        List<Song> songs = songRepository.findAll();
-        return songs.stream()
-                .map(this::getSongResponseDTO)
-                .collect(Collectors.toList());
+    public Page<SongResponseDTO> getAllSongs(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Song> songs = songRepository.findAll(pageable);
+        return songs.map(this::getSongResponseDTO);
     }
 
     @Transactional
@@ -153,15 +159,23 @@ public class SongService {
     @Transactional
     public void deleteSong(Long id) {
         Song song = songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+
+        List<Post> posts = postRepository.findBySongId(id);
+        for (Post post : posts) {
+            post.setSong(null);
+            postRepository.save(post);
+        }
+
         for (Artist artist : song.getArtists()) {
             artist.getSongs().remove(song);
             artistRepository.save(artist);
         }
         Album album = song.getAlbum();
-        if(album != null && album.getSongs() != null){
+        if (album != null && album.getSongs() != null) {
             album.getSongs().remove(song);
             albumRepository.save(album);
         }
+
         songRepository.delete(song);
     }
 }

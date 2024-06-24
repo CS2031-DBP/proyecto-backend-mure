@@ -5,6 +5,7 @@ import dbp.proyecto.song.dto.SongBodyDTO;
 import dbp.proyecto.song.dto.SongInfoForAlbumDTO;
 import dbp.proyecto.song.dto.SongInfoForArtistDTO;
 import dbp.proyecto.song.dto.SongResponseDTO;
+import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,10 +60,11 @@ public class SongController {
         return ResponseEntity.ok(songService.getSongsByAlbumId(albumId));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/all")
-    public ResponseEntity<List<SongResponseDTO>> getAllSongs() {
-        return ResponseEntity.ok(songService.getAllSongs());
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/songs/all")
+    public ResponseEntity<Page<SongResponseDTO>> getAllSongs(@RequestParam int page, @RequestParam int size) {
+        Page<SongResponseDTO> response = songService.getAllSongs(page, size);
+        return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

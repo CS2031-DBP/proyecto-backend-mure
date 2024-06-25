@@ -70,8 +70,6 @@ public class UserService {
     }
 
     public UserBasicInfoResponseDTO getUserById(Long id) {
-        if (!authorizationUtils.isAdmin())
-            throw new UnauthorizedOperationException("You are not authorized to perform this action");
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return modelMapper.map(user, UserBasicInfoResponseDTO.class);
     }

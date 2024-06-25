@@ -72,9 +72,7 @@ public class PlaylistService {
     }
 
     public List<PlaylistResponseDTO> getPlaylistsByUserId(Long userId) {
-        if (!authorizationUtils.isAdmin())
-            throw new UnauthorizedOperationException("User does not have access to this playlist");
-        User user = userRepository.findById(userId)
+     User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return user.getOwnsPlaylists().stream()
                 .map(this::getPlaylistResponseDTO)

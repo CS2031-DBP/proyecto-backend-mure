@@ -37,7 +37,7 @@ public class PlaylistController {
         return ResponseEntity.ok(playlist);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/user/{id}")
     public ResponseEntity<List<PlaylistResponseDTO>> getPlaylistsByUserId(@PathVariable Long id) {
         List<PlaylistResponseDTO> playlists = playlistService.getPlaylistsByUserId(id);

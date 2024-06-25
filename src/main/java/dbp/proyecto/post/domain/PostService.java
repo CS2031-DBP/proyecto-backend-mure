@@ -71,9 +71,6 @@ public class PostService {
     }
 
     public List<PostResponseDTO> getPostsByUserId(Long userId) {
-        if (!authorizationUtils.isAdmin()) {
-            throw new UnauthorizedOperationException("Only an admin can access this post");
-        }
         List<Post> posts = postRepository.findByUserId(userId);
         return posts.stream().map(this::getPostResponseDTO).collect(Collectors.toList());
     }

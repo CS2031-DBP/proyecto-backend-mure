@@ -51,6 +51,7 @@ public class PostService {
     private PostResponseDTO getPostResponseDTO(Post post) {
         PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
         postResponseDTO.setOwner(post.getUser().getName());
+        postResponseDTO.setOwnerId(post.getUser().getId());
         if (post.getSong() != null) {
             postResponseDTO.setSongTitle(post.getSong().getTitle());
         }

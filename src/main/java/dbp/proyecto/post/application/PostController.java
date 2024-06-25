@@ -29,7 +29,7 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<PostResponseDTO>> getPostsByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(postService.getPostsByUserId(userId));

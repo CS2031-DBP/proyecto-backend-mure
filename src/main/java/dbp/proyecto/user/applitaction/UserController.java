@@ -29,7 +29,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getMe());
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{id}") // ✔️
     public ResponseEntity<UserBasicInfoResponseDTO> getUser(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getUserById(id));

@@ -1,5 +1,5 @@
 
-package dbp.proyecto.events.updateFavs;
+package dbp.proyecto.events.updateFavs.likes;
 
 import dbp.proyecto.user.domain.UserService;
 import org.springframework.context.event.EventListener;

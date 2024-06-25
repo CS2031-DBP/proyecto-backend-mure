@@ -173,6 +173,16 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void updateFavoritesDL(User user, Post post) {
+        if(post.getSong() != null && user.getFavoriteSongs().contains(post.getSong())){
+            user.getFavoriteSongs().remove(post.getSong());
+        }
+        else if(post.getAlbum() != null && user.getFavoriteAlbums().contains(post.getAlbum())){
+            user.getFavoriteAlbums().remove(post.getAlbum());
+        }
+        userRepository.save(user);
+    }
+
     public List<SongInfoForUserDTO> getFavoriteSongs(Long id) {
         String email = authorizationUtils.getCurrentUserEmail();
         User currentUser = userRepository.findByEmail(email)

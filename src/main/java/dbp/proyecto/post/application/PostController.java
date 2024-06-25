@@ -88,6 +88,14 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/dislike/{id}")
+    public ResponseEntity<Void> dislikePost(@PathVariable Long id) {
+        postService.dislikePost(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {

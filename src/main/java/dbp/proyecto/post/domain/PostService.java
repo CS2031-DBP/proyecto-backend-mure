@@ -3,7 +3,8 @@ package dbp.proyecto.post.domain;
 import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
-import dbp.proyecto.events.updateFavs.UpdateFavsEvent;
+import dbp.proyecto.events.updateFavs.dislikes.UpdateFavsEventDL;
+import dbp.proyecto.events.updateFavs.likes.UpdateFavsEvent;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UnauthorizedOperationException;
 import dbp.proyecto.post.dtos.PostBodyDTO;
@@ -204,6 +205,17 @@ public class PostService {
         applicationEventPublisher.publishEvent(new UpdateFavsEvent(user, post));
 
         post.setLikes(post.getLikes() + 1);
+        postRepository.save(post);
+    }
+
+    public void dislikePost(Long id) {
+        String email = authorizationUtils.getCurrentUserEmail();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
+
+        applicationEventPublisher.publishEvent(new UpdateFavsEventDL(user, post));
+
+        post.setLikes(post.getLikes() - 1);
         postRepository.save(post);
     }
 }

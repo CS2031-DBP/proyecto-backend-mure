@@ -23,7 +23,7 @@ public class PlaylistController {
         this.playlistService = playlistService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{id}")
     public ResponseEntity<PlaylistResponseDTO> getPlaylistById(@PathVariable Long id) {
         PlaylistResponseDTO playlist = playlistService.getPlaylistById(id);
@@ -77,6 +77,12 @@ public class PlaylistController {
     public ResponseEntity<Void> removeSongFromPlaylist(@PathVariable Long id, @PathVariable Long songId) {
         playlistService.removeSongFromPlaylist(id, songId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/isOwner/{playlistId}")
+    public ResponseEntity<Boolean> isOwner(@PathVariable Long playlistId) {
+        return ResponseEntity.ok(playlistService.isOwner(playlistId));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

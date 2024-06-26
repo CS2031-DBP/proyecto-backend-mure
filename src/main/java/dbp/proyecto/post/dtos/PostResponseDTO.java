@@ -1,6 +1,7 @@
 package dbp.proyecto.post.dtos;
 
 import lombok.Data;
+import java.util.Set;
 
 @Data
 public class PostResponseDTO {
@@ -13,4 +14,5 @@ public class PostResponseDTO {
     private String description;
     private String imageUrl;
     private String audioUrl;
+    private Set<Long> likedByUserIds;
 }

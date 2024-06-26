@@ -53,6 +53,7 @@ public class PostService {
         PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
         postResponseDTO.setOwner(post.getUser().getName());
         postResponseDTO.setOwnerId(post.getUser().getId());
+        postResponseDTO.setLikedByUserIds(post.getLikedBy().stream().map(User::getId).collect(Collectors.toSet())); // Agregar esta línea
         if (post.getSong() != null) {
             postResponseDTO.setSongTitle(post.getSong().getTitle());
         }
@@ -61,6 +62,7 @@ public class PostService {
         }
         return postResponseDTO;
     }
+
 
     public PostResponseDTO getPostById(Long id) {
         if (!authorizationUtils.isAdmin()) {
@@ -199,10 +201,11 @@ public class PostService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
-        applicationEventPublisher.publishEvent(new UpdateFavsEvent(user, post));
-
-        post.setLikes(post.getLikes() + 1);
-        postRepository.save(post);
+        if (!post.getLikedBy().contains(user)) {
+            post.getLikedBy().add(user);
+            post.setLikes(post.getLikes() + 1);
+            postRepository.save(post);
+        }
     }
 
     public void dislikePost(Long id) {
@@ -210,9 +213,11 @@ public class PostService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
-        applicationEventPublisher.publishEvent(new UpdateFavsEventDL(user, post));
-
-        post.setLikes(post.getLikes() - 1);
-        postRepository.save(post);
+        if (post.getLikedBy().contains(user)) {
+            post.getLikedBy().remove(user);
+            post.setLikes(post.getLikes() - 1);
+            postRepository.save(post);
+        }
     }
+
 }

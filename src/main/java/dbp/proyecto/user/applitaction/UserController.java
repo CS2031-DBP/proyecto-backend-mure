@@ -97,6 +97,6 @@ public class UserController {
     @GetMapping("/me/friends/{id}")
     public ResponseEntity<Boolean> isFriend(@PathVariable Long id) {
         return ResponseEntity.ok(userService.isFriend(id));
-
+    }
 
 }

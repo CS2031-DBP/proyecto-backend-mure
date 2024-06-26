@@ -93,4 +93,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getFavoriteSongs(id));
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/me/friends/{id}")
+    public ResponseEntity<Boolean> isFriend(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.isFriend(id));
+
+
 }

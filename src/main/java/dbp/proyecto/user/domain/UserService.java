@@ -235,5 +235,17 @@ public class UserService {
         };
     }
 
+    public Boolean isFriend(Long id) {
+        String email = authorizationUtils.getCurrentUserEmail();
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
+        if (currentUser.getId().equals(id)) {
+            throw new IllegalArgumentException("The provided ID is the same as the current user's ID");
+        }
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return user.getFriends().contains(currentUser);
+    }
 }

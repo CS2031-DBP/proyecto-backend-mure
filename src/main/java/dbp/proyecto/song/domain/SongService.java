@@ -20,9 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,7 +54,7 @@ public class SongService {
     }
 
     private List<SongInfoForArtistDTO> getSongInfoForArtistDTOS(Artist artist) {
-        List<Song> songs = artist.getSongs();
+        Set<Song> songs = artist.getSongs();
 
         return songs.stream().map(song -> {
             SongInfoForArtistDTO songInfoForArtistDTO = modelMapper.map(song, SongInfoForArtistDTO.class);
@@ -125,30 +123,30 @@ public class SongService {
         return songs.map(this::getSongResponseDTO);
     }
 
-    @Transactional
-    public void createSongs(List<SongBodyDTO> songBodyDTOs) {
-        List<Song> songs = new ArrayList<>();
-        Random random = new Random();
-        for (SongBodyDTO songBodyDTO : songBodyDTOs) {
-            Song song = modelMapper.map(songBodyDTO, Song.class);
-            int likes = 50000 + random.nextInt(450001);
-            song.setLikes(likes);
-            int timesPlayed = 50000 + random.nextInt(9550001);
-            song.setTimesPlayed(timesPlayed);
-            songRepository.save(song);
-            List<Artist> artists = artistRepository.findAllById(songBodyDTO.getArtistsIds());
-            if (artists.isEmpty()) {
-                throw new IllegalArgumentException("Minimum one artist is required");
-            }
-            song.setArtists(artists);
-            for (Artist artist : artists) {
-                artist.getSongs().add(song);
-            }
-            artistRepository.saveAll(artists);
-            songs.add(song);
+@Transactional
+public void createSongs(List<SongBodyDTO> songBodyDTOs) {
+    List<Song> songs = new ArrayList<>();
+    Random random = new Random();
+    for (SongBodyDTO songBodyDTO : songBodyDTOs) {
+        Song song = modelMapper.map(songBodyDTO, Song.class);
+        int likes = 50000 + random.nextInt(450001);
+        song.setLikes(likes);
+        int timesPlayed = 50000 + random.nextInt(9550001);
+        song.setTimesPlayed(timesPlayed);
+        songRepository.save(song);
+        Set<Artist> artists = new HashSet<>(artistRepository.findAllById(songBodyDTO.getArtistsIds()));
+        if (artists.isEmpty()) {
+            throw new IllegalArgumentException("Minimum one artist is required");
         }
-        songRepository.saveAll(songs);
+        song.setArtists(artists);
+        for (Artist artist : artists) {
+            artist.getSongs().add(song);
+        }
+        artistRepository.saveAll(artists);
+        songs.add(song);
     }
+    songRepository.saveAll(songs);
+}
 
     public void updateCoverImage(String coverImage, Long id){
         Song song = songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song not found"));

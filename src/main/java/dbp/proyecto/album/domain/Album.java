@@ -12,8 +12,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -44,7 +44,7 @@ public class Album {
     private Artist artist;
 
     @OneToMany(mappedBy = "album")
-    private List<Song> songs = new ArrayList<>();
+    private Set<Song> songs = new HashSet<>();
 
     public void calculateTotalDuration() {
         int totalSeconds = 0;

@@ -181,26 +181,26 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<SongInfoForUserDTO> getFavoriteSongs(Long id) {
-        String email = authorizationUtils.getCurrentUserEmail();
-        User currentUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        if (!user.getId().equals(currentUser.getId()) && !user.getFriends().contains(currentUser)) {
-            throw new UnauthorizedOperationException("Only the owner or a friend can view the favorite songs");
-        }
-        List<Song> favoriteSongs = user.getFavoriteSongs();
-        return favoriteSongs.stream()
-                .map(song -> {
-                    SongInfoForUserDTO dto = modelMapper.map(song, SongInfoForUserDTO.class);
-                    dto.setArtistNames(song.getArtists().stream()
-                            .map(Artist::getName)
-                            .collect(Collectors.toList()));
-                    return dto;
-                })
-                .collect(Collectors.toList());
+public Set<SongInfoForUserDTO> getFavoriteSongs(Long id) {
+    String email = authorizationUtils.getCurrentUserEmail();
+    User currentUser = userRepository.findByEmail(email)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    User user = userRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    if (!user.getId().equals(currentUser.getId()) && !user.getFriends().contains(currentUser)) {
+        throw new UnauthorizedOperationException("Only the owner or a friend can view the favorite songs");
     }
+    Set<Song> favoriteSongs = user.getFavoriteSongs();
+    return favoriteSongs.stream()
+            .map(song -> {
+                SongInfoForUserDTO dto = modelMapper.map(song, SongInfoForUserDTO.class);
+                dto.setArtistNames(song.getArtists().stream()
+                        .map(Artist::getName)
+                        .collect(Collectors.toSet()));
+                return dto;
+            })
+            .collect(Collectors.toSet());
+}
 
     public List<AlbumInfoForUserDTO> getFavoriteAlbums(Long id) {
         String email = authorizationUtils.getCurrentUserEmail();

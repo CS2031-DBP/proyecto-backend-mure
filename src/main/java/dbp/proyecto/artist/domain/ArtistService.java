@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,7 +56,7 @@ public class ArtistService {
     }
 
     public List<ArtistResponseDTO> findVerifiedArtists() {
-        List<Artist> artists = artistRepository.findByVerifiedTrue();
+        Set<Artist> artists = artistRepository.findByVerifiedTrue();
 
         return artists.stream().map(this::getArtistResponseDTO).collect(Collectors.toList());
     }

@@ -8,8 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -31,14 +31,14 @@ public class Artist {
     private String description;
 
     @OneToMany(mappedBy = "artist")
-    private List<Album> albums = new ArrayList<>();
+    private Set<Album> albums = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
             name = "artist_songs",
             joinColumns = @JoinColumn(name = "artist_id"),
             inverseJoinColumns = @JoinColumn(name = "song_id"))
-    private List<Song> songs = new ArrayList<>();
+    private Set<Song> songs = new HashSet<>();
 
     @Override
     public String toString() {
@@ -50,5 +50,4 @@ public class Artist {
                 ", description='" + description + '\'' +
                 '}';
     }
-
 }

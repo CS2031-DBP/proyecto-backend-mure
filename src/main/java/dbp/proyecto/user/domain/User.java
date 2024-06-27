@@ -14,9 +14,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -51,37 +51,37 @@ public class User implements UserDetails {
     private String profileImage = "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Free-Download.png";
 
     @ManyToMany
-    private List<User> friends = new ArrayList<>();
+    private Set<User> friends = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL , orphanRemoval = true)
-    private List<Post> posts = new ArrayList<>();
+    private Set<Post> posts = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Story> stories = new ArrayList<>();
+    private Set<Story> stories = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Playlist> ownsPlaylists;
+    private Set<Playlist> ownsPlaylists = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
             name = "user_albums",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "album_id"))
-    private List<Album> favoriteAlbums;
+    private Set<Album> favoriteAlbums = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
             name = "user_song",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "song_id"))
-    private List<Song> favoriteSongs;
+    private Set<Song> favoriteSongs = new HashSet<>();
 
     @Transient
     private String rolePrefix = "ROLE_";
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rolePrefix + role.name()));
+        return Set.of(new SimpleGrantedAuthority(rolePrefix + role.name()));
     }
 
     @Override

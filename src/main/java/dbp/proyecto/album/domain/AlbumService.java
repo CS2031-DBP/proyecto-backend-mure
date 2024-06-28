@@ -85,6 +85,9 @@ public class AlbumService {
             album.setReleaseDate(albumBodyDto.getReleaseDate());
             Long artistId = albumBodyDto.getArtistId();
             if (artistId == null) {
+                //muestra que cancion no tiene artista
+
+
                 throw new IllegalArgumentException("ArtistId is required");
             }
             Artist artist = artistRepository.findById(artistId)

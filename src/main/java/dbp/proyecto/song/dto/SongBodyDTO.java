@@ -13,4 +13,5 @@ public class SongBodyDTO {
     private String genre;
     private String duration;
     private String coverImage;
+    private String link;
 }

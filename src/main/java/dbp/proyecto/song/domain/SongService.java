@@ -131,6 +131,7 @@ public class SongService {
         Random random = new Random();
         for (SongBodyDTO songBodyDTO : songBodyDTOs) {
             Song song = modelMapper.map(songBodyDTO, Song.class);
+            song.setLink(songBodyDTO.getLink());
             int likes = 50000 + random.nextInt(450001);
             song.setLikes(likes);
             int timesPlayed = 50000 + random.nextInt(9550001);

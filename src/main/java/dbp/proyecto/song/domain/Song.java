@@ -53,6 +53,8 @@ public class Song {
     @OneToMany(mappedBy = "song", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
+    private String link;
+
     public int getDurationInSeconds() {
         String[] parts = duration.split(":");
         int minutes = Integer.parseInt(parts[0]);

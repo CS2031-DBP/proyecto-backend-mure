@@ -56,6 +56,8 @@ public class PostService {
         postResponseDTO.setLikedByUserIds(post.getLikedBy().stream().map(User::getId).collect(Collectors.toSet())); // Agregar esta línea
         if (post.getSong() != null) {
             postResponseDTO.setSongTitle(post.getSong().getTitle());
+            postResponseDTO.setSongUrl(post.getSong().getLink());
+            postResponseDTO.setSongCoverUrl(post.getSong().getCoverImage());
         }
         if (post.getAlbum() != null) {
             postResponseDTO.setAlbumTitle(post.getAlbum().getTitle());

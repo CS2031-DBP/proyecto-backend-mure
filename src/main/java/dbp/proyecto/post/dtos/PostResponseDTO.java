@@ -9,6 +9,8 @@ public class PostResponseDTO {
     private String owner;
     private Long ownerId;
     private String songTitle;
+    private String songUrl;
+    private String songCoverUrl;
     private String albumTitle;
     private Integer likes;
     private String description;

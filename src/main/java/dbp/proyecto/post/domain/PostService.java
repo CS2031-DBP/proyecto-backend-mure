@@ -61,6 +61,8 @@ public class PostService {
         }
         if (post.getAlbum() != null) {
             postResponseDTO.setAlbumTitle(post.getAlbum().getTitle());
+            postResponseDTO.setAlbumCoverUrl(post.getAlbum().getCoverImage());
+            postResponseDTO.setAlbumUrl(post.getAlbum().getLink());
         }
         return postResponseDTO;
     }

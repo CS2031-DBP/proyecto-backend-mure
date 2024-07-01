@@ -12,6 +12,8 @@ public class PostResponseDTO {
     private String songUrl;
     private String songCoverUrl;
     private String albumTitle;
+    private String albumUrl;
+    private String albumCoverUrl;
     private Integer likes;
     private String description;
     private String imageUrl;

@@ -37,6 +37,10 @@ public class Album {
 
     private Integer songsCount;
 
+    private String coverImage;
+
+    private String link;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "artist_id")

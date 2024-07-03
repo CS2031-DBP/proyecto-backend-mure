@@ -18,5 +18,6 @@ public class SongResponseDTO {
     private String coverImage;
     private String albumTitle;
     private List<String> artistsNames;
+    private String link;
 }
 

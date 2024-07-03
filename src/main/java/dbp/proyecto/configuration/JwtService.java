@@ -3,7 +3,7 @@ package dbp.proyecto.configuration;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import dbp.proyecto.user.domain.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -15,16 +15,12 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
     private final UserService userService;
-
-    @Autowired
-    public JwtService(UserService userService){
-        this.userService = userService;
-    }
 
     public String extractUsername(String token) {
         return JWT.decode(token).getSubject();
@@ -61,6 +57,4 @@ public class JwtService {
         context.setAuthentication(authToken);
         SecurityContextHolder.setContext(context);
     }
-
-
 }

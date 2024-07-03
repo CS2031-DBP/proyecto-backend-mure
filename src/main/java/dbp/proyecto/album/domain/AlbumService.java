@@ -1,9 +1,9 @@
 package dbp.proyecto.album.domain;
 
-import dbp.proyecto.album.dto.AlbumBodyDTO;
+import dbp.proyecto.album.dto.AlbumRequestDto;
 import dbp.proyecto.album.dto.AlbumInfoForArtistDTO;
-import dbp.proyecto.album.dto.AlbumResponseDTO;
-import dbp.proyecto.album.dto.AlbumUpdateDTO;
+import dbp.proyecto.album.dto.AlbumResponseDto;
+import dbp.proyecto.album.dto.AlbumUpdateDto;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.artist.infrastructure.ArtistRepository;
@@ -11,30 +11,23 @@ import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AlbumService {
     private final AlbumRepository albumRepository;
     private final ModelMapper modelMapper;
     private final ArtistRepository artistRepository;
     private final SongRepository songRepository;
 
-    @Autowired
-    public AlbumService(AlbumRepository albumRepository, ModelMapper modelMapper, ArtistRepository artistRepository, SongRepository songRepository) {
-        this.albumRepository = albumRepository;
-        this.modelMapper = modelMapper;
-        this.artistRepository = artistRepository;
-        this.songRepository = songRepository;
-    }
-
-    private AlbumResponseDTO getAlbumResponseDTO(Album album) {
-        AlbumResponseDTO albumResponseDTO = modelMapper.map(album, AlbumResponseDTO.class);
+    private AlbumResponseDto getAlbumResponseDTO(Album album) {
+        AlbumResponseDto albumResponseDTO = modelMapper.map(album, AlbumResponseDto.class);
         albumResponseDTO.setArtistName(album.getArtist().getName());
         albumResponseDTO.setSongsTitles(album.getSongs().stream()
                 .map(Song::getTitle)
@@ -42,12 +35,12 @@ public class AlbumService {
         return albumResponseDTO;
     }
 
-    public AlbumResponseDTO getAlbumById(Long id) {
+    public AlbumResponseDto getAlbumById(Long id) {
         Album album = albumRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
         return getAlbumResponseDTO(album);
     }
 
-    public AlbumResponseDTO getAlbumByTitle(String title) {
+    public AlbumResponseDto getAlbumByTitle(String title) {
         Album album = albumRepository.findByTitle(title);
         if (album == null){
             throw new ResourceNotFoundException("Album not found");
@@ -69,7 +62,7 @@ public class AlbumService {
                 .collect(Collectors.toList());
     }
 
-    public List<AlbumResponseDTO> getAllAlbums() {
+    public List<AlbumResponseDto> getAllAlbums() {
         List<Album> albums = albumRepository.findAll();
         return albums.stream()
                 .map(this::getAlbumResponseDTO)
@@ -77,8 +70,8 @@ public class AlbumService {
     }
 
     @Transactional
-    public void createsAlbums(List<AlbumBodyDTO> albumBodyDTOs) {
-        for (AlbumBodyDTO albumBodyDto : albumBodyDTOs) {
+    public void createsAlbums(List<AlbumRequestDto> albumBodyDTOs) {
+        for (AlbumRequestDto albumBodyDto : albumBodyDTOs) {
             Album album = new Album();
             album.setTitle(albumBodyDto.getTitle());
             album.setDescription(albumBodyDto.getDescription());
@@ -113,7 +106,7 @@ public class AlbumService {
         }
     }
 
-    public void updateAlbum(Long id, AlbumUpdateDTO albumUpdateDTO) {
+    public void updateAlbum(Long id, AlbumUpdateDto albumUpdateDTO) {
         Album album = albumRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
         if (albumUpdateDTO.getTitle() != null) {
             album.setTitle(albumUpdateDTO.getTitle());

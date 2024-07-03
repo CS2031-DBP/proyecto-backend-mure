@@ -7,4 +7,3 @@ $$ LANGUAGE plpgsql;
 CREATE EXTENSION IF NOT EXISTS unaccent;
 
 DROP FUNCTION IF EXISTS normalize_text(text);
-

@@ -9,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 @EnableAsync
 public class MureApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(MureApplication.class, args);
 	}

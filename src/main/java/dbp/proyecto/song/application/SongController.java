@@ -24,7 +24,7 @@ public class SongController {
         this.songService = songService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{id}")
     public ResponseEntity<SongResponseDTO> getSongById(@PathVariable Long id) {
         return ResponseEntity.ok(songService.getSongById(id));

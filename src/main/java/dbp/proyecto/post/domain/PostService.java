@@ -1,6 +1,7 @@
 package dbp.proyecto.post.domain;
 
 import dbp.proyecto.album.domain.Album;
+import dbp.proyecto.album.dto.AlbumInfoForPostDTO;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.events.updateFavs.dislikes.UpdateFavsEventDL;
@@ -12,6 +13,7 @@ import dbp.proyecto.post.dtos.PostMediaDTO;
 import dbp.proyecto.post.dtos.PostResponseDTO;
 import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.domain.Song;
+import dbp.proyecto.song.dto.SongInfoForPostDTO;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
@@ -53,20 +55,33 @@ public class PostService {
         PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
         postResponseDTO.setOwner(post.getUser().getName());
         postResponseDTO.setOwnerId(post.getUser().getId());
-        postResponseDTO.setLikedByUserIds(post.getLikedBy().stream().map(User::getId).collect(Collectors.toSet())); // Agregar esta línea
+        postResponseDTO.setProfileImage(post.getUser().getProfileImage());
+        postResponseDTO.setLikedByUserIds(post.getLikedBy().stream().map(User::getId).collect(Collectors.toSet()));
+        postResponseDTO.setCreatedAt(post.getCreatedAt());
+
         if (post.getSong() != null) {
-            postResponseDTO.setSongTitle(post.getSong().getTitle());
-            postResponseDTO.setSongUrl(post.getSong().getLink());
-            postResponseDTO.setSongCoverUrl(post.getSong().getCoverImage());
+            SongInfoForPostDTO songDTO = new SongInfoForPostDTO();
+            songDTO.setTitle(post.getSong().getTitle());
+            songDTO.setUrl(post.getSong().getLink());
+            songDTO.setCoverUrl(post.getSong().getCoverImage());
+            songDTO.setArtist(post.getSong().getArtists().toString());
+            songDTO.setDuration(post.getSong().getDuration());
+            songDTO.setGenre(post.getSong().getGenre());
+            postResponseDTO.setSong(songDTO);
         }
+
         if (post.getAlbum() != null) {
-            postResponseDTO.setAlbumTitle(post.getAlbum().getTitle());
-            postResponseDTO.setAlbumCoverUrl(post.getAlbum().getCoverImage());
-            postResponseDTO.setAlbumUrl(post.getAlbum().getLink());
+            AlbumInfoForPostDTO albumDTO = new AlbumInfoForPostDTO();
+            albumDTO.setTitle(post.getAlbum().getTitle());
+            albumDTO.setUrl(post.getAlbum().getLink());
+            albumDTO.setCoverUrl(post.getAlbum().getCoverImage());
+            albumDTO.setArtist(post.getAlbum().getArtist().getName());
+            albumDTO.setDuration(post.getAlbum().getTotalDuration());
+            albumDTO.setSongs(post.getAlbum().getSongs().stream().map(Song::getTitle).collect(Collectors.toList()));
+            postResponseDTO.setAlbum(albumDTO);
         }
         return postResponseDTO;
     }
-
 
     public PostResponseDTO getPostById(Long id) {
         if (!authorizationUtils.isAdmin()) {
@@ -84,13 +99,13 @@ public class PostService {
     public List<PostResponseDTO> getPostsByCurrentUser() {
         String email = authorizationUtils.getCurrentUserEmail();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        List<Post> posts = postRepository.findByUserId(user.getId());
+        List<Post> posts = postRepository.findByUserIdOrderByCreatedAtDesc(user.getId());
         return posts.stream().map(this::getPostResponseDTO).collect(Collectors.toList());
     }
 
     public Page<PostResponseDTO> getAllPosts(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Post> posts = postRepository.findAll(pageable);
+        Page<Post> posts = postRepository.findAllByOrderByCreatedAtDesc(pageable);
         return posts.map(this::getPostResponseDTO);
     }
 

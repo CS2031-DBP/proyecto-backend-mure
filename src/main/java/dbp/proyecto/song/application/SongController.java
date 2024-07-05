@@ -24,7 +24,7 @@ public class SongController {
         this.songService = songService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{id}")
     public ResponseEntity<SongResponseDTO> getSongById(@PathVariable Long id) {
         return ResponseEntity.ok(songService.getSongById(id));
@@ -33,13 +33,15 @@ public class SongController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/title")
     public ResponseEntity<SongResponseDTO> getSongByTitle(@RequestParam String title) {
-        return ResponseEntity.ok(songService.getSongByTitle(title));
+        SongResponseDTO response = songService.getSongByTitle(title);
+        return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/genre")
-    public ResponseEntity<List<SongResponseDTO>> getSongsByGenre(@RequestParam String genre) {
-        return ResponseEntity.ok(songService.getSongsByGenre(genre));
+    public ResponseEntity<Page<SongResponseDTO>> getSongsByGenre(@RequestParam String genre, @RequestParam int page, @RequestParam int size) {
+        Page<SongResponseDTO> response = songService.getSongsByGenre(genre, page, size);
+        return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -50,9 +52,13 @@ public class SongController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/artistName")
-    public ResponseEntity<List<SongInfoForArtistDTO>> getSongsByArtistName(@RequestParam String artistName) {
-        return ResponseEntity.ok(songService.getSongsByArtistName(artistName));
+    public ResponseEntity<Page<SongResponseDTO>> getSongsByArtistName(@RequestParam String artistName, @RequestParam int page, @RequestParam int size) {
+        Page<SongResponseDTO> response = songService.getSongsByArtistName(artistName, page, size);
+        return ResponseEntity.ok(response);
     }
+
+
+
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/album/{albumId}")

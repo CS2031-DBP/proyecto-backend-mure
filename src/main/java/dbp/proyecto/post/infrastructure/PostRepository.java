@@ -12,4 +12,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByAlbumId(Long albumId);
     List<Post> findByUserId(Long userId);
     Page<Post> findAllByOrderByCreatedAtDesc(Pageable pageable);
+    List<Post> findByUserIdOrderByCreatedAtDesc(Long userId);
 }

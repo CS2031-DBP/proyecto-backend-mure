@@ -32,8 +32,8 @@ public class SongController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/title")
-    public ResponseEntity<Page<SongResponseDTO>> getSongByTitle(@RequestParam String title, @RequestParam int page, @RequestParam int size) {
-        Page<SongResponseDTO> response = songService.getSongByTitle(title, page, size);
+    public ResponseEntity<SongResponseDTO> getSongByTitle(@RequestParam String title) {
+        SongResponseDTO response = songService.getSongByTitle(title);
         return ResponseEntity.ok(response);
     }
 

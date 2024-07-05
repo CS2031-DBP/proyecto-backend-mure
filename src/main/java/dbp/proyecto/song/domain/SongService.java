@@ -74,14 +74,12 @@ public class SongService {
         return getSongResponseDTO(song);
     }
 
-    public Page<SongResponseDTO> getSongByTitle(String title, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public SongResponseDTO getSongByTitle(String title) {
         Song song = songRepository.findByTitle(title);
         if (song == null) {
             throw new ResourceNotFoundException("Song not found by that title");
         }
-        List<SongResponseDTO> songList = Collections.singletonList(getSongResponseDTO(song));
-        return new PageImpl<>(songList, pageable, songList.size());
+        return getSongResponseDTO(song);
     }
 
 

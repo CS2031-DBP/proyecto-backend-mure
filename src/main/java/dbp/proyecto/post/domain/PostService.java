@@ -99,7 +99,7 @@ public class PostService {
     public List<PostResponseDTO> getPostsByCurrentUser() {
         String email = authorizationUtils.getCurrentUserEmail();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        List<Post> posts = postRepository.findByUserId(user.getId());
+        List<Post> posts = postRepository.findByUserIdOrderByCreatedAtDesc(user.getId());
         return posts.stream().map(this::getPostResponseDTO).collect(Collectors.toList());
     }
 

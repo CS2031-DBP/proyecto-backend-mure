@@ -4,6 +4,7 @@ import dbp.proyecto.authentication.domain.AuthenticationService;
 import dbp.proyecto.authentication.dto.JwtAuthenticationResponseDTO;
 import dbp.proyecto.authentication.dto.LogInDTO;
 import dbp.proyecto.authentication.dto.SignInDTO;
+import dbp.proyecto.authentication.dto.UserPasswordVerification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,5 +28,10 @@ public class AuthenticationController {
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthenticationResponseDTO> signIn(@RequestBody SignInDTO signInDTO) {
         return ResponseEntity.ok(authenticationService.signIn(signInDTO));
+    }
+    @PostMapping("/verify-password")
+    public ResponseEntity<Boolean> verifyPassword(@RequestBody UserPasswordVerification request) {
+        boolean isValid = authenticationService.verifyPassword(request.getUserId(), request.getPassword());
+        return ResponseEntity.ok(isValid);
     }
 }

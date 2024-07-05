@@ -5,6 +5,7 @@ import dbp.proyecto.user.domain.Role;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class UserBasicInfoResponseDTO {
@@ -14,4 +15,5 @@ public class UserBasicInfoResponseDTO {
     private String email;
     private String profileImage;
     private Role role;
+    private List<Long> friendsIds;
 }

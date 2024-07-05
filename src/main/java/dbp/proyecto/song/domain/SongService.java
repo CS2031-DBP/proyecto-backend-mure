@@ -16,11 +16,13 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -72,23 +74,24 @@ public class SongService {
         return getSongResponseDTO(song);
     }
 
-    public SongResponseDTO getSongByTitle(String title){
+    public Page<SongResponseDTO> getSongByTitle(String title, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
         Song song = songRepository.findByTitle(title);
-        if(song == null){
+        if (song == null) {
             throw new ResourceNotFoundException("Song not found by that title");
         }
-        return getSongResponseDTO(song);
+        List<SongResponseDTO> songList = Collections.singletonList(getSongResponseDTO(song));
+        return new PageImpl<>(songList, pageable, songList.size());
     }
 
-    public List<SongResponseDTO> getSongsByGenre(String genre) { //Done
-        List<Song> songs = songRepository.findByGenre(genre);
 
-        if(songs.isEmpty()){
-            throw new ResourceNotFoundException("Song not found by that genre");
+    public Page<SongResponseDTO> getSongsByGenre(String genre, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Song> songs = songRepository.findByGenre(genre, pageable);
+        if (songs.isEmpty()) {
+            throw new ResourceNotFoundException("Songs not found by that genre");
         }
-        return songs.stream()
-                .map(this::getSongResponseDTO)
-                .collect(Collectors.toList());
+        return songs.map(this::getSongResponseDTO);
     }
 
     public List<SongInfoForArtistDTO> getSongsByArtistId(Long artistId) {
@@ -96,13 +99,25 @@ public class SongService {
         return getSongInfoForArtistDTOS(artist);
     }
 
-    public List<SongInfoForArtistDTO> getSongsByArtistName(String artistName) {
+    public Page<SongResponseDTO> getSongsByArtistName(String artistName, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
         Artist artist = artistRepository.findByName(artistName);
-        if(artist == null){
+        if (artist == null) {
             throw new ResourceNotFoundException("Artist not found");
         }
-        return getSongInfoForArtistDTOS(artist);
+
+        List<Song> songs = artist.getSongs(); // Assuming Artist entity has a getSongs() method to get all songs by the artist
+        List<SongResponseDTO> songResponseDTOS = songs.stream()
+                .map(this::getSongResponseDTO)
+                .collect(Collectors.toList());
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), songResponseDTOS.size());
+        List<SongResponseDTO> sublist = songResponseDTOS.subList(start, end);
+
+        return new PageImpl<>(sublist, pageable, songResponseDTOS.size());
     }
+
 
     public List<SongInfoForAlbumDTO> getSongsByAlbumId(Long albumId) {
         List<Song> songs = songRepository.findByAlbumId(albumId);

@@ -40,7 +40,7 @@ public class PlaylistService {
 
     private PlaylistResponseDTO getPlaylistResponseDTO(Playlist playlist) {
         PlaylistResponseDTO playlistResponseDTO = modelMapper.map(playlist, PlaylistResponseDTO.class);
-        playlistResponseDTO.setUserName(playlist.getUser().getName());
+        playlistResponseDTO.setUserId(playlist.getUser().getId());
         playlistResponseDTO.setSongsIds(playlist.getSongs().stream()
                 .map(Song::getId)
                 .collect(Collectors.toList()));

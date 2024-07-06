@@ -7,6 +7,8 @@ import dbp.proyecto.song.dto.SongInfoForArtistDTO;
 import dbp.proyecto.song.dto.SongResponseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,9 +34,13 @@ public class SongController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/title")
-    public ResponseEntity<SongResponseDTO> getSongByTitle(@RequestParam String title) {
-        SongResponseDTO response = songService.getSongByTitle(title);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Page<SongResponseDTO>> getSongsByTitleWithPagination(
+            @RequestParam String title,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<SongResponseDTO> songsPage = songService.getSongsByTitleWithPagination(title, pageable);
+        return ResponseEntity.ok(songsPage);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

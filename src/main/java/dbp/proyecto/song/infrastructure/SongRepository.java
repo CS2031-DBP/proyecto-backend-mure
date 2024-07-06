@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface SongRepository extends JpaRepository<Song,Long >{
     @Query("SELECT s FROM Song s WHERE normalize_text(s.title) = normalize_text(:title)")
-    Song findByTitle(@Param("title") String title);
+    Page<Song> findByTitle(@Param("title") String title, Pageable pageable);
     @Query("SELECT s FROM Song s WHERE normalize_text(s.genre) = normalize_text(:genre)")
     Page<Song> findByGenre(String genre, Pageable pageable);
     List<Song> findByGenre(String genre);

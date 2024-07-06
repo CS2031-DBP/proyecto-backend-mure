@@ -22,7 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -74,14 +73,10 @@ public class SongService {
         return getSongResponseDTO(song);
     }
 
-    public SongResponseDTO getSongByTitle(String title) {
-        Song song = songRepository.findByTitle(title);
-        if (song == null) {
-            throw new ResourceNotFoundException("Song not found by that title");
-        }
-        return getSongResponseDTO(song);
+    public Page<SongResponseDTO> getSongsByTitleWithPagination(String title, Pageable pageable) {
+        Page<Song> songsPage = songRepository.findByTitle(title, pageable);
+        return songsPage.map(this::getSongResponseDTO);
     }
-
 
     public Page<SongResponseDTO> getSongsByGenre(String genre, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);

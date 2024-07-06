@@ -34,14 +34,11 @@ public class SongController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/title")
-    public ResponseEntity<Page<SongResponseDTO>> getSongsByTitleWithPagination(
-            @RequestParam String title,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<SongResponseDTO> songsPage = songService.getSongsByTitleWithPagination(title, pageable);
-        return ResponseEntity.ok(songsPage);
+    public ResponseEntity<Page<SongResponseDTO>> getSongsByTitle(@RequestParam String title, @RequestParam int page, @RequestParam int size) {
+        Page<SongResponseDTO> response = songService.getSongsByTitle(title, page, size);
+        return ResponseEntity.ok(response);
     }
+
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/genre")
@@ -62,9 +59,6 @@ public class SongController {
         Page<SongResponseDTO> response = songService.getSongsByArtistName(artistName, page, size);
         return ResponseEntity.ok(response);
     }
-
-
-
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/album/{albumId}")

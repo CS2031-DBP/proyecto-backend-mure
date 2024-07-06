@@ -1,14 +1,13 @@
 package dbp.proyecto.user.dto;
 
 import dbp.proyecto.user.domain.Role;
-
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class UserBasicInfoResponseDTO {
+public class UserResponseDto {
     private Long id;
     private String name;
     private LocalDate birthDate;

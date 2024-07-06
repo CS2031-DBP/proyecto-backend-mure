@@ -6,8 +6,11 @@ import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.story.domain.Story;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
-import jakarta.validation.constraints.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -48,12 +51,12 @@ public class User implements UserDetails {
 
     private LocalDateTime createdAt;
 
-    private String profileImage = "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Free-Download.png";
+    private String profileImageUrl = "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Free-Download.png";
 
     @ManyToMany
     private List<User> friends = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL , orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -63,17 +66,11 @@ public class User implements UserDetails {
     private List<Playlist> ownsPlaylists;
 
     @ManyToMany
-    @JoinTable(
-            name = "user_albums",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "album_id"))
+    @JoinTable(name = "user_albums", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "album_id"))
     private List<Album> favoriteAlbums;
 
     @ManyToMany
-    @JoinTable(
-            name = "user_song",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "song_id"))
+    @JoinTable(name = "user_song", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "song_id"))
     private List<Song> favoriteSongs;
 
     @Transient

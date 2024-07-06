@@ -2,58 +2,59 @@ package dbp.proyecto.user.domain;
 
 import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.album.dto.AlbumInfoForUserDTO;
+import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
+import dbp.proyecto.exception.ResourceNotFoundException;
+import dbp.proyecto.exception.UnauthorizedOperationException;
+import dbp.proyecto.exception.UniqueResourceAlreadyExist;
+import dbp.proyecto.media.domain.MediaService;
 import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
 import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.domain.Song;
-import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.song.dto.SongInfoForUserDTO;
 import dbp.proyecto.story.infrastructure.StoryRepository;
-import dbp.proyecto.user.dto.UserBasicInfoResponseDTO;
-import dbp.proyecto.user.dto.UserBodyDTO;
-import dbp.proyecto.user.dto.UserInfoForUserDTO;
+import dbp.proyecto.user.dto.UserRequestDto;
+import dbp.proyecto.user.dto.UserResponseDto;
+import dbp.proyecto.user.dto.UserResponseForUserDto;
 import dbp.proyecto.user.infrastructure.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import dbp.proyecto.exception.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+
     private final AuthorizationUtils authorizationUtils;
+
     private final PlaylistRepository playlistRepository;
+
     private final PostRepository postRepository;
+
     private final StoryRepository storyRepository;
+
     private final ModelMapper modelMapper;
+
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public UserService(UserRepository userRepository, AuthorizationUtils authorizationUtils, PlaylistRepository playlistRepository, PostRepository postRepository, StoryRepository storyRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.authorizationUtils = authorizationUtils;
-        this.playlistRepository = playlistRepository;
-        this.postRepository = postRepository;
-        this.storyRepository = storyRepository;
-        this.modelMapper = modelMapper;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final MediaService mediaService;
 
-
-    private List<UserInfoForUserDTO> getUserInfoForUserDTOS(User user) {
+    private List<UserResponseForUserDto> getUserInfoForUserDTOS(User user) {
         return user.getFriends().stream()
                 .map(friend -> {
-                    UserInfoForUserDTO userInfo = modelMapper.map(friend, UserInfoForUserDTO.class);
+                    UserResponseForUserDto userInfo = modelMapper.map(friend, UserResponseForUserDto.class);
                     List<String> friendsNames = friend.getFriends().stream()
                             .map(User::getName)
                             .collect(Collectors.toList());
@@ -67,29 +68,29 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UserBasicInfoResponseDTO getMe() {
+    public UserResponseDto getMe() {
         String email = authorizationUtils.getCurrentUserEmail();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        UserBasicInfoResponseDTO dto = modelMapper.map(user, UserBasicInfoResponseDTO.class);
+        UserResponseDto dto = modelMapper.map(user, UserResponseDto.class);
         List<Long> friendsIds = user.getFriends().stream().map(User::getId).collect(Collectors.toList());
         dto.setFriendsIds(friendsIds);
         return dto;
     }
 
-    public UserBasicInfoResponseDTO getUserById(Long id) {
+    public UserResponseDto getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        UserBasicInfoResponseDTO dto = modelMapper.map(user, UserBasicInfoResponseDTO.class);
+        UserResponseDto dto = modelMapper.map(user, UserResponseDto.class);
         List<Long> friendsIds = user.getFriends().stream().map(User::getId).collect(Collectors.toList());
         dto.setFriendsIds(friendsIds);
         return dto;
     }
 
-    public List<UserBasicInfoResponseDTO> getAllUsers() {
+    public List<UserResponseDto> getAllUsers() {
         if (!authorizationUtils.isAdmin())
             throw new UnauthorizedOperationException("You are not authorized to perform this action");
         return userRepository.findAll().stream()
                 .map(user -> {
-                    UserBasicInfoResponseDTO dto = modelMapper.map(user, UserBasicInfoResponseDTO.class);
+                    UserResponseDto dto = modelMapper.map(user, UserResponseDto.class);
                     List<Long> friendsIds = user.getFriends().stream().map(User::getId).collect(Collectors.toList());
                     dto.setFriendsIds(friendsIds);
                     return dto;
@@ -97,34 +98,45 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<UserInfoForUserDTO> getFriends(Long id) {
+    public List<UserResponseForUserDto> getFriends(Long id) {
         if (!authorizationUtils.isAdmin())
             throw new UnauthorizedOperationException("You are not authorized to perform this action");
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return getUserInfoForUserDTOS(user);
     }
 
-    public List<UserInfoForUserDTO> getFriendsByCurrentUser(){
+    public List<UserResponseForUserDto> getFriendsByCurrentUser() {
         String email = authorizationUtils.getCurrentUserEmail();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return getUserInfoForUserDTOS(user);
     }
 
-    public void updateUser(UserBodyDTO updatedUser) {
+    public void updateUser(UserRequestDto updatedUser) {
         String email = authorizationUtils.getCurrentUserEmail();
         User existingUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (updatedUser.getProfileImage() != null && !updatedUser.getProfileImage().isEmpty()) {
-            existingUser.setProfileImage(updatedUser.getProfileImage());
+            String imageUrl;
+
+            try {
+                imageUrl = mediaService.uploadFile(updatedUser.getProfileImage());
+            } catch (FileUploadException e) {
+                throw new RuntimeException(e);
+            }
+
+            existingUser.setProfileImageUrl(imageUrl);
         }
+
         if (updatedUser.getName() != null && !updatedUser.getName().isEmpty()) {
             existingUser.setName(updatedUser.getName());
         }
+
         if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
             String encodedPassword = passwordEncoder.encode(updatedUser.getPassword());
             existingUser.setPassword(encodedPassword);
         }
+
         if (updatedUser.getEmail() != null && !updatedUser.getEmail().isEmpty()) {
             existingUser.setEmail(updatedUser.getEmail());
         }
@@ -152,7 +164,7 @@ public class UserService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         User friend = userRepository.findById(friendId)
                 .orElseThrow(() -> new ResourceNotFoundException("Friend not found"));
-        if(!user.getFriends().contains(friend)){
+        if (!user.getFriends().contains(friend)) {
             throw new ResourceNotFoundException("Friend not found");
         }
         user.getFriends().remove(friend);
@@ -177,20 +189,18 @@ public class UserService {
     }
 
     public void updateFavorites(User user, Post post) {
-        if(post.getSong() != null && !user.getFavoriteSongs().contains(post.getSong())){
+        if (post.getSong() != null && !user.getFavoriteSongs().contains(post.getSong())) {
             user.getFavoriteSongs().add(post.getSong());
-        }
-        else if(post.getAlbum() != null && !user.getFavoriteAlbums().contains(post.getAlbum())){
+        } else if (post.getAlbum() != null && !user.getFavoriteAlbums().contains(post.getAlbum())) {
             user.getFavoriteAlbums().add(post.getAlbum());
         }
         userRepository.save(user);
     }
 
     public void updateFavoritesDL(User user, Post post) {
-        if(post.getSong() != null && user.getFavoriteSongs().contains(post.getSong())){
+        if (post.getSong() != null && user.getFavoriteSongs().contains(post.getSong())) {
             user.getFavoriteSongs().remove(post.getSong());
-        }
-        else if(post.getAlbum() != null && user.getFavoriteAlbums().contains(post.getAlbum())){
+        } else if (post.getAlbum() != null && user.getFavoriteAlbums().contains(post.getAlbum())) {
             user.getFavoriteAlbums().remove(post.getAlbum());
         }
         userRepository.save(user);

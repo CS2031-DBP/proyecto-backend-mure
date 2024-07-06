@@ -22,7 +22,7 @@ public class UserTest {
         user.setBirthDate(LocalDate.parse("1990-01-01"));
         user.setCreatedAt(LocalDateTime.now());
         user.setRole(Role.USER);
-        user.setProfileImage("profile1.jpg");
+        user.setProfileImageUrl("profile1.jpg");
 
         User friend1 = new User();
         friend1.setName("Friend 1");
@@ -31,7 +31,7 @@ public class UserTest {
         friend1.setBirthDate(LocalDate.parse("1991-01-01"));
         friend1.setCreatedAt(LocalDateTime.now());
         friend1.setRole(Role.USER);
-        friend1.setProfileImage("profile2.jpg");
+        friend1.setProfileImageUrl("profile2.jpg");
 
         User friend2 = new User();
         friend2.setName("Friend 2");
@@ -40,7 +40,7 @@ public class UserTest {
         friend2.setBirthDate(LocalDate.parse("1992-01-01"));
         friend2.setCreatedAt(LocalDateTime.now());
         friend2.setRole(Role.USER);
-        friend2.setProfileImage("profile3.jpg");
+        friend2.setProfileImageUrl("profile3.jpg");
 
         user.setFriends(List.of(friend1, friend2));
     }
@@ -56,7 +56,7 @@ public class UserTest {
         assertEquals(LocalDateTime.now().getYear(), user.getCreatedAt().getYear());
         assertEquals(LocalDateTime.now().getMonth(), user.getCreatedAt().getMonth());
         assertEquals(Role.USER, user.getRole());
-        assertEquals("profile1.jpg", user.getProfileImage());
+        assertEquals("profile1.jpg", user.getProfileImageUrl());
         assertEquals(2, user.getFriends().size());
     }
 
@@ -69,7 +69,7 @@ public class UserTest {
         friend3.setBirthDate(LocalDate.parse("1993-01-01"));
         friend3.setCreatedAt(LocalDateTime.now());
         friend3.setRole(Role.USER);
-        friend3.setProfileImage("profile4.jpg");
+        friend3.setProfileImageUrl("profile4.jpg");
         List<User> friends = new ArrayList<>(user.getFriends());
         friends.add(friend3);
         user.setFriends(friends);
@@ -77,7 +77,7 @@ public class UserTest {
     }
 
     @Test
-    public void testRemoveFriend(){
+    public void testRemoveFriend() {
         List<User> friends = new ArrayList<>(user.getFriends());
         friends.remove(0);
         user.setFriends(friends);
@@ -85,7 +85,7 @@ public class UserTest {
     }
 
     @Test
-    public void testUserNull(){
+    public void testUserNull() {
         User user = new User();
         assertNull(user.getName());
         assertNull(user.getEmail());
@@ -93,7 +93,7 @@ public class UserTest {
         assertNull(user.getBirthDate());
         assertNull(user.getCreatedAt());
         assertNull(user.getRole());
-        assertEquals("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Free-Download.png", user.getProfileImage());
+        assertEquals("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Free-Download.png", user.getProfileImageUrl());
         assertTrue(user.getFriends().isEmpty());
     }
 }

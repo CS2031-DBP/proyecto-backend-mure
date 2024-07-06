@@ -4,8 +4,6 @@ import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.album.dto.AlbumInfoForPostDTO;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
-import dbp.proyecto.events.updateFavs.dislikes.UpdateFavsEventDL;
-import dbp.proyecto.events.updateFavs.likes.UpdateFavsEvent;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UnauthorizedOperationException;
 import dbp.proyecto.post.dtos.PostBodyDTO;
@@ -19,10 +17,10 @@ import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -55,7 +53,7 @@ public class PostService {
         PostResponseDTO postResponseDTO = modelMapper.map(post, PostResponseDTO.class);
         postResponseDTO.setOwner(post.getUser().getName());
         postResponseDTO.setOwnerId(post.getUser().getId());
-        postResponseDTO.setProfileImage(post.getUser().getProfileImage());
+        postResponseDTO.setProfileImage(post.getUser().getProfileImageUrl());
         postResponseDTO.setLikedByUserIds(post.getLikedBy().stream().map(User::getId).collect(Collectors.toSet()));
         postResponseDTO.setCreatedAt(post.getCreatedAt());
 

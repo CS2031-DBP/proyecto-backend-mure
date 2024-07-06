@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class UserInfoForUserDTO {
+public class UserResponseForUserDto {
     private Long id;
     private String name;
     private List<String> friendsNames;

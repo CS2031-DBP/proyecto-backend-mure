@@ -3,6 +3,6 @@ package dbp.proyecto.authentication.dto;
 import lombok.Data;
 
 @Data
-public class JwtAuthenticationResponseDTO {
+public class JwtAuthResponseDto {
     private String token;
 }

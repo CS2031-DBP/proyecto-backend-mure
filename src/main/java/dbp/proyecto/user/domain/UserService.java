@@ -58,6 +58,10 @@ public class UserService {
                             .map(User::getName)
                             .collect(Collectors.toList());
                     userInfo.setFriendsNames(friendsNames);
+                    List<Long> friendsIds = friend.getFriends().stream()
+                            .map(User::getId)
+                            .collect(Collectors.toList());
+                    userInfo.setFriendsIds(friendsIds);
                     return userInfo;
                 })
                 .collect(Collectors.toList());
@@ -66,20 +70,31 @@ public class UserService {
     public UserBasicInfoResponseDTO getMe() {
         String email = authorizationUtils.getCurrentUserEmail();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return modelMapper.map(user, UserBasicInfoResponseDTO.class);
+        UserBasicInfoResponseDTO dto = modelMapper.map(user, UserBasicInfoResponseDTO.class);
+        List<Long> friendsIds = user.getFriends().stream().map(User::getId).collect(Collectors.toList());
+        dto.setFriendsIds(friendsIds);
+        return dto;
     }
 
     public UserBasicInfoResponseDTO getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return modelMapper.map(user, UserBasicInfoResponseDTO.class);
+        UserBasicInfoResponseDTO dto = modelMapper.map(user, UserBasicInfoResponseDTO.class);
+        List<Long> friendsIds = user.getFriends().stream().map(User::getId).collect(Collectors.toList());
+        dto.setFriendsIds(friendsIds);
+        return dto;
     }
 
     public List<UserBasicInfoResponseDTO> getAllUsers() {
         if (!authorizationUtils.isAdmin())
             throw new UnauthorizedOperationException("You are not authorized to perform this action");
         return userRepository.findAll().stream()
-                .map(user -> modelMapper.map(user, UserBasicInfoResponseDTO.class))
-                .toList();
+                .map(user -> {
+                    UserBasicInfoResponseDTO dto = modelMapper.map(user, UserBasicInfoResponseDTO.class);
+                    List<Long> friendsIds = user.getFriends().stream().map(User::getId).collect(Collectors.toList());
+                    dto.setFriendsIds(friendsIds);
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
     public List<UserInfoForUserDTO> getFriends(Long id) {

@@ -64,5 +64,9 @@ public class AuthenticationService {
         response.setToken(jwtService.generateToken(user));
         return response;
     }
-
+    public boolean verifyPassword(Long userId, String password) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return passwordEncoder.matches(password, user.getPassword());
+    }
 }

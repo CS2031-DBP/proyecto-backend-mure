@@ -8,6 +8,7 @@ import java.util.List;
 public class UserInfoForUserDTO {
     private Long id;
     private String name;
+    private String profileImage;
     private List<String> friendsNames;
     private List<Long> friendsIds;
 }

@@ -8,7 +8,7 @@
 			"name": "Python Debugger: Module",
 			"type": "debugpy",
 			"request": "launch",
-			"module": "Create Data"
+			"module": "scripts.data_generation.main"
 		}
 	]
 }

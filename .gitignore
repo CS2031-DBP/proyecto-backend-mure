@@ -31,3 +31,4 @@ build/
 # User defined
 .venv/
 .cache
+*.pyc

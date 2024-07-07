@@ -8,13 +8,15 @@ from scripts.data_generation.spotify_methods import *
 from scripts.data_generation.utils.normalize_text import normalize_text
 
 fake = Faker()
+
 artists_csv_data = []
 albums_csv_data = []
 songs_csv_data = []
+artist_songs = []
 album_counter = 0
 song_counter = 0
 
-for artist_id, artist_name in islice(artist_dict.items(), 10):
+for artist_id, artist_name in artist_dict.items():
     print(artist_name)
     artist_spotify_id = get_artist_id(artist_name)
 
@@ -51,12 +53,13 @@ for artist_id, artist_name in islice(artist_dict.items(), 10):
         album_link = album["external_urls"]["spotify"]
         album_description = fake.text(max_nb_chars=50).replace("\n", " ")
 
-        tracks = get_tracks_by_album(album_id, artist_name, limit=10)
-        if not tracks:
+        songs = get_tracks_by_album(album_id, artist_name)
+
+        if not songs:
             continue
 
-        total_duration = sum(track["duration_ms"] for track in tracks) // 1000
-        songs_count = len(tracks)
+        total_duration = sum(track["duration_ms"] for track in songs) // 1000
+        songs_count = len(songs)
 
         albums_csv_data.append(
             {
@@ -64,11 +67,14 @@ for artist_id, artist_name in islice(artist_dict.items(), 10):
                 "title": album_title,
                 "title_normalized": normalize_text(album_title),
                 "description": album_description,
-                "release_date": album_release_date,
-                "total_duration": str(total_duration // 3600).zfill(2) + ":"
-                                  + str((total_duration % 3600) // 60).zfill(2)
-                                  + ":"
-                                  + str(total_duration % 60).zfill(2),
+                "release_date": pd.to_datetime(
+                    album_release_date, errors="coerce"
+                ).strftime("%Y-%m-%d"),
+                "total_duration": str(total_duration // 3600).zfill(2)
+                + ":"
+                + str((total_duration % 3600) // 60).zfill(2)
+                + ":"
+                + str(total_duration % 60).zfill(2),
                 "songs_count": songs_count,
                 "cover_image": album_cover_image,
                 "link": album_link,
@@ -76,32 +82,47 @@ for artist_id, artist_name in islice(artist_dict.items(), 10):
             }
         )
 
-        for track in tracks:
+        for song in songs:
             song_counter += 1
-            track_title = track["name"]
-            track_duration = track["duration_ms"] // 1000  # Convertir a segundos
-            track_release_date = album_release_date
-            track_link = track["external_urls"]["spotify"]
-            normalized_title = normalize_text(track_title)
+            song_title = song["name"]
+            song_duration = song["duration_ms"] // 1000
+            song_release_date = album_release_date
+            song_link = song["external_urls"]["spotify"]
+            normalized_title = normalize_text(song_title)
 
             songs_csv_data.append(
                 {
                     "id": song_counter,
-                    "title": track_title,
+                    "title": song_title,
                     "title_normalized": normalized_title,
                     "genre": "Unknown",
-                    "release_date": track_release_date,
-                    "duration": str(track_duration // 60).zfill(2) + ":" + str(track_duration % 60).zfill(2),
+                    "release_date": pd.to_datetime(
+                        song_release_date, errors="coerce"
+                    ).strftime("%Y-%m-%d"),
+                    "duration": str(song_duration // 60).zfill(2)
+                    + ":"
+                    + str(song_duration % 60).zfill(2),
                     "cover_image": album_cover_image,
                     "likes": fake.random_int(min=0, max=1000),
                     "times_played": fake.random_int(min=0, max=100000),
+                    "album_id": album_counter,
+                    "link": song_link,
+                }
+            )
+
+            artist_songs.append(
+                {
+                    "artist_id": artist_id,
+                    "song_id": song_counter,
                 }
             )
 
 artists_df = pd.DataFrame(artists_csv_data)
 albums_df = pd.DataFrame(albums_csv_data)
 songs_df = pd.DataFrame(songs_csv_data)
+artist_songs_df = pd.DataFrame(artist_songs)
 
-artists_df.to_csv("data/artists.csv", index=False, encoding='utf-8')
-albums_df.to_csv("data/albums.csv", index=False, encoding='utf-8')
-songs_df.to_csv("data/songs.csv", index=False, encoding='utf-8')
+artists_df.to_csv("data/artists.csv", index=False, encoding="utf-8")
+albums_df.to_csv("data/albums.csv", index=False, encoding="utf-8")
+songs_df.to_csv("data/songs.csv", index=False, encoding="utf-8")
+artist_songs_df.to_csv("data/artist_songs.csv", index=False, encoding="utf-8")

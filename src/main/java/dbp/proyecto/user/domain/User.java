@@ -35,10 +35,10 @@ public class User implements UserDetails {
 
     @NotBlank
     @Column(unique = true)
-    private String username;
+    private String nickname;
 
     @NotBlank
-    private String usernameNormalized;
+    private String nicknameNormalized;
 
     @NotBlank
     @Email

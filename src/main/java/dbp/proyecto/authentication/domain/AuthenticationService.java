@@ -61,8 +61,8 @@ public class AuthenticationService {
         user.setName(signinDto.getName());
         user.setBirthDate(signinDto.getBirthdate());
         user.setCreatedAt(LocalDateTime.now());
-        user.setUsername(signinDto.getUsername());
-        user.setUsernameNormalized(Normalizer.normalize(signinDto.getUsername(), Normalizer.Form.NFC));
+        user.setNickname(signinDto.getNickname());
+        user.setNicknameNormalized(Normalizer.normalize(signinDto.getNickname(), Normalizer.Form.NFC));
 
         if (signinDto.getIsAdmin()) {
             user.setRole(Role.ADMIN);

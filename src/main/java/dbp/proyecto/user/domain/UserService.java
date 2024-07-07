@@ -134,6 +134,9 @@ public class UserService {
         if (updatedUser.getEmail() != null && !updatedUser.getEmail().isEmpty()) {
             existingUser.setEmail(updatedUser.getEmail());
         }
+        if (updatedUser.getNickname() != null && !updatedUser.getNickname().isEmpty()) {
+            existingUser.setNickname(updatedUser.getNickname());
+        }
 
         userRepository.save(existingUser);
     }
@@ -253,9 +256,9 @@ public class UserService {
 
     @Bean(name = "UserDetailsService")
     public UserDetailsService userDetailsService() {
-        return username -> {
+        return USERNAME -> {
             User user = userRepository
-                    .findByEmail(username)
+                    .findByEmail(USERNAME)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             return (UserDetails) user;
         };

@@ -12,7 +12,7 @@ public class UserResponseDto {
     private String name;
     private LocalDate birthDate;
     private String email;
-    private String profileImage;
+    private String profileImageUrl;
     private Role role;
     private List<Long> friendsIds;
     private String username;

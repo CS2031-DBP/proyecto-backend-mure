@@ -34,12 +34,11 @@ public class User implements UserDetails {
     private String name;
 
     @NotBlank
-    @NotNull
     @Column(unique = true)
     private String username;
 
     @NotBlank
-    private String nameNormalized;
+    private String usernameNormalized;
 
     @NotBlank
     @Email

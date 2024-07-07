@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -177,6 +178,13 @@ public class UserService {
         for (User friend : user.getFriends()) {
             friend.getFriends().remove(user);
             userRepository.save(friend);
+        }
+        // delete each user that like a post
+        Set<Post> likedPosts = user.getLikedPosts();
+        for (Post post : likedPosts) {
+            post.getLikedBy().remove(user);
+            post.setLikes(post.getLikes() - 1); // Opcional: Actualizar el contador de "me gusta" si existe
+            postRepository.save(post);
         }
         userRepository.delete(user);
     }

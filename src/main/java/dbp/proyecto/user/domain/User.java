@@ -31,9 +31,12 @@ public class User implements UserDetails {
     private Role role;
 
     @NotBlank
-    @Size(min = 3, max = 50)
-    @Column(unique = true)
     private String name;
+
+    @NotBlank
+    @NotNull
+    @Column(unique = true)
+    private String username;
 
     @NotBlank
     private String nameNormalized;

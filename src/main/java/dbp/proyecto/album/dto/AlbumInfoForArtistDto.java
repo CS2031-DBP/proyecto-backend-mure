@@ -4,7 +4,7 @@ import lombok.Data;
 
 
 @Data
-public class AlbumInfoForArtistDTO {
+public class AlbumInfoForArtistDto {
     private Long id;
     private String title;
     private String description;

@@ -5,7 +5,6 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.List;
 
-
 @Data
 public class SongResponseDto {
     private String id;
@@ -19,4 +18,6 @@ public class SongResponseDto {
     private String albumTitle;
     private List<String> artistsNames;
     private String link;
+    private List<Long> artistsIds;
+    private Long albumId;
 }

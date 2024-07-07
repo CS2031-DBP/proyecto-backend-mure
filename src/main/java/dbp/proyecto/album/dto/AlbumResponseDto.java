@@ -17,4 +17,6 @@ public class AlbumResponseDto {
     private List<String> songsTitles;
     private String coverImage;
     private String link;
+    private Long artistId;
+    private List<Long> songsIds;
 }

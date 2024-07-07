@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class AlbumInfoForPostDTO {
+public class AlbumInfoForPostDto {
     private String title;
     private String url;
     private String coverUrl;

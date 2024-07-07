@@ -1,6 +1,6 @@
 package dbp.proyecto.post.dtos;
 
-import dbp.proyecto.album.dto.AlbumInfoForPostDTO;
+import dbp.proyecto.album.dto.AlbumInfoForPostDto;
 import dbp.proyecto.song.dto.SongInfoForPostDto;
 import lombok.Data;
 
@@ -15,7 +15,7 @@ public class PostResponseDto {
     private String profileImage;
     private LocalDateTime CreatedAt;
     private SongInfoForPostDto song;
-    private AlbumInfoForPostDTO album;
+    private AlbumInfoForPostDto album;
     private Integer likes;
     private String description;
     private String imageUrl;

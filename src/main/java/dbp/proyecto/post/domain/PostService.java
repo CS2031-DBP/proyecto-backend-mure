@@ -1,7 +1,7 @@
 package dbp.proyecto.post.domain;
 
 import dbp.proyecto.album.domain.Album;
-import dbp.proyecto.album.dto.AlbumInfoForPostDTO;
+import dbp.proyecto.album.dto.AlbumInfoForPostDto;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
@@ -71,7 +71,7 @@ public class PostService {
         }
 
         if (post.getAlbum() != null) {
-            AlbumInfoForPostDTO albumDTO = new AlbumInfoForPostDTO();
+            AlbumInfoForPostDto albumDTO = new AlbumInfoForPostDto();
             albumDTO.setTitle(post.getAlbum().getTitle());
             albumDTO.setUrl(post.getAlbum().getLink());
             albumDTO.setCoverUrl(post.getAlbum().getCoverImage());

@@ -1,7 +1,7 @@
 package dbp.proyecto.album.application;
 
 import dbp.proyecto.album.domain.AlbumService;
-import dbp.proyecto.album.dto.AlbumInfoForArtistDTO;
+import dbp.proyecto.album.dto.AlbumInfoForArtistDto;
 import dbp.proyecto.album.dto.AlbumRequestDto;
 import dbp.proyecto.album.dto.AlbumResponseDto;
 import dbp.proyecto.album.dto.AlbumUpdateDto;
@@ -35,13 +35,13 @@ public class AlbumController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/artist/{artistId}")
-    public ResponseEntity<List<AlbumInfoForArtistDTO>> getAlbumsByArtistId(@PathVariable Long artistId) {
+    public ResponseEntity<List<AlbumInfoForArtistDto>> getAlbumsByArtistId(@PathVariable Long artistId) {
         return ResponseEntity.ok(albumService.getAlbumsByArtistId(artistId));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/artistName")
-    public ResponseEntity<List<AlbumInfoForArtistDTO>> getAlbumsByArtistName(@RequestParam String artistName,
+    public ResponseEntity<List<AlbumInfoForArtistDto>> getAlbumsByArtistName(@RequestParam String artistName,
                                                                              @RequestParam int page,
                                                                              @RequestParam int size) {
         return ResponseEntity.ok(albumService.getAlbumsByArtistName(artistName, page, size));

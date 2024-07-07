@@ -15,4 +15,6 @@ public class ArtistResponseDto {
     private List<String> albumsTitles;
     private List<String> songTitles;
     private String imageUrl;
+    private List<Long> albumsIds;
+    private List<Long> songsIds;
 }

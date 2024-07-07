@@ -1,6 +1,6 @@
 package dbp.proyecto.user.applitaction;
 
-import dbp.proyecto.album.dto.AlbumInfoForUserDTO;
+import dbp.proyecto.album.dto.AlbumInfoForUserDto;
 import dbp.proyecto.song.dto.SongInfoForUserDto;
 import dbp.proyecto.user.domain.UserService;
 import dbp.proyecto.user.dto.UserRequestDto;
@@ -80,7 +80,7 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/favoriteAlbums/{id}")
-    public ResponseEntity<List<AlbumInfoForUserDTO>> getFavoriteAlbums(@PathVariable Long id) {
+    public ResponseEntity<List<AlbumInfoForUserDto>> getFavoriteAlbums(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getFavoriteAlbums(id));
     }
 

@@ -1,0 +1,4 @@
+spotipy
+faker
+black
+pandas

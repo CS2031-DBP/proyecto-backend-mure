@@ -28,4 +28,6 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
+# User defined
+.venv/
+.cache

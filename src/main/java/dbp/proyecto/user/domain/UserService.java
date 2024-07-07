@@ -1,7 +1,7 @@
 package dbp.proyecto.user.domain;
 
 import dbp.proyecto.album.domain.Album;
-import dbp.proyecto.album.dto.AlbumInfoForUserDTO;
+import dbp.proyecto.album.dto.AlbumInfoForUserDto;
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
@@ -228,7 +228,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<AlbumInfoForUserDTO> getFavoriteAlbums(Long id) {
+    public List<AlbumInfoForUserDto> getFavoriteAlbums(Long id) {
         String email = authorizationUtils.getCurrentUserEmail();
         User currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -240,7 +240,7 @@ public class UserService {
         List<Album> favoriteAlbums = user.getFavoriteAlbums();
         return favoriteAlbums.stream()
                 .map(album -> {
-                    AlbumInfoForUserDTO dto = modelMapper.map(album, AlbumInfoForUserDTO.class);
+                    AlbumInfoForUserDto dto = modelMapper.map(album, AlbumInfoForUserDto.class);
                     dto.setArtistName(album.getArtist().getName());
                     return dto;
                 })

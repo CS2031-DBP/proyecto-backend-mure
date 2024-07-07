@@ -32,31 +32,30 @@ public class ArtistService {
 
     private final ModelMapper modelMapper;
 
-    private ArtistResponseDto getArtistResponseDTO(Artist artist) {
-        ArtistResponseDto artistResponseDTO = modelMapper.map(artist, ArtistResponseDto.class);
-
+    private ArtistResponseDto getArtistResponseDto(Artist artist) {
+        ArtistResponseDto artistResponseDto = modelMapper.map(artist, ArtistResponseDto.class);
         List<String> albumTitles = artist.getAlbums().stream()
                 .map(Album::getTitle)
                 .collect(Collectors.toList());
-        artistResponseDTO.setAlbumsTitles(albumTitles);
-
+        artistResponseDto.setAlbumsTitles(albumTitles);
         List<String> songTitles = artist.getSongs().stream()
                 .map(Song::getTitle)
                 .collect(Collectors.toList());
-        artistResponseDTO.setSongTitles(songTitles);
-
-        return artistResponseDTO;
+        artistResponseDto.setSongTitles(songTitles);
+        artistResponseDto.setAlbumsIds(artist.getAlbums().stream().map(Album::getId).collect(Collectors.toList()));
+        artistResponseDto.setSongsIds(artist.getSongs().stream().map(Song::getId).collect(Collectors.toList()));
+        return artistResponseDto;
     }
 
     public ArtistResponseDto getArtistById(Long id) {
         Artist artist = artistRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
-        return getArtistResponseDTO(artist);
+        return getArtistResponseDto(artist);
     }
 
     public List<ArtistResponseDto> findVerifiedArtists() {
         List<Artist> artists = artistRepository.findByVerifiedTrue();
 
-        return artists.stream().map(this::getArtistResponseDTO).collect(Collectors.toList());
+        return artists.stream().map(this::getArtistResponseDto).collect(Collectors.toList());
     }
 
     public Page<ArtistResponseDto> getArtistsByName(String nameNormalized, int page, int size) {
@@ -82,7 +81,7 @@ public class ArtistService {
     public List<ArtistResponseDto> getAllArtists() {
         List<Artist> artists = artistRepository.findAll();
         return artists.stream()
-                .map(this::getArtistResponseDTO)
+                .map(this::getArtistResponseDto)
                 .collect(Collectors.toList());
     }
 

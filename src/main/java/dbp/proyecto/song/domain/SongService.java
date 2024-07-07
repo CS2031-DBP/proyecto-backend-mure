@@ -72,12 +72,13 @@ public class SongService {
         return getSongResponseDTO(song);
     }
 
-    public SongResponseDTO getSongByTitle(String title) {
-        Song song = songRepository.findByTitle(title);
-        if (song == null) {
-            throw new ResourceNotFoundException("Song not found by that title");
+    public Page<SongResponseDTO> getSongsByTitle(String title, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Song> songs = songRepository.findByTitle(title, pageable);
+        if (songs.isEmpty()) {
+            throw new ResourceNotFoundException("Songs not found by that title");
         }
-        return getSongResponseDTO(song);
+        return songs.map(this::getSongResponseDTO);
     }
 
 
@@ -113,7 +114,6 @@ public class SongService {
 
         return new PageImpl<>(sublist, pageable, songResponseDTOS.size());
     }
-
 
     public List<SongInfoForAlbumDTO> getSongsByAlbumId(Long albumId) {
         List<Song> songs = songRepository.findByAlbumId(albumId);

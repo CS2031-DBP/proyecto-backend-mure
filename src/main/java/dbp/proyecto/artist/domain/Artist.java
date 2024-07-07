@@ -3,6 +3,7 @@ package dbp.proyecto.artist.domain;
 import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.song.domain.Song;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -32,6 +33,10 @@ public class Artist {
 
     @Size(max = 500)
     private String description;
+
+    @NotBlank
+    @NotNull
+    private String imageUrl;
 
     @OneToMany(mappedBy = "artist")
     private List<Album> albums = new ArrayList<>();

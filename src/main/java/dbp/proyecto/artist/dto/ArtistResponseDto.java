@@ -14,4 +14,5 @@ public class ArtistResponseDto {
     private Boolean verified;
     private List<String> albumsTitles;
     private List<String> songTitles;
+    private String imageUrl;
 }

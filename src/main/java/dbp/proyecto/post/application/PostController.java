@@ -8,6 +8,7 @@ import dbp.proyecto.post.dtos.PostUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,9 +30,12 @@ public class PostController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<PostResponseDto>> getPostsByUserId(@PathVariable Long userId) {
-        return ResponseEntity.ok(postService.getPostsByUserId(userId));
+    public ResponseEntity<Page<PostResponseDto>> getPostsByUserId(@PathVariable Long userId, @RequestParam int page, @RequestParam int size) {
+        Pageable pageable = Pageable.ofSize(size).withPage(page);
+        Page<PostResponseDto> response = postService.getPostsByUserId(userId, pageable);
+        return ResponseEntity.ok(response);
     }
+
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/song/{songId}")
@@ -47,8 +51,9 @@ public class PostController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/me")
-    public ResponseEntity<List<PostResponseDto>> getPostsByCurrentUser() {
-        return ResponseEntity.ok(postService.getPostsByCurrentUser());
+    public ResponseEntity<Page<PostResponseDto>> getPostsByCurrentUser(@RequestParam int page, @RequestParam int size) {
+        Page<PostResponseDto> response = postService.getPostsByCurrentUser(page, size);
+        return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

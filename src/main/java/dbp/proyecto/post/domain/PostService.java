@@ -91,16 +91,17 @@ public class PostService {
         return getPostResponseDto(post);
     }
 
-    public List<PostResponseDto> getPostsByUserId(Long userId) {
-        List<Post> posts = postRepository.findByUserId(userId);
-        return posts.stream().map(this::getPostResponseDto).collect(Collectors.toList());
+    public Page<PostResponseDto> getPostsByUserId(Long userId, Pageable pageable) {
+        Page<Post> posts = postRepository.findByUserId(userId, pageable);
+        return posts.map(this::getPostResponseDto);
     }
 
-    public List<PostResponseDto> getPostsByCurrentUser() {
+    public Page<PostResponseDto> getPostsByCurrentUser(int page, int size) {
         String email = authorizationUtils.getCurrentUserEmail();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        List<Post> posts = postRepository.findByUserIdOrderByCreatedAtDesc(user.getId());
-        return posts.stream().map(this::getPostResponseDto).collect(Collectors.toList());
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Post> posts = postRepository.findByUserIdOrderByCreatedAtDesc(user.getId(), pageable);
+        return posts.map(this::getPostResponseDto);
     }
 
     public Page<PostResponseDto> getAllPosts(int page, int size) {

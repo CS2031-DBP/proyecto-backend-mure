@@ -1,18 +1,18 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="MureApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
     <envs>
-      <env name="AMAZON_S3_ACCESSKEY" value="AKIA47PRT467SCDSSNMO" />
+      <env name="AMAZON_S3_ACCESSKEY" value="AKIA3D7XGQXXSJ3PJDZ5" />
+      <env name="AMAZON_S3_BUCKETNAME" value="mure-bucket" />
       <env name="AMAZON_S3_REGION" value="us-east-1" />
-      <env name="AMAZON_S3_SECRETKEY" value="IM825enIg1boBE3NBSU3z0oYrEBAzFtSXCe7LyEa" />
+      <env name="AMAZON_S3_SECRETKEY" value="U3yJzZTco6Cb51kyhCa0YLebd1xVbebhtZMHaIxf" />
       <env name="DB_HOST" value="localhost" />
       <env name="DB_NAME" value="database" />
       <env name="DB_PASSWORD" value="postgres" />
       <env name="DB_PORT" value="5433" />
       <env name="DB_USER" value="postgres" />
-      <env name="JWT_SECRET" value="eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcyMDAwMTEzNSwiaWF0IjoxNzIwMDAxMTM1fQ.vIHfQAXb9QJWTM_71ltca7BtnjVKDW0mftmXFPWHL84 " />
+      <env name="JWT_SECRET" value="eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcyMDAwMTEzNSwiaWF0IjoxNzIwMDAxMTM1fQ.vIHfQAXb9QJWTM_71ltca7BtnjVKDW0mftmXFPWHL84" />
       <env name="MAIL_USERNAME" value="" />
       <env name="PROD_MAIL_PASSWORD" value="" />
-      <env name="AMAZON_S3_BUCKETNAME" value="proyecto-backend-mure-bucket" />
     </envs>
     <module name="proyecto" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="dbp.proyecto.MureApplication" />

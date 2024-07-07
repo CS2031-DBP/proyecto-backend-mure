@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
-public class PostResponseDTO {
+public class PostResponseDto {
     private Long id;
     private String owner;
     private Long ownerId;

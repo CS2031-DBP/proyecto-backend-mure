@@ -111,21 +111,13 @@ public class UserService {
         return getUserInfoForUserDTOS(user);
     }
 
-    public void updateUser(UserRequestDto updatedUser) {
+    public void updateUser(UserRequestDto updatedUser) throws FileUploadException {
         String email = authorizationUtils.getCurrentUserEmail();
         User existingUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (updatedUser.getProfileImage() != null && !updatedUser.getProfileImage().isEmpty()) {
-            String imageUrl;
-
-            try {
-                imageUrl = mediaService.uploadFile(updatedUser.getProfileImage());
-            } catch (FileUploadException e) {
-                throw new RuntimeException(e);
-            }
-
-            existingUser.setProfileImageUrl(imageUrl);
+            existingUser.setProfileImageUrl(mediaService.uploadFile(updatedUser.getProfileImage()));
         }
 
         if (updatedUser.getName() != null && !updatedUser.getName().isEmpty()) {

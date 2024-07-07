@@ -13,23 +13,21 @@ import dbp.proyecto.song.dto.SongInfoForArtistDTO;
 import dbp.proyecto.song.dto.SongResponseDTO;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Page;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
 public class SongService {
-
     private final SongRepository songRepository;
     private final ArtistRepository artistRepository;
     private final AlbumRepository albumRepository;
@@ -62,7 +60,7 @@ public class SongService {
 
         return songs.stream().map(song -> {
             SongInfoForArtistDTO songInfoForArtistDTO = modelMapper.map(song, SongInfoForArtistDTO.class);
-            if(song.getAlbum() != null){
+            if (song.getAlbum() != null) {
                 songInfoForArtistDTO.setAlbumTitle(song.getAlbum().getTitle());
             }
             return songInfoForArtistDTO;
@@ -164,7 +162,7 @@ public class SongService {
         songRepository.saveAll(songs);
     }
 
-    public void updateCoverImage(String coverImage, Long id){
+    public void updateCoverImage(String coverImage, Long id) {
         Song song = songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
         song.setCoverImage(coverImage);
         songRepository.save(song);

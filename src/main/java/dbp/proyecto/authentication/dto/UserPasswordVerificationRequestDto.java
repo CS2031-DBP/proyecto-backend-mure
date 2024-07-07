@@ -3,7 +3,7 @@ package dbp.proyecto.authentication.dto;
 import lombok.Data;
 
 @Data
-public class UserPasswordVerification {
+public class UserPasswordVerificationRequestDto {
     private Long userId;
     private String password;
 }

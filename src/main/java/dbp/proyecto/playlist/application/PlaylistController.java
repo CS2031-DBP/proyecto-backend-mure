@@ -5,6 +5,8 @@ import dbp.proyecto.playlist.domain.PlaylistService;
 import dbp.proyecto.playlist.dtos.PlaylistBodyDTO;
 import dbp.proyecto.playlist.dtos.PlaylistResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,15 +41,17 @@ public class PlaylistController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/user/{id}")
-    public ResponseEntity<List<PlaylistResponseDTO>> getPlaylistsByUserId(@PathVariable Long id) {
-        List<PlaylistResponseDTO> playlists = playlistService.getPlaylistsByUserId(id);
+    public ResponseEntity<Page<PlaylistResponseDTO>> getPlaylistsByUserId(@PathVariable Long id, int page, int size) {
+        Pageable pageable = Pageable.ofSize(size).withPage(page);
+        Page<PlaylistResponseDTO> playlists = playlistService.getPlaylistsByUserId(id, pageable);
         return ResponseEntity.ok(playlists);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/me")
-    public ResponseEntity<List<PlaylistResponseDTO>> getPlaylistsByCurrentUser() {
-        List<PlaylistResponseDTO> playlists = playlistService.getPlaylistsByCurrentUser();
+    public ResponseEntity<Page<PlaylistResponseDTO>> getPlaylistsByCurrentUser(int page, int size) {
+        Pageable pageable = Pageable.ofSize(size).withPage(page);
+        Page<PlaylistResponseDTO> playlists = playlistService.getPlaylistsByCurrentUser(pageable);
         return ResponseEntity.ok(playlists);
     }
 

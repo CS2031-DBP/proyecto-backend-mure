@@ -13,6 +13,8 @@ import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,21 +75,17 @@ public class PlaylistService {
         return getPlaylistResponseDTO(playlist);
     }
 
-    public List<PlaylistResponseDTO> getPlaylistsByUserId(Long userId) {
-     User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return user.getOwnsPlaylists().stream()
-                .map(this::getPlaylistResponseDTO)
-                .collect(Collectors.toList());
+    public Page<PlaylistResponseDTO> getPlaylistsByUserId(Long userId, Pageable pageable) {
+        Page<Playlist> playlistsPage = playlistRepository.findByUserId(userId, pageable);
+        return playlistsPage.map(this::getPlaylistResponseDTO);
     }
 
-    public List<PlaylistResponseDTO> getPlaylistsByCurrentUser() {
+    public Page<PlaylistResponseDTO> getPlaylistsByCurrentUser(Pageable pageable) {
         String email = authorizationUtils.getCurrentUserEmail();
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return user.getOwnsPlaylists().stream()
-                .map(this::getPlaylistResponseDTO)
-                .collect(Collectors.toList());
+        Page<Playlist> playlistsPage = playlistRepository.findByUserId(user.getId(), pageable);
+        return playlistsPage.map(this::getPlaylistResponseDTO);
     }
 
     public List<PlaylistResponseDTO> getAllPlaylists() {

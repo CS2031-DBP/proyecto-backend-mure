@@ -1,11 +1,11 @@
 package dbp.proyecto.song.application;
 
 import dbp.proyecto.song.domain.SongService;
-import dbp.proyecto.song.dto.SongBodyDTO;
-import dbp.proyecto.song.dto.SongInfoForAlbumDTO;
-import dbp.proyecto.song.dto.SongInfoForArtistDTO;
-import dbp.proyecto.song.dto.SongResponseDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import dbp.proyecto.song.dto.SongInfoForAlbumDto;
+import dbp.proyecto.song.dto.SongInfoForArtistDto;
+import dbp.proyecto.song.dto.SongRequestDto;
+import dbp.proyecto.song.dto.SongResponseDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,66 +15,62 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/songs")
 public class SongController {
     private final SongService songService;
 
-    @Autowired
-    public SongController(SongService songService) {
-        this.songService = songService;
-    }
-
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{id}")
-    public ResponseEntity<SongResponseDTO> getSongById(@PathVariable Long id) {
+    public ResponseEntity<SongResponseDto> getSongById(@PathVariable Long id) {
         return ResponseEntity.ok(songService.getSongById(id));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/title")
-    public ResponseEntity<Page<SongResponseDTO>> getSongsByTitle(@RequestParam String title, @RequestParam int page, @RequestParam int size) {
-        Page<SongResponseDTO> response = songService.getSongsByTitle(title, page, size);
+    public ResponseEntity<Page<SongResponseDto>> getSongsByTitle(@RequestParam String title, @RequestParam int page, @RequestParam int size) {
+        Page<SongResponseDto> response = songService.getSongsByTitle(title, page, size);
         return ResponseEntity.ok(response);
     }
 
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/genre")
-    public ResponseEntity<Page<SongResponseDTO>> getSongsByGenre(@RequestParam String genre, @RequestParam int page, @RequestParam int size) {
-        Page<SongResponseDTO> response = songService.getSongsByGenre(genre, page, size);
+    public ResponseEntity<Page<SongResponseDto>> getSongsByGenre(@RequestParam String genre, @RequestParam int page, @RequestParam int size) {
+        Page<SongResponseDto> response = songService.getSongsByGenre(genre, page, size);
         return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/artist/{artistId}")
-    public ResponseEntity<List<SongInfoForArtistDTO>> getSongsByArtistId(@PathVariable Long artistId) {
+    public ResponseEntity<List<SongInfoForArtistDto>> getSongsByArtistId(@PathVariable Long artistId) {
         return ResponseEntity.ok(songService.getSongsByArtistId(artistId));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/artistName")
-    public ResponseEntity<Page<SongResponseDTO>> getSongsByArtistName(@RequestParam String artistName, @RequestParam int page, @RequestParam int size) {
-        Page<SongResponseDTO> response = songService.getSongsByArtistName(artistName, page, size);
+    public ResponseEntity<Page<SongResponseDto>> getSongsByArtistName(@RequestParam String artistName, @RequestParam int page, @RequestParam int size) {
+        Page<SongResponseDto> response = songService.getSongsByArtistName(artistName, page, size);
         return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/album/{albumId}")
-    public ResponseEntity<List<SongInfoForAlbumDTO>> getSongsByAlbumId(@PathVariable Long albumId) {
+    public ResponseEntity<List<SongInfoForAlbumDto>> getSongsByAlbumId(@PathVariable Long albumId) {
         return ResponseEntity.ok(songService.getSongsByAlbumId(albumId));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/songs/all")
-    public ResponseEntity<Page<SongResponseDTO>> getAllSongs(@RequestParam int page, @RequestParam int size) {
-        Page<SongResponseDTO> response = songService.getAllSongs(page, size);
+    public ResponseEntity<Page<SongResponseDto>> getAllSongs(@RequestParam int page, @RequestParam int size) {
+        Page<SongResponseDto> response = songService.getAllSongs(page, size);
         return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<Void> createSongs(@RequestBody List<SongBodyDTO> songBodyDTOs) {
-        songService.createSongs(songBodyDTOs);
+    public ResponseEntity<Void> createSongs(@RequestBody List<SongRequestDto> songRequestDtos) {
+        songService.createSongs(songRequestDtos);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

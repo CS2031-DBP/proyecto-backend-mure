@@ -1,5 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="MureApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <option name="ALTERNATIVE_JRE_PATH" value="22" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <envs>
       <env name="AMAZON_S3_ACCESSKEY" value="AKIA3D7XGQXXSJ3PJDZ5" />
       <env name="AMAZON_S3_BUCKETNAME" value="mure-bucket" />

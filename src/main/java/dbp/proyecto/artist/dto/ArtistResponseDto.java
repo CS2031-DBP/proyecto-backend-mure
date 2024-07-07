@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class ArtistResponseDTO {
+public class ArtistResponseDto {
     private Long id;
     private String name;
     private String description;
@@ -14,4 +14,7 @@ public class ArtistResponseDTO {
     private Boolean verified;
     private List<String> albumsTitles;
     private List<String> songTitles;
+    private String imageUrl;
+    private List<Long> albumsIds;
+    private List<Long> songsIds;
 }

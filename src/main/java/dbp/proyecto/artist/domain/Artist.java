@@ -3,13 +3,14 @@ package dbp.proyecto.artist.domain;
 import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.song.domain.Song;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -22,6 +23,9 @@ public class Artist {
     private String name;
 
     @NotNull
+    private String nameNormalized;
+
+    @NotNull
     private LocalDate birthDate;
 
     @NotNull
@@ -29,6 +33,10 @@ public class Artist {
 
     @Size(max = 500)
     private String description;
+
+    @NotBlank
+    @NotNull
+    private String imageUrl;
 
     @OneToMany(mappedBy = "artist")
     private List<Album> albums = new ArrayList<>();
@@ -50,5 +58,4 @@ public class Artist {
                 ", description='" + description + '\'' +
                 '}';
     }
-
 }

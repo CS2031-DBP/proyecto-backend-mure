@@ -2,13 +2,15 @@ package dbp.proyecto.song.dto;
 
 import lombok.Data;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Data
-public class SongInfoForUserDTO {
+public class SongInfoForArtistDto {
     private Long id;
     private String title;
     private String genre;
+    private Integer likes;
     private String duration;
-    private List<String> artistNames;
+    private LocalDate releaseDate;
+    private String albumTitle;
 }

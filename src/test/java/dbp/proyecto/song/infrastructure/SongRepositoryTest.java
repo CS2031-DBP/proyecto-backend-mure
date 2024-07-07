@@ -10,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -62,7 +63,7 @@ public class SongRepositoryTest extends AbstractContainerBaseTest {
     }
 
     @Test
-    public void testCreateSong(){
+    public void testCreateSong() {
         Song newSong = new Song();
         newSong.setTitle("Song 2");
         newSong.setDuration("03:00");
@@ -86,7 +87,7 @@ public class SongRepositoryTest extends AbstractContainerBaseTest {
     }
 
     @Test
-    public void testDeleteById(){
+    public void testDeleteById() {
         songRepository.deleteById(song.getId());
         Song foundSong = songRepository.findById(song.getId()).orElse(null);
         assertNull(foundSong);
@@ -101,14 +102,14 @@ public class SongRepositoryTest extends AbstractContainerBaseTest {
 
     @Test
     public void testFindByGenre() {
-        List<Song> songs = songRepository.findByGenre(song.getGenre());
+        Page<Song> songs = songRepository.findByGenreContaining(song.getGenre(), PageRequest.of(5, 5));
         assertFalse(songs.isEmpty());
         assertTrue(songs.stream().anyMatch(s -> s.getTitle().equals(song.getTitle())));
     }
 
     @Test
     public void testFindByAlbumId() {
-        List<Song> songs = songRepository.  findByAlbumId(song.getAlbum().getId());
+        List<Song> songs = songRepository.findByAlbumId(song.getAlbum().getId());
         assertFalse(songs.isEmpty());
         assertTrue(songs.stream().anyMatch(s -> s.getTitle().equals(song.getTitle())));
     }

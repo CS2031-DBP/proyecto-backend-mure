@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class ArtistBodyDTO {
+public class ArtistRequestDto {
     private String name;
     private String description;
     private LocalDate birthDate;

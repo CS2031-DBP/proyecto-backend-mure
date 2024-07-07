@@ -7,6 +7,7 @@ import java.time.LocalDate;
 @Data
 public class SigninDto {
     private String email;
+    private String nickname;
     private String password;
     private String name;
     private LocalDate birthdate;

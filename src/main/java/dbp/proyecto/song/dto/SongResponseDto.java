@@ -6,12 +6,18 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class SongInfoForAlbumDTO {
-    private Long id;
+public class SongResponseDto {
+    private String id;
     private String title;
     private String genre;
     private Integer likes;
-    private String duration;
+    private Integer timesPlayed;
     private LocalDate releaseDate;
+    private String duration;
+    private String coverImage;
+    private String albumTitle;
     private List<String> artistsNames;
+    private String link;
+    private List<Long> artistsIds;
+    private Long albumId;
 }

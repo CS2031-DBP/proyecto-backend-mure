@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.time.LocalDateTime;
 
 @Service
@@ -38,6 +39,7 @@ public class AuthenticationService {
     public JwtAuthResponseDto login(LoginDto logInDTO) {
         User user = userRepository.findByEmail(logInDTO.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("Email not found"));
+
         if (!passwordEncoder.matches(logInDTO.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Invalid password");
         }
@@ -47,22 +49,27 @@ public class AuthenticationService {
         return response;
     }
 
-    public JwtAuthResponseDto signIn(SigninDto signInDTO) {
-        if (userRepository.findByEmail(signInDTO.getEmail()).isPresent()) {
+    public JwtAuthResponseDto signIn(SigninDto signinDto) {
+        if (userRepository.findByEmail(signinDto.getEmail()).isPresent()) {
             throw new UserAlreadyExistException("Email already exist");
         }
-        applicationEventPublisher.publishEvent(new SignInEvent(signInDTO.getEmail(), signInDTO.getName()));
+
+        applicationEventPublisher.publishEvent(new SignInEvent(signinDto.getEmail(), signinDto.getName()));
         User user = new User();
-        user.setEmail(signInDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(signInDTO.getPassword()));
-        user.setName(signInDTO.getName());
-        user.setBirthDate(signInDTO.getBirthdate());
+        user.setEmail(signinDto.getEmail());
+        user.setPassword(passwordEncoder.encode(signinDto.getPassword()));
+        user.setName(signinDto.getName());
+        user.setBirthDate(signinDto.getBirthdate());
         user.setCreatedAt(LocalDateTime.now());
-        if (signInDTO.getIsAdmin()) {
+        user.setNickname(signinDto.getNickname());
+        user.setNicknameNormalized(Normalizer.normalize(signinDto.getNickname(), Normalizer.Form.NFC));
+
+        if (signinDto.getIsAdmin()) {
             user.setRole(Role.ADMIN);
         } else {
             user.setRole(Role.USER);
         }
+
         userRepository.save(user);
         JwtAuthResponseDto response = new JwtAuthResponseDto();
         response.setToken(jwtService.generateToken(user));

@@ -31,9 +31,14 @@ public class User implements UserDetails {
     private Role role;
 
     @NotBlank
-    @Size(min = 3, max = 50)
-    @Column(unique = true)
     private String name;
+
+    @NotBlank
+    @Column(unique = true)
+    private String nickname;
+
+    @NotBlank
+    private String nicknameNormalized;
 
     @NotBlank
     @Email

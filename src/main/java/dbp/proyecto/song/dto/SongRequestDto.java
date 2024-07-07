@@ -1,23 +1,17 @@
 package dbp.proyecto.song.dto;
 
-import lombok.*;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
-
 @Data
-public class SongResponseDTO {
-    private String id;
+public class SongRequestDto {
     private String title;
-    private String genre;
-    private Integer likes;
-    private Integer timesPlayed;
+    private List<Long> artistsIds;
     private LocalDate releaseDate;
+    private String genre;
     private String duration;
     private String coverImage;
-    private String albumTitle;
-    private List<String> artistsNames;
     private String link;
 }
-

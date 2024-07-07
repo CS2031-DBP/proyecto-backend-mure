@@ -1,7 +1,8 @@
 package dbp.proyecto.post.domain;
 
 import dbp.proyecto.album.domain.Album;
-import dbp.proyecto.album.dto.AlbumInfoForPostDTO;
+import dbp.proyecto.artist.domain.Artist;
+import dbp.proyecto.album.dto.AlbumInfoForPostDto;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
@@ -12,7 +13,7 @@ import dbp.proyecto.post.dtos.PostResponseDto;
 import dbp.proyecto.post.dtos.PostUpdateDto;
 import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.domain.Song;
-import dbp.proyecto.song.dto.SongInfoForPostDTO;
+import dbp.proyecto.song.dto.SongInfoForPostDto;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
@@ -60,24 +61,29 @@ public class PostService {
         postResponseDTO.setCreatedAt(post.getCreatedAt());
 
         if (post.getSong() != null) {
-            SongInfoForPostDTO songDTO = new SongInfoForPostDTO();
+            SongInfoForPostDto songDTO = new SongInfoForPostDto();
             songDTO.setTitle(post.getSong().getTitle());
             songDTO.setUrl(post.getSong().getLink());
             songDTO.setCoverUrl(post.getSong().getCoverImage());
-            songDTO.setArtist(post.getSong().getArtists().toString());
+            List<String> artistNames = post.getSong().getArtists().stream()
+                    .map(Artist::getName)
+                    .collect(Collectors.toList());
+            songDTO.setArtistsNames(artistNames);
             songDTO.setDuration(post.getSong().getDuration());
             songDTO.setGenre(post.getSong().getGenre());
+            songDTO.setLink(post.getSong().getLink());
             postResponseDTO.setSong(songDTO);
         }
 
         if (post.getAlbum() != null) {
-            AlbumInfoForPostDTO albumDTO = new AlbumInfoForPostDTO();
+            AlbumInfoForPostDto albumDTO = new AlbumInfoForPostDto();
             albumDTO.setTitle(post.getAlbum().getTitle());
             albumDTO.setUrl(post.getAlbum().getLink());
             albumDTO.setCoverUrl(post.getAlbum().getCoverImage());
             albumDTO.setArtist(post.getAlbum().getArtist().getName());
             albumDTO.setDuration(post.getAlbum().getTotalDuration());
             albumDTO.setSongs(post.getAlbum().getSongs().stream().map(Song::getTitle).collect(Collectors.toList()));
+            albumDTO.setLink(post.getAlbum().getLink());
             postResponseDTO.setAlbum(albumDTO);
         }
         return postResponseDTO;

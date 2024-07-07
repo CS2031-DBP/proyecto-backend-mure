@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class ArtistResponseDTO {
+public class ArtistResponseDto {
     private Long id;
     private String name;
     private String description;

@@ -38,6 +38,9 @@ public class User implements UserDetails {
     private String name;
 
     @NotBlank
+    private String nameNormalized;
+
+    @NotBlank
     @Email
     @Column(unique = true)
     private String email;

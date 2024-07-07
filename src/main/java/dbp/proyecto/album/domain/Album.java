@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -24,6 +24,9 @@ public class Album {
 
     @NotBlank
     private String title;
+
+    @NotBlank
+    private String titleNormalized;
 
     @NotBlank
     @Size(max = 500)

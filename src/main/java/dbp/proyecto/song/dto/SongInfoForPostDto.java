@@ -3,7 +3,7 @@ package dbp.proyecto.song.dto;
 import lombok.Data;
 
 @Data
-public class SongInfoForPostDTO {
+public class SongInfoForPostDto {
     private String title;
     private String url;
     private String coverUrl;

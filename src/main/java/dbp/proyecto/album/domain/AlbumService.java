@@ -1,7 +1,7 @@
 package dbp.proyecto.album.domain;
 
-import dbp.proyecto.album.dto.AlbumRequestDto;
 import dbp.proyecto.album.dto.AlbumInfoForArtistDTO;
+import dbp.proyecto.album.dto.AlbumRequestDto;
 import dbp.proyecto.album.dto.AlbumResponseDto;
 import dbp.proyecto.album.dto.AlbumUpdateDto;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
@@ -13,6 +13,9 @@ import dbp.proyecto.song.infrastructure.SongRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,12 +43,10 @@ public class AlbumService {
         return getAlbumResponseDTO(album);
     }
 
-    public AlbumResponseDto getAlbumByTitle(String title) {
-        Album album = albumRepository.findByTitle(title);
-        if (album == null){
-            throw new ResourceNotFoundException("Album not found");
-        }
-        return getAlbumResponseDTO(album);
+    public Page<AlbumResponseDto> getAlbumsByTitle(String title, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return albumRepository.findByTitleNormalizedContaining(title, pageable).map(album -> modelMapper.map(album,
+                AlbumResponseDto.class));
     }
 
     public List<AlbumInfoForArtistDTO> getAlbumsByArtistId(Long artistId) {
@@ -55,8 +56,9 @@ public class AlbumService {
                 .collect(Collectors.toList());
     }
 
-    public List<AlbumInfoForArtistDTO> getAlbumsByArtistName(String artistName) {
-        List<Album> albums = albumRepository.findByArtistName(artistName);
+    public List<AlbumInfoForArtistDTO> getAlbumsByArtistName(String artistName, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Album> albums = albumRepository.findByArtistNameNormalizedContaining(artistName, pageable);
         return albums.stream()
                 .map(album -> modelMapper.map(album, AlbumInfoForArtistDTO.class))
                 .collect(Collectors.toList());
@@ -146,7 +148,4 @@ public class AlbumService {
         artistRepository.save(artist);
         albumRepository.delete(album);
     }
-
-
-
 }

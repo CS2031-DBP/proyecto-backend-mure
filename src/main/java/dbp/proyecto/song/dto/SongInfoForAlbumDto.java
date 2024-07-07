@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class SongInfoForAlbumDTO {
+public class SongInfoForAlbumDto {
     private Long id;
     private String title;
     private String genre;

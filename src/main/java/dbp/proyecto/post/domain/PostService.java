@@ -12,7 +12,7 @@ import dbp.proyecto.post.dtos.PostResponseDto;
 import dbp.proyecto.post.dtos.PostUpdateDto;
 import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.domain.Song;
-import dbp.proyecto.song.dto.SongInfoForPostDTO;
+import dbp.proyecto.song.dto.SongInfoForPostDto;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
@@ -60,7 +60,7 @@ public class PostService {
         postResponseDTO.setCreatedAt(post.getCreatedAt());
 
         if (post.getSong() != null) {
-            SongInfoForPostDTO songDTO = new SongInfoForPostDTO();
+            SongInfoForPostDto songDTO = new SongInfoForPostDto();
             songDTO.setTitle(post.getSong().getTitle());
             songDTO.setUrl(post.getSong().getLink());
             songDTO.setCoverUrl(post.getSong().getCoverImage());

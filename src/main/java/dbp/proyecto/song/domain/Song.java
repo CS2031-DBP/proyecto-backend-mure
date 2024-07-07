@@ -4,8 +4,10 @@ import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.post.domain.Post;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -22,6 +24,9 @@ public class Song {
 
     @NotBlank
     private String title;
+
+    @NotBlank
+    private String titleNormalized;
 
     @NotBlank
     private String genre;

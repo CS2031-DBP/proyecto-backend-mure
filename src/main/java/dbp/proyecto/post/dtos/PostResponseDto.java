@@ -1,7 +1,7 @@
 package dbp.proyecto.post.dtos;
 
 import dbp.proyecto.album.dto.AlbumInfoForPostDTO;
-import dbp.proyecto.song.dto.SongInfoForPostDTO;
+import dbp.proyecto.song.dto.SongInfoForPostDto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -14,7 +14,7 @@ public class PostResponseDto {
     private Long ownerId;
     private String profileImage;
     private LocalDateTime CreatedAt;
-    private SongInfoForPostDTO song;
+    private SongInfoForPostDto song;
     private AlbumInfoForPostDTO album;
     private Integer likes;
     private String description;

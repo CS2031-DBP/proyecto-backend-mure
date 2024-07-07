@@ -1,6 +1,7 @@
 package dbp.proyecto.post.domain;
 
 import dbp.proyecto.album.domain.Album;
+import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.album.dto.AlbumInfoForPostDto;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
@@ -64,7 +65,10 @@ public class PostService {
             songDTO.setTitle(post.getSong().getTitle());
             songDTO.setUrl(post.getSong().getLink());
             songDTO.setCoverUrl(post.getSong().getCoverImage());
-            songDTO.setArtist(post.getSong().getArtists().toString());
+            List<String> artistNames = post.getSong().getArtists().stream()
+                    .map(Artist::getName)
+                    .collect(Collectors.toList());
+            songDTO.setArtistsNames(artistNames);
             songDTO.setDuration(post.getSong().getDuration());
             songDTO.setGenre(post.getSong().getGenre());
             songDTO.setLink(post.getSong().getLink());

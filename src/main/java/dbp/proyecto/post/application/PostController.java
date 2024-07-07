@@ -67,7 +67,7 @@ public class PostController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/many")
-    public ResponseEntity<Void> createPosts(@RequestBody List<PostRequestDto> postRequestDtos) {
+    public ResponseEntity<Void> createPosts(@RequestBody List<PostRequestDto> postRequestDtos) throws FileUploadException {
         postService.createPosts(postRequestDtos);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -92,7 +92,6 @@ public class PostController {
         postService.likePost(id);
         return ResponseEntity.noContent().build();
     }
-
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PatchMapping("/dislike/{id}")

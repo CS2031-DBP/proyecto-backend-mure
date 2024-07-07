@@ -12,4 +12,5 @@ public class AlbumInfoForPostDto {
     private String artist;
     private String duration;
     private List<String> songs;
+    private String link;
 }

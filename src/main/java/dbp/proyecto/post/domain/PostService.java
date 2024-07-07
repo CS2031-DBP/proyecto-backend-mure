@@ -67,6 +67,7 @@ public class PostService {
             songDTO.setArtist(post.getSong().getArtists().toString());
             songDTO.setDuration(post.getSong().getDuration());
             songDTO.setGenre(post.getSong().getGenre());
+            songDTO.setLink(post.getSong().getLink());
             postResponseDTO.setSong(songDTO);
         }
 
@@ -78,6 +79,7 @@ public class PostService {
             albumDTO.setArtist(post.getAlbum().getArtist().getName());
             albumDTO.setDuration(post.getAlbum().getTotalDuration());
             albumDTO.setSongs(post.getAlbum().getSongs().stream().map(Song::getTitle).collect(Collectors.toList()));
+            albumDTO.setLink(post.getAlbum().getLink());
             postResponseDTO.setAlbum(albumDTO);
         }
         return postResponseDTO;

@@ -10,4 +10,5 @@ public class SongInfoForPostDto {
     private String artist;
     private String duration;
     private String genre;
+    private String link;
 }

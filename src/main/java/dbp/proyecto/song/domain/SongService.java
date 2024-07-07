@@ -43,15 +43,14 @@ public class SongService {
 
         if (song.getAlbum() != null) {
             songResponseDTO.setAlbumTitle(song.getAlbum().getTitle());
+            songResponseDTO.setAlbumId(song.getAlbum().getId());
         }
 
         List<String> artistsNames = song.getArtists().stream()
                 .map(Artist::getName)
                 .collect(Collectors.toList());
-
         songResponseDTO.setArtistsNames(artistsNames);
         songResponseDTO.setArtistsIds(song.getArtists().stream().map(Artist::getId).collect(Collectors.toList()));
-        songResponseDTO.setAlbumId(song.getAlbum().getId());
         return songResponseDTO;
     }
 

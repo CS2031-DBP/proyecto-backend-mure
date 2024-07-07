@@ -54,8 +54,8 @@ public class UserService {
     private List<UserResponseForUserDto> getUserInfoForUserDTOS(User user) {
         return user.getFriends().stream()
                 .map(friend -> {
-                    UserInfoForUserDTO userInfo = modelMapper.map(friend, UserInfoForUserDTO.class);
-                    userInfo.setProfileImage(friend.getProfileImage());
+                    UserResponseForUserDto userInfo = modelMapper.map(friend, UserResponseForUserDto.class);
+                    userInfo.setProfileImageUrl(friend.getProfileImageUrl());
                     List<String> friendsNames = friend.getFriends().stream()
                             .map(User::getName)
                             .collect(Collectors.toList());

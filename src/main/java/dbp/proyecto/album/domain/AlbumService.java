@@ -50,8 +50,13 @@ public class AlbumService {
 
     public Page<AlbumResponseDto> getAlbumsByTitle(String title, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return albumRepository.findByTitleNormalizedContaining(title, pageable).map(album -> modelMapper.map(album,
-                AlbumResponseDto.class));
+        return albumRepository.findByTitleNormalizedContaining(title, pageable).map(album -> {
+            var albumResponseDto = modelMapper.map(album,
+                    AlbumResponseDto.class);
+            albumResponseDto.setSongsIds(album.getSongs().stream().map(Song::getId).collect(Collectors.toList()));
+            albumResponseDto.setArtistId(album.getArtist().getId());
+            return albumResponseDto;
+        });
     }
 
     public List<AlbumInfoForArtistDto> getAlbumsByArtistId(Long artistId) {

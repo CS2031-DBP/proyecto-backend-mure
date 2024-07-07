@@ -28,8 +28,8 @@ public class AlbumController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/title")
-    public ResponseEntity<Page<AlbumResponseDto>> getAlbumByTitle(@RequestParam String title,
-                                                                  @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<Page<AlbumResponseDto>> getAlbumsByTitle(@RequestParam String title,
+                                                                   @RequestParam int page, @RequestParam int size) {
         return ResponseEntity.ok(albumService.getAlbumsByTitle(title, page, size));
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 public class UserResponseForUserDto {
     private Long id;
     private String name;
-    private String username;
+    private String nickname;
     private String profileImageUrl;
     private List<String> friendsNames;
     private List<Long> friendsIds;

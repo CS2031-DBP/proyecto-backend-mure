@@ -15,5 +15,5 @@ public class UserResponseDto {
     private String profileImageUrl;
     private Role role;
     private List<Long> friendsIds;
-    private String username;
+    private String nickname;
 }

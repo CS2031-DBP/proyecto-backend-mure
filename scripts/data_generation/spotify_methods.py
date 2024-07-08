@@ -20,6 +20,11 @@ def get_artist_id(artist_name):
         return None
 
 
+def get_artist_genre(artist_id):
+    result = sp.artist(artist_id)
+    return result["genres"][0] if result["genres"] else None
+
+
 def get_artist_details(artist_id):
     artist = sp.artist(artist_id)
     image_url = artist["images"][0]["url"] if artist["images"] else None

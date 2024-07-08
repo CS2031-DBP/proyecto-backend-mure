@@ -33,7 +33,7 @@ public class MediaService {
 			String uniqueId = UUID.randomUUID().toString();
 			filePath = todayDate + "_" + uniqueId + multipartFile.getOriginalFilename();
 			s3Client.putObject(bucketName, filePath, multipartFile.getInputStream(), objectMetadata);
-			return filePath;
+			return s3Client.getUrl(bucketName, filePath).toString();
 		} catch (IOException e) {
 			throw new FileUploadException("Error occurred in file upload ==> " + e.getMessage());
 		}

@@ -1,5 +1,3 @@
-from itertools import islice
-
 import pandas as pd
 from faker import Faker
 
@@ -95,7 +93,7 @@ for artist_id, artist_name in artist_dict.items():
                     "id": song_counter,
                     "title": song_title,
                     "title_normalized": normalized_title,
-                    "genre": "Unknown",
+                    "genre": get_artist_genre(artist_spotify_id),
                     "release_date": pd.to_datetime(
                         song_release_date, errors="coerce"
                     ).strftime("%Y-%m-%d"),

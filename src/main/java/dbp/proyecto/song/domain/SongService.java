@@ -94,7 +94,8 @@ public class SongService {
 
     public Page<SongResponseDto> getSongsByArtistName(String artistNameNormalized, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return songRepository.findByArtistsNameContaining(artistNameNormalized, pageable).map(song -> modelMapper.map(song, SongResponseDto.class));
+        Page<Song> songsPage = songRepository.findByArtistsNameContaining(artistNameNormalized, pageable);
+        return songsPage.map(this::getSongResponseDto);
     }
 
     public List<SongInfoForAlbumDto> getSongsByAlbumId(Long albumId) {

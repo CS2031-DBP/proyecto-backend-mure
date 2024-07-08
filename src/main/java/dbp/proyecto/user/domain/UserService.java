@@ -30,7 +30,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -138,7 +137,7 @@ public class UserService {
         userRepository.save(existingUser);
     }
 
-
+    @Transactional
     public void addFriend(Long friendId) {
         String email = authorizationUtils.getCurrentUserEmail();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -153,6 +152,7 @@ public class UserService {
         userRepository.save(friend);
     }
 
+    @Transactional
     public void removeFriend(Long friendId) {
         String email = authorizationUtils.getCurrentUserEmail();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -180,7 +180,7 @@ public class UserService {
             userRepository.save(friend);
         }
         // delete each user that like a post
-        Set<Post> likedPosts = user.getLikedPosts();
+        List<Post> likedPosts = user.getLikedPosts();
         for (Post post : likedPosts) {
             post.getLikedBy().remove(user);
             post.setLikes(post.getLikes() - 1); // Opcional: Actualizar el contador de "me gusta" si existe
@@ -253,9 +253,9 @@ public class UserService {
 
     @Bean(name = "UserDetailsService")
     public UserDetailsService userDetailsService() {
-        return USERNAME -> {
+        return username -> {
             User user = userRepository
-                    .findByEmail(USERNAME)
+                    .findByEmail(username)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             return (UserDetails) user;
         };

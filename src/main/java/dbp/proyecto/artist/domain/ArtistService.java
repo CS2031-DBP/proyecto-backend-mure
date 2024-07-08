@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -91,6 +92,7 @@ public class ArtistService {
 
         for (ArtistRequestDto artistRequestDto : artistRequestDtos) {
             Artist artist = modelMapper.map(artistRequestDto, Artist.class);
+            artist.setNameNormalized(Normalizer.normalize(artist.getName(), Normalizer.Form.NFC));
             artists.add(artist);
         }
         artistRepository.saveAll(artists);

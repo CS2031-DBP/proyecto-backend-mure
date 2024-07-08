@@ -121,16 +121,13 @@ public class UserService {
         if (updatedUser.getProfileImage() != null && !updatedUser.getProfileImage().isEmpty()) {
             existingUser.setProfileImageUrl(mediaService.uploadFile(updatedUser.getProfileImage()));
         }
-
         if (updatedUser.getName() != null && !updatedUser.getName().isEmpty()) {
             existingUser.setName(updatedUser.getName());
         }
-
         if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
             String encodedPassword = passwordEncoder.encode(updatedUser.getPassword());
             existingUser.setPassword(encodedPassword);
         }
-
         if (updatedUser.getEmail() != null && !updatedUser.getEmail().isEmpty()) {
             existingUser.setEmail(updatedUser.getEmail());
         }

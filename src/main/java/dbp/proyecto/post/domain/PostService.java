@@ -51,7 +51,6 @@ public class PostService {
 
     private final MediaService mediaService;
 
-
     private PostResponseDto getPostResponseDto(Post post) {
         PostResponseDto postResponseDTO = modelMapper.map(post, PostResponseDto.class);
         postResponseDTO.setOwner(post.getUser().getName());

@@ -54,7 +54,7 @@ public class PostService {
 
     private PostResponseDto getPostResponseDto(Post post) {
         PostResponseDto postResponseDTO = modelMapper.map(post, PostResponseDto.class);
-        postResponseDTO.setOwner(post.getUser().getName());
+        postResponseDTO.setOwner(post.getUser().getNickname());
         postResponseDTO.setOwnerId(post.getUser().getId());
         postResponseDTO.setProfileImage(post.getUser().getProfileImageUrl());
         postResponseDTO.setLikedByUserIds(post.getLikedBy().stream().map(User::getId).collect(Collectors.toSet()));

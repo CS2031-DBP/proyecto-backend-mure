@@ -76,8 +76,8 @@ public class User implements UserDetails {
     @JoinTable(name = "user_song", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "song_id"))
     private List<Song> favoriteSongs;
 
-    @ManyToMany(mappedBy = "likedBy")
-    private Set<Post> likedPosts = new HashSet<>();
+    @ManyToMany(mappedBy = "likedBy", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<Post> likedPosts = new ArrayList<>();
 
     @Transient
     private String rolePrefix = "ROLE_";

@@ -238,6 +238,7 @@ public class PostService {
         postRepository.delete(post);
     }
 
+    @Transactional
     public void likePost(Long id) {
         String email = authorizationUtils.getCurrentUserEmail();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -245,11 +246,14 @@ public class PostService {
 
         if (!post.getLikedBy().contains(user)) {
             post.getLikedBy().add(user);
+            user.getLikedPosts().add(post); // Asegura la bidireccionalidad
             post.setLikes(post.getLikes() + 1);
             postRepository.save(post);
+            userRepository.save(user); // Guarda también el usuario
         }
     }
 
+    @Transactional
     public void dislikePost(Long id) {
         String email = authorizationUtils.getCurrentUserEmail();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -257,8 +261,11 @@ public class PostService {
 
         if (post.getLikedBy().contains(user)) {
             post.getLikedBy().remove(user);
+            user.getLikedPosts().remove(post); // Asegura la bidireccionalidad
             post.setLikes(post.getLikes() - 1);
             postRepository.save(post);
+            userRepository.save(user); // Guarda también el usuario
         }
     }
+
 }

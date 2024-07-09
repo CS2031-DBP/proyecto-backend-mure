@@ -1,3 +1,4 @@
+from itertools import islice
 import pandas as pd
 from faker import Faker
 
@@ -14,7 +15,7 @@ artist_songs = []
 album_counter = 0
 song_counter = 0
 
-for artist_id, artist_name in artist_dict.items():
+for artist_id, artist_name in islice(artist_dict.items(), 10):
     print(artist_name)
     artist_spotify_id = get_artist_id(artist_name)
 
@@ -27,7 +28,6 @@ for artist_id, artist_name in artist_dict.items():
 
     artists_csv_data.append(
         {
-            "id": artist_id,
             "name": artist_name,
             "name_normalized": normalize_text(artist_name),
             "birth_date": birth_date,
@@ -51,7 +51,7 @@ for artist_id, artist_name in artist_dict.items():
         album_link = album["external_urls"]["spotify"]
         album_description = fake.text(max_nb_chars=50).replace("\n", " ")
 
-        songs = get_tracks_by_album(album_id, artist_name)
+        songs = get_tracks_by_album(album_id)
 
         if not songs:
             continue
@@ -61,7 +61,6 @@ for artist_id, artist_name in artist_dict.items():
 
         albums_csv_data.append(
             {
-                "id": album_counter,
                 "title": album_title,
                 "title_normalized": normalize_text(album_title),
                 "description": album_description,
@@ -90,7 +89,6 @@ for artist_id, artist_name in artist_dict.items():
 
             songs_csv_data.append(
                 {
-                    "id": song_counter,
                     "title": song_title,
                     "title_normalized": normalized_title,
                     "genre": get_artist_genre(artist_spotify_id),

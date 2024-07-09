@@ -9,21 +9,21 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @DataJpaTest
 @Testcontainers
 public abstract class AbstractContainerBaseTest {
-    private static final PostgreSQLContainer<?> postgresqlContainer;
+	private static final PostgreSQLContainer<?> postgresqlContainer;
 
-    static {
-        postgresqlContainer = new PostgreSQLContainer<>("postgres:latest")
-                .withDatabaseName("e2eTestDb")
-                .withUsername("e2e")
-                .withPassword("e2e");
+	static {
+		postgresqlContainer = new PostgreSQLContainer<>("postgres:latest")
+				.withDatabaseName("e2eTestDb")
+				.withUsername("e2e")
+				.withPassword("e2e");
 
-        postgresqlContainer.start();
-    }
+		postgresqlContainer.start();
+	}
 
-    @DynamicPropertySource
-    static void overrideTestProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgresqlContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", postgresqlContainer::getUsername);
-        registry.add("spring.datasource.password", postgresqlContainer::getPassword);
-    }
+	@DynamicPropertySource
+	static void overrideTestProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.datasource.url", postgresqlContainer::getJdbcUrl);
+		registry.add("spring.datasource.username", postgresqlContainer::getUsername);
+		registry.add("spring.datasource.password", postgresqlContainer::getPassword);
+	}
 }

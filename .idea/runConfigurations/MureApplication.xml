@@ -3,18 +3,18 @@
     <option name="ALTERNATIVE_JRE_PATH" value="22" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <envs>
-      <env name="AMAZON_S3_ACCESSKEY" value="AKIA47PRT467WPFPIRF2" />
-      <env name="AMAZON_S3_BUCKETNAME" value="mure-bucket" />
+      <env name="AMAZON_S3_ACCESSKEY" value="ASIAXT3S4MT4AIKXCCWM" />
+      <env name="AMAZON_S3_BUCKETNAME" value="proyecto-backend-mure-bucket" />
       <env name="AMAZON_S3_REGION" value="us-east-1" />
-      <env name="AMAZON_S3_SECRETKEY" value="4X2Ti5HcISkvoIGGhn2oFXZf/Z+QJpU0p+P8LDDD" />
+      <env name="AMAZON_S3_SECRETKEY" value="Q4DZPz/lKXG3MB3lsiCoC3AvaT6WfIP9hxpeTFy/" />
       <env name="DB_HOST" value="localhost" />
       <env name="DB_NAME" value="database" />
       <env name="DB_PASSWORD" value="postgres" />
       <env name="DB_PORT" value="5433" />
       <env name="DB_USER" value="postgres" />
       <env name="JWT_SECRET" value="eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcyMDAwMTEzNSwiaWF0IjoxNzIwMDAxMTM1fQ.vIHfQAXb9QJWTM_71ltca7BtnjVKDW0mftmXFPWHL84" />
-      <env name="MAIL_USERNAME" value="" />
-      <env name="PROD_MAIL_PASSWORD" value="" />
+      <env name="MAIL_USERNAME" value="joaquin.salinas@utec.edu.pe" />
+      <env name="PROD_MAIL_PASSWORD" value="gstu zypa wtln noqt" />
     </envs>
     <module name="proyecto" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="dbp.proyecto.MureApplication" />

@@ -1,5 +1,3 @@
-from itertools import islice
-
 from scripts.data_setup.data.artists_dict import artists_dict
 from scripts.data_setup.data_generation.artist_song_album import (
     generate_artists_songs_albums,
@@ -11,9 +9,8 @@ from scripts.data_setup.data_generation.user_albums import generate_user_albums_
 from scripts.data_setup.data_generation.user_friends import generate_user_friends_data
 from scripts.data_setup.data_generation.user_song import generate_user_song_data
 
-artists_subset = dict(islice(artists_dict.items(), 10))
 
-artists_keys, albums_keys, song_keys = generate_artists_songs_albums(artists_subset)
+artists_keys, albums_keys, song_keys = generate_artists_songs_albums(artists_dict)
 user_keys = generate_user_data(1000)
 generate_post_data(len(user_keys) * 5, user_keys, song_keys, albums_keys)
 generate_user_albums_data(len(user_keys) * 3, user_keys, albums_keys)

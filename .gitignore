@@ -32,3 +32,4 @@ build/
 .venv/
 .cache
 *.pyc
+alejandroen-key-pair.pem

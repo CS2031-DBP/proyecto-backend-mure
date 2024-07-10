@@ -3,10 +3,10 @@
     <option name="ALTERNATIVE_JRE_PATH" value="22" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <envs>
-      <env name="AMAZON_S3_ACCESSKEY" value="ASIAXT3S4MT4AIKXCCWM" />
+      <env name="AMAZON_S3_ACCESSKEY" value="AKIA47PRT467UBIRSTMW" />
       <env name="AMAZON_S3_BUCKETNAME" value="proyecto-backend-mure-bucket" />
       <env name="AMAZON_S3_REGION" value="us-east-1" />
-      <env name="AMAZON_S3_SECRETKEY" value="Q4DZPz/lKXG3MB3lsiCoC3AvaT6WfIP9hxpeTFy/" />
+      <env name="AMAZON_S3_SECRETKEY" value="Q8RNznnR8UNS9H5Rpbd0VPN94tVqOjSIzApy2xh9" />
       <env name="DB_HOST" value="localhost" />
       <env name="DB_NAME" value="database" />
       <env name="DB_PASSWORD" value="postgres" />

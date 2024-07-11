@@ -1,9 +1,9 @@
 import pandas as pd
 
-from scripts.data_setup.utils.normalize_text import normalize_text
-from scripts.data_setup.utils.shared_faker import faker
-from scripts.data_setup.utils.spotify_methods import *
-from scripts.data_setup.utils.write_to_csv import write_to_csv
+from data_setup.utils.normalize_text import normalize_text
+from data_setup.utils.shared_faker import faker
+from data_setup.utils.spotify_methods import *
+from data_setup.utils.write_to_csv import write_to_csv
 
 
 def generate_artists_songs_albums(
@@ -124,9 +124,9 @@ def generate_artists_songs_albums(
                     }
                 )
 
-    write_to_csv(artists_csv_list, "data/artists.csv")
-    write_to_csv(albums_csv_list, "data/albums.csv")
-    write_to_csv(songs_csv_list, "data/songs.csv")
-    write_to_csv(artist_songs_csv_list, "data/artist_songs.csv")
+    write_to_csv(artists_csv_list, "artists")
+    write_to_csv(albums_csv_list, "albums")
+    write_to_csv(songs_csv_list, "songs")
+    write_to_csv(artist_songs_csv_list, "artist_songs")
 
     return tuple(artists_keys), tuple(albums_keys), tuple(songs_keys)

@@ -1,7 +1,7 @@
 import random
 from typing import Any
 
-from scripts.data_setup.utils.write_to_csv import write_to_csv
+from data_setup.utils.write_to_csv import write_to_csv
 
 
 def generate_user_friends_data(rows_amount: int, user_keys: tuple[int, ...]):
@@ -16,4 +16,4 @@ def generate_user_friends_data(rows_amount: int, user_keys: tuple[int, ...]):
 
         user_friends_csv_list.append({"user_id": user_id, "friend_id": friend_id})
 
-    write_to_csv(user_friends_csv_list, "data/user_friends.csv")
+    write_to_csv(user_friends_csv_list, "user_friends")

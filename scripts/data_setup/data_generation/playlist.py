@@ -1,8 +1,8 @@
 import random
 from typing import Any
 
-from scripts.data_setup.utils.shared_faker import faker
-from scripts.data_setup.utils.write_to_csv import write_to_csv
+from data_setup.utils.shared_faker import faker
+from data_setup.utils.write_to_csv import write_to_csv
 
 
 def generate_playlist_data(
@@ -30,5 +30,5 @@ def generate_playlist_data(
                 }
             )
 
-    write_to_csv(playlist_csv_list, "data/playlists.csv")
-    write_to_csv(playlist_songs_csv_list, "data/playlist_songs.csv")
+    write_to_csv(playlist_csv_list, "playlists")
+    write_to_csv(playlist_songs_csv_list, "playlist_songs")

@@ -1,8 +1,8 @@
 import random
 from typing import Any
 
-from scripts.data_setup.utils.shared_faker import faker
-from scripts.data_setup.utils.write_to_csv import write_to_csv
+from data_setup.utils.shared_faker import faker
+from data_setup.utils.write_to_csv import write_to_csv
 
 
 def generate_post_data(
@@ -52,5 +52,5 @@ def generate_post_data(
                 }
             )
 
-    write_to_csv(post_csv_list, "data/posts.csv")
-    write_to_csv(post_likes_csv_list, "data/post_likes.csv")
+    write_to_csv(post_csv_list, "posts")
+    write_to_csv(post_likes_csv_list, "post_likes")

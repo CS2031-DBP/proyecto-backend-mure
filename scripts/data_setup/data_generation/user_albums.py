@@ -1,7 +1,7 @@
 import random
 from typing import Any
 
-from scripts.data_setup.utils.write_to_csv import write_to_csv
+from data_setup.utils.write_to_csv import write_to_csv
 
 
 def generate_user_albums_data(
@@ -15,4 +15,4 @@ def generate_user_albums_data(
 
         user_albums_csv_list.append({"album_id": album_id, "user_id": user_id})
 
-    write_to_csv(user_albums_csv_list, "data/user_albums.csv")
+    write_to_csv(user_albums_csv_list, "user_albums")

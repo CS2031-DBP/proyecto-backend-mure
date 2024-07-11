@@ -1,8 +1,8 @@
 from typing import Any
 
-from scripts.data_setup.utils.normalize_text import normalize_text
-from scripts.data_setup.utils.shared_faker import faker
-from scripts.data_setup.utils.write_to_csv import write_to_csv
+from data_setup.utils.normalize_text import normalize_text
+from data_setup.utils.shared_faker import faker
+from data_setup.utils.write_to_csv import write_to_csv
 
 
 def generate_user_data(rows_amount: int) -> tuple:
@@ -36,6 +36,6 @@ def generate_user_data(rows_amount: int) -> tuple:
 
         user_keys.append(user_id + 1)
 
-    write_to_csv(users_csv_list, "data/users.csv")
+    write_to_csv(users_csv_list, "users")
 
     return tuple(user_keys)

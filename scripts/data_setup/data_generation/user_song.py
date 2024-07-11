@@ -1,7 +1,7 @@
 import random
 from typing import Any
 
-from scripts.data_setup.utils.write_to_csv import write_to_csv
+from data_setup.utils.write_to_csv import write_to_csv
 
 
 def generate_user_song_data(
@@ -15,4 +15,4 @@ def generate_user_song_data(
 
         user_songs_csv_list.append({"user_id": user_id, "song_id": song_id})
 
-    write_to_csv(user_songs_csv_list, "data/user_songs.csv")
+    write_to_csv(user_songs_csv_list, "user_songs")

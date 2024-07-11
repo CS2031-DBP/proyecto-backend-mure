@@ -1,9 +1,9 @@
 package dbp.proyecto.post.domain;
 
 import dbp.proyecto.album.domain.Album;
-import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.album.dto.AlbumInfoForPostDto;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
+import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UnauthorizedOperationException;
@@ -143,11 +143,11 @@ public class PostService {
 
         post.setDescription(postRequestDto.getDescription());
 
-        if (postRequestDto.getImage() != null) {
+        if (!postRequestDto.getImage().isEmpty()) {
             post.setImageUrl(mediaService.uploadFile(postRequestDto.getImage()));
         }
 
-        if (postRequestDto.getAudio() != null) {
+        if (!postRequestDto.getAudio().isEmpty()) {
             post.setAudioUrl(mediaService.uploadFile(postRequestDto.getAudio()));
         }
 

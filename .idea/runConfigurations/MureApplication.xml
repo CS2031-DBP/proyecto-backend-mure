@@ -3,10 +3,11 @@
     <option name="ALTERNATIVE_JRE_PATH" value="22" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <envs>
-      <env name="AMAZON_S3_ACCESSKEY" value="AKIA47PRT467UBIRSTMW" />
-      <env name="AMAZON_S3_BUCKETNAME" value="proyecto-backend-mure-bucket" />
+      <env name="AMAZON_S3_SESSION_TOKEN" value="IQoJb3JpZ2luX2VjEI3//////////wEaCXVzLXdlc3QtMiJHMEUCIQCtZVogv2bu3JNn5/gtbsgUGMpMAAjds3PEmYwhqElFgQIgFca3RoZxdzOeeXf5PSsS5CVfDkNBBWJCwmqgKt4IPdUquwIIVhABGgw1MjM2OTAwNzUzODQiDEOABEW+MSf607n6WSqYAvkN4gxMt9KygZtNiM0zWV5w+1HnOl3JQFnf39eJgKgGaeDZyw/l0Tu7RFAKI0lkbK23swSd53J9UkbNuU6cOrAQoh0zeyk96i2neMiyHFucfnwB50eJh867SIBh1yiUcjNw0B4CJy7MIIxpYuKhodKiBe3AaZvtDJej2LkvCtHEOt2qBXdxvVDgNcpQDtheaFRkKH+uc7fH0umoAHsdyxzgbE0Hbsk2heRqbhNOzh0NzayU5rbY1Fdx/WY+NqHFfKQEclb4E1NnA26j3ohCU56PTb454hip17qKTop4Ol56ZlZWLz8G2S8r0Awgo9RTOl477VdTOzeOFIYwPTV6/mbP0LLKOZPQVzhN560QFo/2eGpEV1uI1GAwnry9tAY6nQG7UN3u6YUAu47Nr2aVFmbEXyFQ5Tth7Z1SZ+E7Cvlbk2I9AxUSb9Go+5vbAnN8pXVje1ipH8pQtz3s3gMPano/m8kj/L4UJAHLMtMtaca/kSYB8h9zDxgz+EMMRgTlBreUSp6JbXRLAKXohv3DWl0ptHjs1uTZ95Mt1KqbOTadsQWBB/67U+hkuLuGA1Us83OPYVhjtvwJcV2ndn5o" />
+      <env name="AMAZON_S3_ACCESSKEY" value="ASIAXT3S4MT4DMKCTFXG" />
+      <env name="AMAZON_S3_BUCKETNAME" value="mure-bucket" />
       <env name="AMAZON_S3_REGION" value="us-east-1" />
-      <env name="AMAZON_S3_SECRETKEY" value="Q8RNznnR8UNS9H5Rpbd0VPN94tVqOjSIzApy2xh9" />
+      <env name="AMAZON_S3_SECRETKEY" value="UGCWBcLX2SINtCmyJLYUedyWy7ocxPr629k2bfNg" />
       <env name="DB_HOST" value="localhost" />
       <env name="DB_NAME" value="database" />
       <env name="DB_PASSWORD" value="postgres" />

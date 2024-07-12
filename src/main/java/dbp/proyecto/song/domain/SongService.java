@@ -127,7 +127,11 @@ public void createSongs(List<SongRequestDto> songRequestDtos) {
         Song song = modelMapper.map(songRequestDto, Song.class);
         song.setLink(songRequestDto.getLink());
 
-        String normalizedTitle = Normalizer.normalize(songRequestDto.getTitle(), Normalizer.Form.NFC);
+
+        String normalizedTitle = Normalizer.normalize(songRequestDto.getTitle(), Normalizer.Form.NFC)
+                                .replaceAll("[’‘]", "'")
+                                .replaceAll("\\p{M}", "")
+                                .toLowerCase();
         song.setTitleNormalized(normalizedTitle);
 
         int likes = 50000 + random.nextInt(450001);

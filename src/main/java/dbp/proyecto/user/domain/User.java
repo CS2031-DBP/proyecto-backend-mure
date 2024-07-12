@@ -17,7 +17,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Data
 @Entity
@@ -76,7 +78,7 @@ public class User implements UserDetails {
     @JoinTable(name = "user_song", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "song_id"))
     private List<Song> favoriteSongs;
 
-    @ManyToMany(mappedBy = "likedBy", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(mappedBy = "likedBy", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Post> likedPosts = new ArrayList<>();
 
     @Transient

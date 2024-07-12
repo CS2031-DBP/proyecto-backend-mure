@@ -143,11 +143,11 @@ public class PostService {
 
         post.setDescription(postRequestDto.getDescription());
 
-        if (!postRequestDto.getImage().isEmpty()) {
+        if (postRequestDto.getImage() != null && !postRequestDto.getImage().isEmpty()) {
             post.setImageUrl(mediaService.uploadFile(postRequestDto.getImage()));
         }
 
-        if (!postRequestDto.getAudio().isEmpty()) {
+        if (postRequestDto.getAudio() != null && !postRequestDto.getAudio().isEmpty()) {
             post.setAudioUrl(mediaService.uploadFile(postRequestDto.getAudio()));
         }
 

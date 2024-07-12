@@ -28,6 +28,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -117,8 +118,10 @@ public class UserService {
         User existingUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if (updatedUser.getProfileImage() != null && !updatedUser.getProfileImage().isEmpty()) {
-            existingUser.setProfileImageUrl(mediaService.uploadFile(updatedUser.getProfileImage()));
+        MultipartFile profileImage = updatedUser.getProfileImage();
+        if (profileImage != null) {
+            String profileImageUrl = mediaService.uploadFile(profileImage);
+            existingUser.setProfileImageUrl(profileImageUrl);
         }
         if (updatedUser.getName() != null && !updatedUser.getName().isEmpty()) {
             existingUser.setName(updatedUser.getName());

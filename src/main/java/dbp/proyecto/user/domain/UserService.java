@@ -113,10 +113,15 @@ public class UserService {
         return getUserInfoForUserDTOS(user);
     }
 
+    @Transactional
     public void updateUser(UserRequestDto updatedUser) throws FileUploadException {
         String email = authorizationUtils.getCurrentUserEmail();
         User existingUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        //print correctly the updated user
+        System.out.println("User to update: " + updatedUser.toString());
+
 
         MultipartFile profileImage = updatedUser.getProfileImage();
         if (profileImage != null) {

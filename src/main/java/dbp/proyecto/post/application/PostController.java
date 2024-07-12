@@ -36,7 +36,6 @@ public class PostController {
         return ResponseEntity.ok(response);
     }
 
-
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/song/{songId}")
     public ResponseEntity<List<PostResponseDto>> getPostsBySongId(@PathVariable Long songId) {

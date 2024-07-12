@@ -48,16 +48,19 @@ public class AlbumService {
         return getAlbumResponseDto(album);
     }
 
-    public Page<AlbumResponseDto> getAlbumsByTitle(String title, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return albumRepository.findByTitleNormalizedContaining(title, pageable).map(album -> {
-            var albumResponseDto = modelMapper.map(album,
-                    AlbumResponseDto.class);
-            albumResponseDto.setSongsIds(album.getSongs().stream().map(Song::getId).collect(Collectors.toList()));
-            albumResponseDto.setArtistId(album.getArtist().getId());
-            return albumResponseDto;
-        });
-    }
+public Page<AlbumResponseDto> getAlbumsByTitle(String title, int page, int size) {
+    Pageable pageable = PageRequest.of(page, size);
+    return albumRepository.findByTitleNormalizedContaining(title, pageable).map(album -> {
+        var albumResponseDto = modelMapper.map(album, AlbumResponseDto.class);
+        List<String> songsTitles = album.getSongs().stream()
+                                         .map(Song::getTitle)
+                                         .collect(Collectors.toList());
+        albumResponseDto.setSongsTitles(songsTitles);
+        albumResponseDto.setSongsIds(album.getSongs().stream().map(Song::getId).collect(Collectors.toList()));
+        albumResponseDto.setArtistId(album.getArtist().getId());
+        return albumResponseDto;
+    });
+}
 
     public List<AlbumInfoForArtistDto> getAlbumsByArtistId(Long artistId) {
         List<Album> albums = albumRepository.findByArtistId(artistId);

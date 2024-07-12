@@ -20,7 +20,7 @@ import java.util.List;
 public class AlbumController {
     private final AlbumService albumService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{id}")
     public ResponseEntity<AlbumResponseDto> getAlbumById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(albumService.getAlbumById(id));

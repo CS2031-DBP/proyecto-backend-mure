@@ -26,6 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -143,11 +144,13 @@ public class PostService {
 
         post.setDescription(postRequestDto.getDescription());
 
-        if (!postRequestDto.getImage().isEmpty()) {
+        MultipartFile image = postRequestDto.getImage();
+        if (image != null && !image.isEmpty()) {
             post.setImageUrl(mediaService.uploadFile(postRequestDto.getImage()));
         }
 
-        if (!postRequestDto.getAudio().isEmpty()) {
+        MultipartFile audio = postRequestDto.getAudio();
+        if (audio != null && !audio.isEmpty()) {
             post.setAudioUrl(mediaService.uploadFile(postRequestDto.getAudio()));
         }
 

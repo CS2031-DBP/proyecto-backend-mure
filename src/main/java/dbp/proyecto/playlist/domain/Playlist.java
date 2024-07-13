@@ -21,6 +21,8 @@ public class Playlist {
     @NotBlank
     private String name;
 
+    private String coverImageUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = false)

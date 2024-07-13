@@ -4,6 +4,7 @@ package dbp.proyecto.playlist.domain;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UnauthorizedOperationException;
+import dbp.proyecto.media.domain.MediaService;
 import dbp.proyecto.playlist.dtos.PlaylistBodyDTO;
 import dbp.proyecto.playlist.dtos.PlaylistResponseDTO;
 import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
@@ -11,6 +12,7 @@ import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,14 +32,16 @@ public class PlaylistService {
     private final SongRepository songRepository;
     private final ModelMapper modelMapper;
     private final AuthorizationUtils authorizationUtils;
+    private final MediaService mediaService;
 
     @Autowired
-    public PlaylistService(PlaylistRepository playlistRepository, UserRepository userRepository, SongRepository songRepository, ModelMapper modelMapper, AuthorizationUtils authorizationUtils) {
+    public PlaylistService(PlaylistRepository playlistRepository, UserRepository userRepository, SongRepository songRepository, ModelMapper modelMapper, AuthorizationUtils authorizationUtils, MediaService mediaService) {
         this.playlistRepository = playlistRepository;
         this.userRepository = userRepository;
         this.songRepository = songRepository;
         this.modelMapper = modelMapper;
         this.authorizationUtils = authorizationUtils;
+        this.mediaService = mediaService;
     }
 
     private PlaylistResponseDTO getPlaylistResponseDTO(Playlist playlist) {
@@ -94,6 +98,28 @@ public class PlaylistService {
                 .map(this::getPlaylistResponseDTO)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void createPlaylist(PlaylistBodyDTO playlistBodyDTO) throws FileUploadException {
+        User user = userRepository.findById(playlistBodyDTO.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        List<Song> songs = songRepository.findAllById(playlistBodyDTO.getSongsIds());
+        if (songs.size() != playlistBodyDTO.getSongsIds().size()) {
+            throw new IllegalArgumentException("Some songs do not exist or are repeated");
+        }
+        Playlist playlist = new Playlist();
+        playlist.setName(playlistBodyDTO.getName());
+        playlist.setUser(user);
+        playlist.setSongs(songs);
+        if (playlistBodyDTO.getCoverImage() != null && !playlistBodyDTO.getCoverImage().isEmpty()) {
+            playlist.setCoverImageUrl(mediaService.uploadFile(playlistBodyDTO.getCoverImage()));
+        }
+        playlistRepository.save(playlist);
+        user.getOwnsPlaylists().add(playlist);
+        userRepository.save(user);
+    }
+
 
     @Transactional
     public void createPlaylists(List<PlaylistBodyDTO> playlistBodyDTOs) {

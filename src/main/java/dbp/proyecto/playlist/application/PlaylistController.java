@@ -4,6 +4,7 @@ package dbp.proyecto.playlist.application;
 import dbp.proyecto.playlist.domain.PlaylistService;
 import dbp.proyecto.playlist.dtos.PlaylistBodyDTO;
 import dbp.proyecto.playlist.dtos.PlaylistResponseDTO;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -63,8 +64,15 @@ public class PlaylistController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/image")
+    public ResponseEntity<Void> createPlaylist(@ModelAttribute PlaylistBodyDTO playlistBodyDTO) throws FileUploadException {
+        playlistService.createPlaylist(playlistBodyDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
-    public ResponseEntity<Void> createPlaylist(@RequestBody List<PlaylistBodyDTO> playlistBodyDTOs) {
+    public ResponseEntity<Void> createPlaylists(@RequestBody List<PlaylistBodyDTO> playlistBodyDTOs) {
         playlistService.createPlaylists(playlistBodyDTOs);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

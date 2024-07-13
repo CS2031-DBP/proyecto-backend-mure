@@ -3,8 +3,8 @@ from typing import Any
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-client_id = "65b06cc8b25b4dc3a8dd4d65b5520fab"
-client_secret = "bb1112cda69144af85e6876fa4350b74"
+client_id = "61492e37fc6d4819af6687936f4da95a"
+client_secret = "67c809f093374def82109738f8d02644"
 
 sp = spotipy.Spotify(
     auth_manager=SpotifyClientCredentials(

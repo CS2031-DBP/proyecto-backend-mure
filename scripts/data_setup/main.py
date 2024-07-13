@@ -1,3 +1,4 @@
+from itertools import islice
 from data_setup.data.artists_dict import artists_dict
 from data_setup.data_generation.artist_song_album import generate_artists_songs_albums
 from data_setup.data_generation.playlist import generate_playlist_data
@@ -7,7 +8,11 @@ from data_setup.data_generation.user_albums import generate_user_albums_data
 from data_setup.data_generation.user_friends import generate_user_friends_data
 from data_setup.data_generation.user_song import generate_user_song_data
 
-artists_keys, albums_keys, song_keys = generate_artists_songs_albums(artists_dict)
+sliced_artists = islice(artists_dict.items(), 5)
+sliced_artists_dict = dict(sliced_artists)
+artists_keys, albums_keys, song_keys = generate_artists_songs_albums(
+    sliced_artists_dict
+)
 user_keys = generate_user_data(1000)
 generate_post_data(len(user_keys) * 5, user_keys, song_keys, albums_keys)
 generate_user_albums_data(len(user_keys) * 3, user_keys, albums_keys)

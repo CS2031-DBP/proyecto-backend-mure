@@ -95,12 +95,13 @@ def generate_artists_songs_albums(
                 song_duration = song["duration_ms"] // 1000
                 song_release_date = album_release_date
                 song_link = song["external_urls"]["spotify"]
-                normalized_title = normalize_text(song_title)
+                title_normalized = normalize_text(song_title)
+                song_preview_url = song["preview_url"]
 
                 songs_csv_list.append(
                     {
                         "title": song_title,
-                        "title_normalized": normalized_title,
+                        "title_normalized": title_normalized,
                         "genre": get_artist_genre(artist_spotify_id),
                         "release_date": pd.to_datetime(
                             song_release_date, errors="coerce"
@@ -108,11 +109,12 @@ def generate_artists_songs_albums(
                         "duration": str(song_duration // 60).zfill(2)
                         + ":"
                         + str(song_duration % 60).zfill(2),
-                        "cover_image": album_cover_image,
+                        "cover_image_url": album_cover_image,
                         "likes": faker.random_int(min=0, max=1000),
                         "times_played": faker.random_int(min=0, max=100000),
                         "album_id": album_counter,
-                        "link": song_link,
+                        "spotify_url": song_link,
+                        "spotify_preview_url": song_preview_url,
                     }
                 )
                 songs_keys.append(song_counter)

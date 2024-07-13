@@ -4,6 +4,7 @@ import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.artist.infrastructure.ArtistRepository;
+import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.post.infrastructure.PostRepository;
@@ -12,6 +13,8 @@ import dbp.proyecto.song.dto.SongResponseDto;
 import dbp.proyecto.song.dto.SongResponseForAlbumDto;
 import dbp.proyecto.song.dto.SongResponseForArtistDto;
 import dbp.proyecto.song.infrastructure.SongRepository;
+import dbp.proyecto.user.domain.User;
+import dbp.proyecto.user.infrastructure.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -37,9 +40,13 @@ public class SongService {
 
     private final PostRepository postRepository;
 
+    private final UserRepository userRepository;
+
+    private final AuthorizationUtils authorizationUtils;
+
     private final ModelMapper modelMapper;
 
-    private SongResponseDto getSongResponseDto(Song song) {
+    public SongResponseDto getSongResponseDto(Song song) {
         SongResponseDto songResponseDTO = modelMapper.map(song, SongResponseDto.class);
 
         if (song.getAlbum() != null) {
@@ -180,5 +187,38 @@ public class SongService {
         }
 
         songRepository.delete(song);
+    }
+
+    @Transactional
+    public void likeSong(Long id) {
+        Song song = songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+        String email = authorizationUtils.getCurrentUserEmail();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        if (!song.getUsers().contains(user)) {
+            song.getUsers().add(user);
+            user.getFavoriteSongs().add(song);
+            userRepository.save(user);
+            songRepository.save(song);
+        }
+    }
+
+    @Transactional
+    public void dislikeSong(Long id) {
+        Song song = songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+        String email = authorizationUtils.getCurrentUserEmail();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        if (song.getUsers().contains(user)) {
+            song.getUsers().remove(user);
+            user.getFavoriteSongs().remove(song);
+            userRepository.save(user);
+            songRepository.save(song);
+        }
+
+    }
+
+    public boolean isSongLikedByUser(Long songId, Long userId) {
+        Song song = songRepository.findById(songId).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return song.getUsers().contains(user);
     }
 }

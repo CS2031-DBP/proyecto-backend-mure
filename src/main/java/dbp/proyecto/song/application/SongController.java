@@ -81,10 +81,30 @@ public class SongController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/like/{id}")
+    public ResponseEntity<Void> likeSong(@PathVariable Long id) {
+        songService.likeSong(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/dislike/{id}")
+    public ResponseEntity<Void> dislikeSong(@PathVariable Long id) {
+        songService.dislikeSong(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSong(@PathVariable Long id) {
         songService.deleteSong(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/liked/{songId}/{userId}")
+    public ResponseEntity<Boolean> isSongLikedByUser(@PathVariable Long songId, @PathVariable Long userId) {
+        return ResponseEntity.ok(songService.isSongLikedByUser(songId, userId));
     }
 }

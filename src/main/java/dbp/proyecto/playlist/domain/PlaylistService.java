@@ -12,6 +12,7 @@ import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class PlaylistService {
     private final ModelMapper modelMapper;
     private final AuthorizationUtils authorizationUtils;
 
+    @Autowired
     public PlaylistService(PlaylistRepository playlistRepository, UserRepository userRepository, SongRepository songRepository, ModelMapper modelMapper, AuthorizationUtils authorizationUtils) {
         this.playlistRepository = playlistRepository;
         this.userRepository = userRepository;

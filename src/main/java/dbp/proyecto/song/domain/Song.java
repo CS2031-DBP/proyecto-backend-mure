@@ -3,6 +3,7 @@ package dbp.proyecto.song.domain;
 import dbp.proyecto.album.domain.Album;
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.post.domain.Post;
+import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -61,6 +63,9 @@ public class Song {
     @OneToMany(mappedBy = "song", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
+    @ManyToMany(mappedBy = "favoriteSongs")
+    private List<User> users = new ArrayList<>();
+
     public int getDurationInSeconds() {
         String[] parts = duration.split(":");
         int minutes = Integer.parseInt(parts[0]);
@@ -68,17 +73,18 @@ public class Song {
         return minutes * 60 + seconds;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Song{" +
-//                "id=" + id +
-//                ", title='" + title + '\'' +
-//                ", genre='" + genre + '\'' +
-//                ", releaseDate=" + releaseDate +
-//                ", duration='" + duration + '\'' +
-//                ", coverImage='" + coverImageUrl + '\'' +
-//                ", likes=" + likes +
-//                ", timesPlayed=" + timesPlayed +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "Song{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", genre='" + genre + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", duration='" + duration + '\'' +
+                ", coverImage='" + coverImageUrl + '\'' +
+                ", likes=" + likes +
+                ", timesPlayed=" + timesPlayed +
+                '}';
+    }
+
 }

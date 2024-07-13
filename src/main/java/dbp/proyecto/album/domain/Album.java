@@ -2,6 +2,7 @@ package dbp.proyecto.album.domain;
 
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.song.domain.Song;
+import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -40,9 +41,9 @@ public class Album {
 
     private Integer songsCount;
 
-    private String coverImage;
+    private String coverImageUrl;
 
-    private String link;
+    private String spotifyUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -51,6 +52,9 @@ public class Album {
 
     @OneToMany(mappedBy = "album")
     private List<Song> songs = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "favoriteAlbums")
+    private List<User> users = new ArrayList<>();
 
     public void calculateTotalDuration() {
         int totalSeconds = 0;
@@ -62,7 +66,7 @@ public class Album {
         int hours = totalSeconds / 3600;
         int minutes = (totalSeconds % 3600) / 60;
         int seconds = totalSeconds % 60;
-        this.totalDuration = "%02d:%02d:%02d".formatted(hours, minutes, seconds);
+        this.totalDuration = String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
     public void calculateSongsCount() {

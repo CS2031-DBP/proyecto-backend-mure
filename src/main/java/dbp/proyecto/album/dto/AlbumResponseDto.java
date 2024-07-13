@@ -15,8 +15,8 @@ public class AlbumResponseDto {
     private String totalDuration;
     private String artistName;
     private List<String> songsTitles;
-    private String coverImage;
-    private String link;
+    private String coverImageUrl;
+    private String spotifyUrl;
     private Long artistId;
     private List<Long> songsIds;
 }

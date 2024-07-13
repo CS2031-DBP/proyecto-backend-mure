@@ -3,6 +3,7 @@ package dbp.proyecto.authentication.utils;
 import dbp.proyecto.user.domain.Role;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.domain.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +15,7 @@ public class AuthorizationUtils {
 
     private final UserService userService;
 
+    @Autowired
     public AuthorizationUtils(@Lazy UserService userService) {
         this.userService = userService;
     }

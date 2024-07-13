@@ -15,10 +15,12 @@ public class UpdateFavsListener {
         this.userService = userService;
     }
 
-
+    /*
     @EventListener
     @Async
     public void handleHelloEmailEvent(UpdateFavsEvent event) {
         userService.updateFavorites(event.getUser(), event.getPost());
     }
+
+     */
 }

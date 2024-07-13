@@ -6,7 +6,7 @@ set pgDatabase=database
 set PGPASSWORD=postgres
 
 set artistSqlCommand=\COPY artist (name, name_normalized, birth_date, verified, description, image_url) FROM '../assets/data/artists.csv' DELIMITER ',' CSV HEADER ENCODING 'utf-8';
-set albumSqlCommand=\COPY album (title, title_normalized, description, release_date, total_duration, songs_count, cover_image, link, artist_id) FROM '../assets/data/albums.csv' DELIMITER ',' CSV HEADER ENCODING 'utf-8';
+set albumSqlCommand=\COPY album (title, title_normalized, description, release_date, total_duration, songs_count, cover_image_url, spotify_url, artist_id) FROM '../assets/data/albums.csv' DELIMITER ',' CSV HEADER ENCODING 'utf-8';
 set songSqlCommand=\COPY song (title, title_normalized, genre, release_date, duration, cover_image_url, likes, times_played, album_id, spotify_url, spotify_preview_url) FROM '../assets/data/songs.csv' DELIMITER ',' CSV HEADER ENCODING 'utf-8';
 set artistSongsSqlCommand=\COPY artist_songs (artist_id, song_id) FROM '../assets/data/artist_songs.csv' DELIMITER ',' CSV HEADER ENCODING 'utf-8';
 set userSqlCommand=\COPY users (role, name, nickname, nickname_normalized, email, password, birth_date, created_at, profile_image_url) FROM '../assets/data/users.csv' DELIMITER ',' CSV HEADER ENCODING 'utf-8';

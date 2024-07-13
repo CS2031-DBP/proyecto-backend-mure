@@ -67,10 +67,30 @@ public class AlbumController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/like/{id}")
+    public ResponseEntity<Void> likeAlbum(@PathVariable Long id) {
+        albumService.likeAlbum(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/dislike/{id}")
+    public ResponseEntity<Void> dislikeAlbum(@PathVariable Long id) {
+        albumService.dislikeAlbum(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAlbum(@PathVariable Long id) {
         albumService.deleteAlbum(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/liked/{albumId}/{userId}")
+    public ResponseEntity<Boolean> isAlbumLikedByUser(@PathVariable Long albumId, @PathVariable Long userId) {
+        return ResponseEntity.ok(albumService.isAlbumLikedByUser(albumId, userId));
     }
 }

@@ -7,9 +7,12 @@ import dbp.proyecto.album.dto.AlbumUpdateDto;
 import dbp.proyecto.album.infrastructure.AlbumRepository;
 import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.artist.infrastructure.ArtistRepository;
+import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.song.infrastructure.SongRepository;
+import dbp.proyecto.user.domain.User;
+import dbp.proyecto.user.infrastructure.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -32,7 +35,11 @@ public class AlbumService {
 
     private final SongRepository songRepository;
 
-    private AlbumResponseDto getAlbumResponseDto(Album album) {
+    private final AuthorizationUtils authorizationUtils;
+
+    private final UserRepository userRepository;
+
+    public AlbumResponseDto getAlbumResponseDto(Album album) {
         AlbumResponseDto albumResponseDto = modelMapper.map(album, AlbumResponseDto.class);
         albumResponseDto.setArtistName(album.getArtist().getName());
         albumResponseDto.setSongsTitles(album.getSongs().stream()
@@ -40,6 +47,8 @@ public class AlbumService {
                 .collect(Collectors.toList()));
         albumResponseDto.setSongsIds(album.getSongs().stream().map(Song::getId).collect(Collectors.toList()));
         albumResponseDto.setArtistId(album.getArtist().getId());
+        albumResponseDto.setCoverImageUrl(album.getCoverImageUrl());
+        albumResponseDto.setSpotifyUrl(album.getSpotifyUrl());
         return albumResponseDto;
     }
 
@@ -159,5 +168,37 @@ public Page<AlbumResponseDto> getAlbumsByTitle(String title, int page, int size)
         artist.getAlbums().remove(album);
         artistRepository.save(artist);
         albumRepository.delete(album);
+    }
+
+    @Transactional
+    public void likeAlbum(Long albumId) {
+        Album album = albumRepository.findById(albumId).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
+        String email = authorizationUtils.getCurrentUserEmail();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        if (!album.getUsers().contains(user)) {
+            album.getUsers().add(user);
+            user.getFavoriteAlbums().add(album);
+            userRepository.save(user);
+            albumRepository.save(album);
+        }
+    }
+
+    @Transactional
+    public void dislikeAlbum(Long albumId) {
+        Album album = albumRepository.findById(albumId).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
+        String email = authorizationUtils.getCurrentUserEmail();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        if (album.getUsers().contains(user)) {
+            album.getUsers().remove(user);
+            user.getFavoriteAlbums().remove(album);
+            userRepository.save(user);
+            albumRepository.save(album);
+        }
+    }
+
+    public boolean isAlbumLikedByUser(Long albumId, Long userId) {
+        Album album = albumRepository.findById(albumId).orElseThrow(() -> new ResourceNotFoundException("Album not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return album.getUsers().contains(user);
     }
 }

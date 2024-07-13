@@ -9,6 +9,7 @@ import dbp.proyecto.exception.UserAlreadyExistException;
 import dbp.proyecto.user.domain.Role;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +28,7 @@ public class AuthenticationService {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
+    @Autowired
     public AuthenticationService(UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, ApplicationEventPublisher applicationEventPublisher) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;

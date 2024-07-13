@@ -61,6 +61,7 @@ public class PostService {
 
         if (post.getSong() != null) {
             SongResponseForPostDto songDto = new SongResponseForPostDto();
+            songDto.setId(post.getSong().getId());
             songDto.setTitle(post.getSong().getTitle());
             songDto.setSpotifyUrl(post.getSong().getSpotifyUrl());
             songDto.setCoverImageUrl(post.getSong().getCoverImageUrl());
@@ -70,19 +71,19 @@ public class PostService {
             songDto.setArtistsNames(artistNames);
             songDto.setDuration(post.getSong().getDuration());
             songDto.setGenre(post.getSong().getGenre());
-            songDto.setSpotifyUrl(post.getSong().getSpotifyPreviewUrl());
+            songDto.setSpotifyPreviewUrl(post.getSong().getSpotifyPreviewUrl());
             postResponseDTO.setSong(songDto);
         }
 
         if (post.getAlbum() != null) {
             AlbumInfoForPostDto albumDto = new AlbumInfoForPostDto();
+            albumDto.setId(post.getAlbum().getId());
             albumDto.setTitle(post.getAlbum().getTitle());
-            albumDto.setUrl(post.getAlbum().getLink());
-            albumDto.setCoverUrl(post.getAlbum().getCoverImage());
+            albumDto.setSpotifyUrl(post.getAlbum().getSpotifyUrl());
+            albumDto.setCoverImageUrl(post.getAlbum().getCoverImageUrl());
             albumDto.setArtist(post.getAlbum().getArtist().getName());
             albumDto.setDuration(post.getAlbum().getTotalDuration());
             albumDto.setSongs(post.getAlbum().getSongs().stream().map(Song::getTitle).collect(Collectors.toList()));
-            albumDto.setLink(post.getAlbum().getLink());
             postResponseDTO.setAlbum(albumDto);
         }
         return postResponseDTO;

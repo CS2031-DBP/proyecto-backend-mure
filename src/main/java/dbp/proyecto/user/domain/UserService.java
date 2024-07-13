@@ -1,8 +1,8 @@
 package dbp.proyecto.user.domain;
 
 import dbp.proyecto.album.domain.Album;
-import dbp.proyecto.album.dto.AlbumInfoForUserDto;
-import dbp.proyecto.artist.domain.Artist;
+import dbp.proyecto.album.domain.AlbumService;
+import dbp.proyecto.album.dto.AlbumResponseDto;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UnauthorizedOperationException;
@@ -12,7 +12,8 @@ import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
 import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.domain.Song;
-import dbp.proyecto.song.dto.SongResponseForUserDto;
+import dbp.proyecto.song.domain.SongService;
+import dbp.proyecto.song.dto.SongResponseDto;
 import dbp.proyecto.story.infrastructure.StoryRepository;
 import dbp.proyecto.user.dto.UserRequestDto;
 import dbp.proyecto.user.dto.UserResponseDto;
@@ -51,6 +52,10 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final MediaService mediaService;
+
+    private final SongService songService;
+
+    private final AlbumService albumService;
 
     private List<UserResponseForUserDto> getUserInfoForUserDTOS(User user) {
         return user.getFriends().stream()
@@ -197,6 +202,7 @@ public class UserService {
         userRepository.delete(user);
     }
 
+    /*
     public void updateFavorites(User user, Post post) {
         if (post.getSong() != null && !user.getFavoriteSongs().contains(post.getSong())) {
             user.getFavoriteSongs().add(post.getSong());
@@ -252,6 +258,26 @@ public class UserService {
                     dto.setArtistName(album.getArtist().getName());
                     return dto;
                 })
+                .collect(Collectors.toList());
+    }
+
+     */
+
+    public List<SongResponseDto> getFavoriteSongs(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        List<Song> favoriteSongs = user.getFavoriteSongs();
+        return favoriteSongs.stream()
+                .map(songService::getSongResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<AlbumResponseDto> getFavoriteAlbums(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        List<Album> favoriteAlbums = user.getFavoriteAlbums();
+        return favoriteAlbums.stream()
+                .map(albumService::getAlbumResponseDto)
                 .collect(Collectors.toList());
     }
 

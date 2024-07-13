@@ -4,6 +4,7 @@ package dbp.proyecto.playlist.application;
 import dbp.proyecto.playlist.domain.PlaylistService;
 import dbp.proyecto.playlist.dtos.PlaylistBodyDTO;
 import dbp.proyecto.playlist.dtos.PlaylistResponseDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ public class PlaylistController {
 
     private final PlaylistService playlistService;
 
+    @Autowired
     public PlaylistController(PlaylistService playlistService) {
         this.playlistService = playlistService;
     }

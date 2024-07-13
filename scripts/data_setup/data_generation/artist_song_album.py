@@ -56,7 +56,7 @@ def generate_artists_songs_albums(
             album_id = album["id"]
             album_title = album["name"]
             album_release_date = album["release_date"]
-            album_cover_image = album["images"][0]["url"] if album["images"] else None
+            album_cover_image_url = album["images"][0]["url"] if album["images"] else None
             album_link = album["external_urls"]["spotify"]
             album_description = faker.text(max_nb_chars=50).replace("\n", " ")
 
@@ -82,8 +82,8 @@ def generate_artists_songs_albums(
                     + ":"
                     + str(total_duration % 60).zfill(2),
                     "songs_count": songs_count,
-                    "cover_image": album_cover_image,
-                    "link": album_link,
+                    "cover_image_url": album_cover_image_url,
+                    "spotify_url": album_link,
                     "artist_id": artist_id,
                 }
             )
@@ -109,7 +109,7 @@ def generate_artists_songs_albums(
                         "duration": str(song_duration // 60).zfill(2)
                         + ":"
                         + str(song_duration % 60).zfill(2),
-                        "cover_image_url": album_cover_image,
+                        "cover_image_url": album_cover_image_url,
                         "likes": faker.random_int(min=0, max=1000),
                         "times_played": faker.random_int(min=0, max=100000),
                         "album_id": album_counter,

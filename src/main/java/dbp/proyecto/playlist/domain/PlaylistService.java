@@ -46,15 +46,13 @@ public class PlaylistService {
         playlistResponseDTO.setSongsIds(playlist.getSongs().stream()
                 .map(Song::getId)
                 .collect(Collectors.toList()));
+        playlistResponseDTO.setNickname(playlist.getUser().getNickname());
         return playlistResponseDTO;
     }
 
     public PlaylistResponseDTO getPlaylistById(Long id) {
         Playlist playlist = playlistRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
-        if (!authorizationUtils.isAdmin()) {
-            throw new UnauthorizedOperationException("User does not have access to this playlist");
-        }
         return getPlaylistResponseDTO(playlist);
     }
 

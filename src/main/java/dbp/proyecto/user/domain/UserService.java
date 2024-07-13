@@ -124,7 +124,7 @@ public class UserService {
 
 
         MultipartFile profileImage = updatedUser.getProfileImage();
-        if (profileImage != null) {
+        if (profileImage != null && !profileImage.isEmpty()) {
             String profileImageUrl = mediaService.uploadFile(profileImage);
             existingUser.setProfileImageUrl(profileImageUrl);
         }

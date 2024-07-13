@@ -10,5 +10,6 @@ public class PlaylistResponseDTO {
     private Long id;
     private String name;
     private Long userId;
+    private String nickname;
     private List<Long> songsIds;
 }

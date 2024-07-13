@@ -14,10 +14,11 @@ public class SongResponseDto {
     private Integer timesPlayed;
     private LocalDate releaseDate;
     private String duration;
-    private String coverImage;
+    private String coverImageUrl;
     private String albumTitle;
     private List<String> artistsNames;
-    private String link;
+    private String spotifyUrl;
+    private String spotifyPreviewUrl;
     private List<Long> artistsIds;
     private Long albumId;
 }

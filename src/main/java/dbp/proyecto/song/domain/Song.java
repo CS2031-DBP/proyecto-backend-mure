@@ -12,7 +12,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,7 +36,7 @@ public class Song {
     @NotBlank
     private String duration;
 
-    private String coverImage;
+    private String coverImageUrl;
 
     @NotNull
     @Min(0)
@@ -47,8 +46,12 @@ public class Song {
     @Min(0)
     private Integer timesPlayed;
 
+    private String spotifyUrl;
+
+    private String spotifyPreviewUrl;
+
     @ManyToMany(mappedBy = "songs")
-    private List<Artist> artists = new ArrayList<>();
+    private List<Artist> artists;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -56,9 +59,7 @@ public class Song {
     private Album album;
 
     @OneToMany(mappedBy = "song", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Post> posts = new ArrayList<>();
-
-    private String link;
+    private List<Post> posts;
 
     public int getDurationInSeconds() {
         String[] parts = duration.split(":");
@@ -67,17 +68,17 @@ public class Song {
         return minutes * 60 + seconds;
     }
 
-    @Override
-    public String toString() {
-        return "Song{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", genre='" + genre + '\'' +
-                ", releaseDate=" + releaseDate +
-                ", duration='" + duration + '\'' +
-                ", coverImage='" + coverImage + '\'' +
-                ", likes=" + likes +
-                ", timesPlayed=" + timesPlayed +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Song{" +
+//                "id=" + id +
+//                ", title='" + title + '\'' +
+//                ", genre='" + genre + '\'' +
+//                ", releaseDate=" + releaseDate +
+//                ", duration='" + duration + '\'' +
+//                ", coverImage='" + coverImageUrl + '\'' +
+//                ", likes=" + likes +
+//                ", timesPlayed=" + timesPlayed +
+//                '}';
+//    }
 }

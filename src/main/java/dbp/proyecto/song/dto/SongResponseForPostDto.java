@@ -5,12 +5,11 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class SongInfoForPostDto {
+public class SongResponseForPostDto {
     private String title;
-    private String url;
-    private String coverUrl;
+    private String coverImageUrl;
     private List<String> artistsNames;
     private String duration;
     private String genre;
-    private String link;
+    private String spotifyUrl;
 }

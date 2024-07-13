@@ -12,6 +12,7 @@ public class SongRequestDto {
     private LocalDate releaseDate;
     private String genre;
     private String duration;
-    private String coverImage;
-    private String link;
+    private String coverImageUrl;
+    private String spotifyUrl;
+    private String spotifyPreviewUrl;
 }

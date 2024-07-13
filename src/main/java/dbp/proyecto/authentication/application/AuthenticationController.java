@@ -5,7 +5,6 @@ import dbp.proyecto.authentication.dto.JwtAuthResponseDto;
 import dbp.proyecto.authentication.dto.LoginDto;
 import dbp.proyecto.authentication.dto.SigninDto;
 import dbp.proyecto.authentication.dto.UserPasswordVerificationRequestDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
-    @Autowired
     public AuthenticationController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }

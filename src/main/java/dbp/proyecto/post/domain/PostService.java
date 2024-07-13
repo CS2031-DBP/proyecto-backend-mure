@@ -13,7 +13,7 @@ import dbp.proyecto.post.dtos.PostResponseDto;
 import dbp.proyecto.post.dtos.PostUpdateDto;
 import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.domain.Song;
-import dbp.proyecto.song.dto.SongInfoForPostDto;
+import dbp.proyecto.song.dto.SongResponseForPostDto;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
@@ -26,7 +26,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -61,30 +60,30 @@ public class PostService {
         postResponseDTO.setCreatedAt(post.getCreatedAt());
 
         if (post.getSong() != null) {
-            SongInfoForPostDto songDTO = new SongInfoForPostDto();
-            songDTO.setTitle(post.getSong().getTitle());
-            songDTO.setUrl(post.getSong().getLink());
-            songDTO.setCoverUrl(post.getSong().getCoverImage());
+            SongResponseForPostDto songDto = new SongResponseForPostDto();
+            songDto.setTitle(post.getSong().getTitle());
+            songDto.setSpotifyUrl(post.getSong().getSpotifyUrl());
+            songDto.setCoverImageUrl(post.getSong().getCoverImageUrl());
             List<String> artistNames = post.getSong().getArtists().stream()
                     .map(Artist::getName)
                     .collect(Collectors.toList());
-            songDTO.setArtistsNames(artistNames);
-            songDTO.setDuration(post.getSong().getDuration());
-            songDTO.setGenre(post.getSong().getGenre());
-            songDTO.setLink(post.getSong().getLink());
-            postResponseDTO.setSong(songDTO);
+            songDto.setArtistsNames(artistNames);
+            songDto.setDuration(post.getSong().getDuration());
+            songDto.setGenre(post.getSong().getGenre());
+            songDto.setSpotifyUrl(post.getSong().getSpotifyPreviewUrl());
+            postResponseDTO.setSong(songDto);
         }
 
         if (post.getAlbum() != null) {
-            AlbumInfoForPostDto albumDTO = new AlbumInfoForPostDto();
-            albumDTO.setTitle(post.getAlbum().getTitle());
-            albumDTO.setUrl(post.getAlbum().getLink());
-            albumDTO.setCoverUrl(post.getAlbum().getCoverImage());
-            albumDTO.setArtist(post.getAlbum().getArtist().getName());
-            albumDTO.setDuration(post.getAlbum().getTotalDuration());
-            albumDTO.setSongs(post.getAlbum().getSongs().stream().map(Song::getTitle).collect(Collectors.toList()));
-            albumDTO.setLink(post.getAlbum().getLink());
-            postResponseDTO.setAlbum(albumDTO);
+            AlbumInfoForPostDto albumDto = new AlbumInfoForPostDto();
+            albumDto.setTitle(post.getAlbum().getTitle());
+            albumDto.setUrl(post.getAlbum().getLink());
+            albumDto.setCoverUrl(post.getAlbum().getCoverImage());
+            albumDto.setArtist(post.getAlbum().getArtist().getName());
+            albumDto.setDuration(post.getAlbum().getTotalDuration());
+            albumDto.setSongs(post.getAlbum().getSongs().stream().map(Song::getTitle).collect(Collectors.toList()));
+            albumDto.setLink(post.getAlbum().getLink());
+            postResponseDTO.setAlbum(albumDto);
         }
         return postResponseDTO;
     }

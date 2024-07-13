@@ -22,7 +22,7 @@ public class AlbumController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{id}")
-    public ResponseEntity<AlbumResponseDto> getAlbumById(@PathVariable("id") Long id) {
+    public ResponseEntity<AlbumResponseDto> getAlbumById(@PathVariable Long id) {
         return ResponseEntity.ok(albumService.getAlbumById(id));
     }
 

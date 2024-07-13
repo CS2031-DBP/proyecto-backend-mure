@@ -7,10 +7,10 @@ import dbp.proyecto.artist.infrastructure.ArtistRepository;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.post.infrastructure.PostRepository;
-import dbp.proyecto.song.dto.SongInfoForAlbumDto;
-import dbp.proyecto.song.dto.SongInfoForArtistDto;
 import dbp.proyecto.song.dto.SongRequestDto;
 import dbp.proyecto.song.dto.SongResponseDto;
+import dbp.proyecto.song.dto.SongResponseForAlbumDto;
+import dbp.proyecto.song.dto.SongResponseForArtistDto;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -55,15 +55,15 @@ public class SongService {
         return songResponseDTO;
     }
 
-    private List<SongInfoForArtistDto> getSongInfoForArtistDtos(Artist artist) {
+    private List<SongResponseForArtistDto> getSongInfoForArtistDtos(Artist artist) {
         List<Song> songs = artist.getSongs();
 
         return songs.stream().map(song -> {
-            SongInfoForArtistDto songInfoForArtistDTO = modelMapper.map(song, SongInfoForArtistDto.class);
+            SongResponseForArtistDto songResponseForArtistDTO = modelMapper.map(song, SongResponseForArtistDto.class);
             if (song.getAlbum() != null) {
-                songInfoForArtistDTO.setAlbumTitle(song.getAlbum().getTitle());
+                songResponseForArtistDTO.setAlbumTitle(song.getAlbum().getTitle());
             }
-            return songInfoForArtistDTO;
+            return songResponseForArtistDTO;
         }).collect(Collectors.toList());
     }
 
@@ -86,7 +86,7 @@ public class SongService {
         return songs.map(this::getSongResponseDto);
     }
 
-    public List<SongInfoForArtistDto> getSongsByArtistId(Long artistId) {
+    public List<SongResponseForArtistDto> getSongsByArtistId(Long artistId) {
         Artist artist = artistRepository.findById(artistId)
                 .orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
         return getSongInfoForArtistDtos(artist);
@@ -98,18 +98,18 @@ public class SongService {
         return songsPage.map(this::getSongResponseDto);
     }
 
-    public List<SongInfoForAlbumDto> getSongsByAlbumId(Long albumId) {
+    public List<SongResponseForAlbumDto> getSongsByAlbumId(Long albumId) {
         List<Song> songs = songRepository.findByAlbumId(albumId);
         if (songs.isEmpty()) {
             throw new ResourceNotFoundException("Album not found");
         }
         return songs.stream().map(song -> {
-            SongInfoForAlbumDto songInfoForAlbumDTO = modelMapper.map(song, SongInfoForAlbumDto.class);
+            SongResponseForAlbumDto songResponseForAlbumDTO = modelMapper.map(song, SongResponseForAlbumDto.class);
             List<String> artistsNames = song.getArtists().stream()
                     .map(Artist::getName)
                     .collect(Collectors.toList());
-            songInfoForAlbumDTO.setArtistsNames(artistsNames);
-            return songInfoForAlbumDTO;
+            songResponseForAlbumDTO.setArtistsNames(artistsNames);
+            return songResponseForAlbumDTO;
         }).collect(Collectors.toList());
     }
 
@@ -119,43 +119,43 @@ public class SongService {
         return songs.map(this::getSongResponseDto);
     }
 
-@Transactional
-public void createSongs(List<SongRequestDto> songRequestDtos) {
-    List<Song> songs = new ArrayList<>();
-    Random random = new Random();
-    for (SongRequestDto songRequestDto : songRequestDtos) {
-        Song song = modelMapper.map(songRequestDto, Song.class);
-        song.setLink(songRequestDto.getLink());
+    @Transactional
+    public void createSongs(List<SongRequestDto> songRequestDtos) {
+        List<Song> songs = new ArrayList<>();
+        Random random = new Random();
+        for (SongRequestDto songRequestDto : songRequestDtos) {
+            Song song = modelMapper.map(songRequestDto, Song.class);
+            song.setSpotifyUrl(songRequestDto.getSpotifyUrl());
 
 
-        String normalizedTitle = Normalizer.normalize(songRequestDto.getTitle(), Normalizer.Form.NFC)
-                                .replaceAll("[’‘]", "'")
-                                .replaceAll("\\p{M}", "")
-                                .toLowerCase();
-        song.setTitleNormalized(normalizedTitle);
+            String normalizedTitle = Normalizer.normalize(songRequestDto.getTitle(), Normalizer.Form.NFC)
+                    .replaceAll("[’‘]", "'")
+                    .replaceAll("\\p{M}", "")
+                    .toLowerCase();
+            song.setTitleNormalized(normalizedTitle);
 
-        int likes = 50000 + random.nextInt(450001);
-        song.setLikes(likes);
-        int timesPlayed = 50000 + random.nextInt(9550001);
-        song.setTimesPlayed(timesPlayed);
-        songRepository.save(song);
-        List<Artist> artists = artistRepository.findAllById(songRequestDto.getArtistsIds());
-        if (artists.isEmpty()) {
-            throw new IllegalArgumentException("Minimum one artist is required");
+            int likes = 50000 + random.nextInt(450001);
+            song.setLikes(likes);
+            int timesPlayed = 50000 + random.nextInt(9550001);
+            song.setTimesPlayed(timesPlayed);
+            songRepository.save(song);
+            List<Artist> artists = artistRepository.findAllById(songRequestDto.getArtistsIds());
+            if (artists.isEmpty()) {
+                throw new IllegalArgumentException("Minimum one artist is required");
+            }
+            song.setArtists(artists);
+            for (Artist artist : artists) {
+                artist.getSongs().add(song);
+            }
+            artistRepository.saveAll(artists);
+            songs.add(song);
         }
-        song.setArtists(artists);
-        for (Artist artist : artists) {
-            artist.getSongs().add(song);
-        }
-        artistRepository.saveAll(artists);
-        songs.add(song);
+        songRepository.saveAll(songs);
     }
-    songRepository.saveAll(songs);
-}
 
     public void updateCoverImage(String coverImage, Long id) {
         Song song = songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
-        song.setCoverImage(coverImage);
+        song.setCoverImageUrl(coverImage);
         songRepository.save(song);
     }
 

@@ -54,13 +54,15 @@ public class Album {
 
     public void calculateTotalDuration() {
         int totalSeconds = 0;
+
         for (Song song : songs) {
             totalSeconds += song.getDurationInSeconds();
         }
+
         int hours = totalSeconds / 3600;
         int minutes = (totalSeconds % 3600) / 60;
         int seconds = totalSeconds % 60;
-        this.totalDuration = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        this.totalDuration = "%02d:%02d:%02d".formatted(hours, minutes, seconds);
     }
 
     public void calculateSongsCount() {

@@ -3,7 +3,6 @@ package dbp.proyecto.story.application;
 import dbp.proyecto.story.domain.StoryService;
 import dbp.proyecto.story.dto.StoryBodyDTO;
 import dbp.proyecto.story.dto.StoryResponseDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import java.util.List;
 public class StoryController {
     private final StoryService storyService;
 
-    @Autowired
     public StoryController(StoryService storyService) {
         this.storyService = storyService;
     }

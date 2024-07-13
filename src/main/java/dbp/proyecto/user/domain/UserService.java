@@ -12,7 +12,7 @@ import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
 import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.post.infrastructure.PostRepository;
 import dbp.proyecto.song.domain.Song;
-import dbp.proyecto.song.dto.SongInfoForUserDto;
+import dbp.proyecto.song.dto.SongResponseForUserDto;
 import dbp.proyecto.story.infrastructure.StoryRepository;
 import dbp.proyecto.user.dto.UserRequestDto;
 import dbp.proyecto.user.dto.UserResponseDto;
@@ -215,7 +215,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<SongInfoForUserDto> getFavoriteSongs(Long id) {
+    public List<SongResponseForUserDto> getFavoriteSongs(Long id) {
         String email = authorizationUtils.getCurrentUserEmail();
         User currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -227,7 +227,7 @@ public class UserService {
         List<Song> favoriteSongs = user.getFavoriteSongs();
         return favoriteSongs.stream()
                 .map(song -> {
-                    SongInfoForUserDto dto = modelMapper.map(song, SongInfoForUserDto.class);
+                    SongResponseForUserDto dto = modelMapper.map(song, SongResponseForUserDto.class);
                     dto.setArtistNames(song.getArtists().stream()
                             .map(Artist::getName)
                             .collect(Collectors.toList()));

@@ -1,8 +1,8 @@
 package dbp.proyecto.song.application;
 
 import dbp.proyecto.song.domain.SongService;
-import dbp.proyecto.song.dto.SongInfoForAlbumDto;
-import dbp.proyecto.song.dto.SongInfoForArtistDto;
+import dbp.proyecto.song.dto.SongResponseForAlbumDto;
+import dbp.proyecto.song.dto.SongResponseForArtistDto;
 import dbp.proyecto.song.dto.SongRequestDto;
 import dbp.proyecto.song.dto.SongResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class SongController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/artist/{artistId}")
-    public ResponseEntity<List<SongInfoForArtistDto>> getSongsByArtistId(@PathVariable Long artistId) {
+    public ResponseEntity<List<SongResponseForArtistDto>> getSongsByArtistId(@PathVariable Long artistId) {
         return ResponseEntity.ok(songService.getSongsByArtistId(artistId));
     }
 
@@ -56,7 +56,7 @@ public class SongController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/album/{albumId}")
-    public ResponseEntity<List<SongInfoForAlbumDto>> getSongsByAlbumId(@PathVariable Long albumId) {
+    public ResponseEntity<List<SongResponseForAlbumDto>> getSongsByAlbumId(@PathVariable Long albumId) {
         return ResponseEntity.ok(songService.getSongsByAlbumId(albumId));
     }
 

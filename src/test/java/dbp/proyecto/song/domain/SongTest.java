@@ -23,7 +23,7 @@ public class SongTest {
         song.setDuration("02:00");
         song.setGenre("Pop");
         song.setReleaseDate(LocalDate.parse("2021-01-01"));
-        song.setCoverImage("cover.jpg");
+        song.setCoverImageUrl("cover.jpg");
         song.setLikes(10000);
         song.setTimesPlayed(250000);
 
@@ -53,7 +53,7 @@ public class SongTest {
         assertEquals("02:00", song.getDuration());
         assertEquals("Pop", song.getGenre());
         assertEquals(LocalDate.parse("2021-01-01"), song.getReleaseDate());
-        assertEquals("cover.jpg", song.getCoverImage());
+        assertEquals("cover.jpg", song.getCoverImageUrl());
         assertEquals(10000, song.getLikes());
         assertEquals(250000, song.getTimesPlayed());
         assertEquals(2, song.getArtists().size());
@@ -104,7 +104,7 @@ public class SongTest {
         assertNull(song.getDuration());
         assertNull(song.getGenre());
         assertNull(song.getReleaseDate());
-        assertNull(song.getCoverImage());
+        assertNull(song.getCoverImageUrl());
         assertNull(song.getLikes());
         assertNull(song.getTimesPlayed());
         assertTrue(song.getArtists().isEmpty());

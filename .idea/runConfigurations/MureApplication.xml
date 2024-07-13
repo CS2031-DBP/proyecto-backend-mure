@@ -3,11 +3,11 @@
     <option name="ALTERNATIVE_JRE_PATH" value="22" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <envs>
-      <env name="AMAZON_S3_ACCESSKEY" value="ASIAXT3S4MT4GCADGQPC" />
+      <env name="AMAZON_S3_ACCESSKEY" value="ASIAXT3S4MT4I44XDSEB" />
       <env name="AMAZON_S3_BUCKETNAME" value="mure-bucket" />
       <env name="AMAZON_S3_REGION" value="us-east-1" />
-      <env name="AMAZON_S3_SECRETKEY" value="vyVP8GumqmLF6ROs1RgRnIKf7h1mHAUwe8ie4EKi" />
-      <env name="AMAZON_S3_SESSION_TOKEN" value="IQoJb3JpZ2luX2VjEKr//////////wEaCXVzLXdlc3QtMiJIMEYCIQCnw/U5pHCcbSz9ip6rdI2kNmMzFjMOtLwGTC5ylu4VPAIhAOz3AFEiC6pZ3TyLXavCKD6xpptXpTlncyRyjQH5s6dXKrsCCHMQARoMNTIzNjkwMDc1Mzg0IgxJtdvmRZKUwLa5nkkqmALMTiYHBf28k3k1DpGAUgITFuQMJ2kJGgeovWAyM38txruTVEytIyNAqShqlMCmCOP6TBEICC2rAQpl05RmWbMyzfLlC0VQaQfWe6bfH6ffid7+LvldKQIiJKVfEl44WEwIv8Bwru+6TIOCcjbBfqHWvdxDgFE4TcJVITd5Y6imhctBBNnYNCSJsXdWzbrILXbWmKwjfYcT8vobtpFBYLSbX+VG/jxK6uynJlyRV5L3x3IFnkPbQKrLxI2hMWmJwlse7iCL3nQjjaFceleJ71EA6caQ0NzXoELU8Mog29DLZpnJJfIg5xmOsjB29HoQvuAYGPXy4POxNhDqr7Ra6liAOVnKdlmWx2e1w96LlzgfzTgaYP+s3/oHMNjrw7QGOpwB4OH+Ir6e24sy9NyFEwAvVOJ3Omb244m2v/qTjQI2omZ9o7G6uWyUvHTtAmL0TKNK5WzSWhCaIZWR80eLjpS663ii6YF5IzGpVhqiWBdVQM5I8EfLtLJqx6HfEx/sIGfUm/I2Ah0vg2sOgi76+ffdELy9tWgobaK2dVPEq46zRc5YvIVL+qqnONPfWsWJMitGeE2ZSHelaZ9VBILz" />
+      <env name="AMAZON_S3_SECRETKEY" value="RR64dvRPXu6jCDUR+HK25GpdEqlRQQIMzMTx5tBq" />
+      <env name="AMAZON_S3_SESSION_TOKEN" value="IQoJb3JpZ2luX2VjELr//////////wEaCXVzLXdlc3QtMiJHMEUCIA9iHgfOvvXMaIWKFakHMsku8PJs18GYoHAdd2vH2fepAiEA+at+U0+quG92m+8abJHBeopXev4wm83tEBEegD3lTn0qxAIIg///////////ARABGgw1MjM2OTAwNzUzODQiDPrEvFe+Cstb5XiTiCqYAvkTT668oMq5musKgdyOgZTv25PdFciKM+rGBe8XA7Az87VJxigEbhNWM22gwvjMX+/eSNk3ZnnVvy2+GRl/V0RhHag4Pby+BU6NbF+bavX3GDhpNlIS3il3TB6OGUb0vGCCRSvDa8C5kp/0ukkc6bf5MHNavFnnY10BP0iyMVs2BdVRSZ4ogxOr/gdMH3HWrtsfbJomyDkP+sM3mdbAlCl/6HijjxyFVthHHFbxtbsgAieCzRrLmrCdyiqpMMHJ0yvF+PsDKtlmzIDUpZLG9OtN4vUn6WszG1eJ2obqNWQ2lHtAxHMgpk6E948A4iYvL4id3rSeo+3bp/qy9V51h/PTlnl8Rx61piDqUWWm8kZZYX0PEbfP6mswv7bHtAY6nQHwFCOMIaWSq19z3xw58FJ1vBSkmlGws8fkqfl11tLwdXEVcTPJMahawk09m6+0ze9qS1vLjDyEX36g0PY6vr5IWjqj5vXbzOI66yHT1Q6LS7CTcT6Soh/PsoKkfYH6rHcTFFlH9ajR83Ba/vtGATY8Hs8b5V/7Vr7XUVE+3iLhWcFMqtKMvQ1Q+pPyCVWfSHJ5np4cA5rOqQR+RR4F" />
       <env name="DB_HOST" value="localhost" />
       <env name="DB_NAME" value="database" />
       <env name="DB_PASSWORD" value="postgres" />
@@ -24,6 +24,11 @@
         <option name="PATTERN" value="dbp.proyecto.*" />
         <option name="ENABLED" value="true" />
       </pattern>
+    </extension>
+    <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+      <option name="credential" />
+      <option name="region" />
+      <option name="useCurrentConnection" value="false" />
     </extension>
     <method v="2">
       <option name="Make" enabled="true" />

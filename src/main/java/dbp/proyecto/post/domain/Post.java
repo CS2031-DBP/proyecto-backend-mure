@@ -1,6 +1,7 @@
 package dbp.proyecto.post.domain;
 
 import dbp.proyecto.album.domain.Album;
+import dbp.proyecto.comment.domain.Comment;
 import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.user.domain.User;
 import jakarta.persistence.*;
@@ -36,6 +37,9 @@ public class Post {
     private String audioUrl;
 
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "song_id")

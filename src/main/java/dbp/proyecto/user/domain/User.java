@@ -1,6 +1,7 @@
 package dbp.proyecto.user.domain;
 
 import dbp.proyecto.album.domain.Album;
+import dbp.proyecto.comment.domain.Comment;
 import dbp.proyecto.playlist.domain.Playlist;
 import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.song.domain.Song;
@@ -69,6 +70,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Playlist> ownsPlaylists;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "user_albums", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "album_id"))

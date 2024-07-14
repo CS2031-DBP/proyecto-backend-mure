@@ -7,6 +7,7 @@ import dbp.proyecto.exception.UnauthorizedOperationException;
 import dbp.proyecto.media.domain.MediaService;
 import dbp.proyecto.playlist.dtos.PlaylistBodyDTO;
 import dbp.proyecto.playlist.dtos.PlaylistResponseDTO;
+import dbp.proyecto.playlist.dtos.PlaylistUpdateDto;
 import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
 import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.song.infrastructure.SongRepository;
@@ -203,6 +204,27 @@ public class PlaylistService {
         }
 
         playlist.getSongs().remove(song);
+        playlistRepository.save(playlist);
+    }
+
+    public void updateNameAndCoverImage(PlaylistUpdateDto playlistUpdateDto) throws FileUploadException {
+        Playlist playlist = playlistRepository.findById(playlistUpdateDto.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Playlist not found"));
+        User owner = playlist.getUser();
+        String email = authorizationUtils.getCurrentUserEmail();
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (!owner.getId().equals(currentUser.getId())) {
+            throw new UnauthorizedOperationException("Only the owner can update the playlist");
+        }
+
+        if (playlistUpdateDto.getName() != null && !playlistUpdateDto.getName().isEmpty()){
+            playlist.setName(playlistUpdateDto.getName());
+        }
+        if (playlistUpdateDto.getCoverImage() != null && !playlistUpdateDto.getCoverImage().isEmpty()) {
+            playlist.setCoverImageUrl(mediaService.uploadFile(playlistUpdateDto.getCoverImage()));
+        }
         playlistRepository.save(playlist);
     }
 

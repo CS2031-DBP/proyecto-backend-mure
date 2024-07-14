@@ -12,4 +12,5 @@ public class PlaylistResponseDTO {
     private Long userId;
     private String nickname;
     private List<Long> songsIds;
+    private String coverImageUrl;
 }

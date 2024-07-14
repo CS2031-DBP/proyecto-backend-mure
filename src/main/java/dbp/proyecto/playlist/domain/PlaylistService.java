@@ -51,6 +51,7 @@ public class PlaylistService {
                 .map(Song::getId)
                 .collect(Collectors.toList()));
         playlistResponseDTO.setNickname(playlist.getUser().getNickname());
+        playlistResponseDTO.setCoverImageUrl(playlist.getCoverImageUrl());
         return playlistResponseDTO;
     }
 

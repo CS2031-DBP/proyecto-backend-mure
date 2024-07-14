@@ -7,7 +7,7 @@ import dbp.proyecto.artist.domain.Artist;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UnauthorizedOperationException;
-import dbp.proyecto.media.domain.MediaService;
+import dbp.proyecto.mediaStorage.domain.MediaStorageService;
 import dbp.proyecto.post.dtos.PostRequestDto;
 import dbp.proyecto.post.dtos.PostResponseDto;
 import dbp.proyecto.post.dtos.PostUpdateDto;
@@ -49,7 +49,7 @@ public class PostService {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    private final MediaService mediaService;
+    private final MediaStorageService mediaStorageService;
 
     private PostResponseDto getPostResponseDto(Post post) {
         PostResponseDto postResponseDTO = modelMapper.map(post, PostResponseDto.class);
@@ -145,11 +145,11 @@ public class PostService {
         post.setDescription(postRequestDto.getDescription());
 
         if (postRequestDto.getImage() != null && !postRequestDto.getImage().isEmpty()) {
-            post.setImageUrl(mediaService.uploadFile(postRequestDto.getImage()));
+            post.setImageUrl(mediaStorageService.uploadFile(postRequestDto.getImage()));
         }
 
         if (postRequestDto.getAudio() != null && !postRequestDto.getAudio().isEmpty()) {
-            post.setAudioUrl(mediaService.uploadFile(postRequestDto.getAudio()));
+            post.setAudioUrl(mediaStorageService.uploadFile(postRequestDto.getAudio()));
         }
 
         Random random = new Random();

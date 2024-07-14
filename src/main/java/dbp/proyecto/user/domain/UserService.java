@@ -7,7 +7,7 @@ import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UnauthorizedOperationException;
 import dbp.proyecto.exception.UniqueResourceAlreadyExist;
-import dbp.proyecto.media.domain.MediaService;
+import dbp.proyecto.mediaStorage.domain.MediaStorageService;
 import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
 import dbp.proyecto.post.domain.Post;
 import dbp.proyecto.post.infrastructure.PostRepository;
@@ -51,7 +51,7 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final MediaService mediaService;
+    private final MediaStorageService mediaStorageService;
 
     private final SongService songService;
 
@@ -130,7 +130,7 @@ public class UserService {
 
         MultipartFile profileImage = updatedUser.getProfileImage();
         if (profileImage != null && !profileImage.isEmpty()) {
-            String profileImageUrl = mediaService.uploadFile(profileImage);
+            String profileImageUrl = mediaStorageService.uploadFile(profileImage);
             existingUser.setProfileImageUrl(profileImageUrl);
         }
         if (updatedUser.getName() != null && !updatedUser.getName().isEmpty()) {

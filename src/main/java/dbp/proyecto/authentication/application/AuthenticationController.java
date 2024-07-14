@@ -1,11 +1,9 @@
 package dbp.proyecto.authentication.application;
 
 import dbp.proyecto.authentication.domain.AuthenticationService;
-import dbp.proyecto.authentication.dto.JwtAuthResponseDto;
-import dbp.proyecto.authentication.dto.LoginDto;
-import dbp.proyecto.authentication.dto.SigninDto;
-import dbp.proyecto.authentication.dto.UserPasswordVerificationRequestDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import dbp.proyecto.authentication.domain.GoogleAuthService;
+import dbp.proyecto.authentication.dto.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,14 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
-    @Autowired
-    public AuthenticationController(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
+    private final GoogleAuthService googleAuthService;
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponseDto> login(@RequestBody LoginDto logInDTO) {
@@ -36,5 +32,10 @@ public class AuthenticationController {
     public ResponseEntity<Boolean> verifyPassword(@RequestBody UserPasswordVerificationRequestDto request) {
         boolean isValid = authenticationService.verifyPassword(request.getUserId(), request.getPassword());
         return ResponseEntity.ok(isValid);
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<GoogleAuthResponseDto> validateGoogleAuthToken(@RequestBody GoogleAuthRequestDto googleAuthRequestDto) {
+        return ResponseEntity.ok(googleAuthService.validate(googleAuthRequestDto));
     }
 }

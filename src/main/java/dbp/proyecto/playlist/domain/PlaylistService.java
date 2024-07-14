@@ -4,7 +4,7 @@ package dbp.proyecto.playlist.domain;
 import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UnauthorizedOperationException;
-import dbp.proyecto.media.domain.MediaService;
+import dbp.proyecto.mediaStorage.domain.MediaStorageService;
 import dbp.proyecto.playlist.dtos.PlaylistBodyDTO;
 import dbp.proyecto.playlist.dtos.PlaylistResponseDTO;
 import dbp.proyecto.playlist.infraestructure.PlaylistRepository;
@@ -12,9 +12,9 @@ import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.song.infrastructure.SongRepository;
 import dbp.proyecto.user.domain.User;
 import dbp.proyecto.user.infrastructure.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,24 +25,19 @@ import java.util.stream.Collectors;
 
 
 @Service
+@RequiredArgsConstructor
 public class PlaylistService {
-
     private final PlaylistRepository playlistRepository;
-    private final UserRepository userRepository;
-    private final SongRepository songRepository;
-    private final ModelMapper modelMapper;
-    private final AuthorizationUtils authorizationUtils;
-    private final MediaService mediaService;
 
-    @Autowired
-    public PlaylistService(PlaylistRepository playlistRepository, UserRepository userRepository, SongRepository songRepository, ModelMapper modelMapper, AuthorizationUtils authorizationUtils, MediaService mediaService) {
-        this.playlistRepository = playlistRepository;
-        this.userRepository = userRepository;
-        this.songRepository = songRepository;
-        this.modelMapper = modelMapper;
-        this.authorizationUtils = authorizationUtils;
-        this.mediaService = mediaService;
-    }
+    private final UserRepository userRepository;
+
+    private final SongRepository songRepository;
+
+    private final ModelMapper modelMapper;
+
+    private final AuthorizationUtils authorizationUtils;
+
+    private final MediaStorageService mediaStorageService;
 
     private PlaylistResponseDTO getPlaylistResponseDTO(Playlist playlist) {
         PlaylistResponseDTO playlistResponseDTO = modelMapper.map(playlist, PlaylistResponseDTO.class);
@@ -114,7 +109,7 @@ public class PlaylistService {
         playlist.setUser(user);
         playlist.setSongs(songs);
         if (playlistBodyDTO.getCoverImage() != null && !playlistBodyDTO.getCoverImage().isEmpty()) {
-            playlist.setCoverImageUrl(mediaService.uploadFile(playlistBodyDTO.getCoverImage()));
+            playlist.setCoverImageUrl(mediaStorageService.uploadFile(playlistBodyDTO.getCoverImage()));
         }
         playlistRepository.save(playlist);
         user.getOwnsPlaylists().add(playlist);

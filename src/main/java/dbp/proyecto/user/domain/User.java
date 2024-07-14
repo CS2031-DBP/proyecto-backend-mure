@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -59,13 +58,13 @@ public class User implements UserDetails {
     private String profileImageUrl = "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Free-Download.png";
 
     @ManyToMany
-    private List<User> friends = new ArrayList<>();
+    private List<User> friends;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Post> posts = new ArrayList<>();
+    private List<Post> posts;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Story> stories = new ArrayList<>();
+    private List<Story> stories;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Playlist> ownsPlaylists;
@@ -79,7 +78,7 @@ public class User implements UserDetails {
     private List<Song> favoriteSongs;
 
     @ManyToMany(mappedBy = "likedBy", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Post> likedPosts = new ArrayList<>();
+    private List<Post> likedPosts;
 
     @Transient
     private String rolePrefix = "ROLE_";

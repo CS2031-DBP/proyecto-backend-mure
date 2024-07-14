@@ -81,8 +81,7 @@ public class SongService {
 
     public Page<SongResponseDto> getSongsByTitle(String title, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Song> songs = songRepository.findByTitleNormalizedContaining(title, pageable);
-        if (songs.isEmpty()) throw new ResourceNotFoundException("Songs not found by that title");
+        Page<Song> songs = songRepository.findByTitleNormalizedContaining(title, pageable); 
         return songs.map(this::getSongResponseDto);
     }
 

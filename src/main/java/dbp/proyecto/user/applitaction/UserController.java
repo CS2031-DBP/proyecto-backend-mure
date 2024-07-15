@@ -3,6 +3,7 @@ package dbp.proyecto.user.applitaction;
 import dbp.proyecto.album.dto.AlbumResponseDto;
 import dbp.proyecto.song.dto.SongResponseDto;
 import dbp.proyecto.user.domain.UserService;
+import dbp.proyecto.user.dto.ExpoTokenRequest;
 import dbp.proyecto.user.dto.UserRequestDto;
 import dbp.proyecto.user.dto.UserResponseDto;
 import dbp.proyecto.user.dto.UserResponseForUserDto;
@@ -96,4 +97,12 @@ public class UserController {
     public ResponseEntity<Boolean> isFriend(@PathVariable Long id) {
         return ResponseEntity.ok(userService.isFriend(id));
     }
+
+    // endpoint para actualizar el expo token
+    @PostMapping("/expo-token/{userId}")
+    public ResponseEntity<Void> registerExpoToken(@PathVariable Long userId, @RequestBody ExpoTokenRequest request) {
+        userService.saveExpoToken(userId, request);
+        return ResponseEntity.ok().build();
+    }
+
 }

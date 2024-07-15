@@ -8,6 +8,7 @@ import dbp.proyecto.authentication.utils.AuthorizationUtils;
 import dbp.proyecto.exception.ResourceNotFoundException;
 import dbp.proyecto.exception.UnauthorizedOperationException;
 import dbp.proyecto.media.domain.MediaService;
+import dbp.proyecto.notification.domain.NotificationService;
 import dbp.proyecto.post.dtos.PostRequestDto;
 import dbp.proyecto.post.dtos.PostResponseDto;
 import dbp.proyecto.post.dtos.PostUpdateDto;
@@ -48,6 +49,8 @@ public class PostService {
     private final AuthorizationUtils authorizationUtils;
 
     private final ApplicationEventPublisher applicationEventPublisher;
+
+    private final NotificationService notificationService;
 
     private final MediaService mediaService;
 
@@ -171,6 +174,19 @@ public class PostService {
         postRepository.save(post);
         user.getPosts().add(post);
         userRepository.save(user);
+
+        List<User> friends = user.getFriends();
+        for (User friend : friends) {
+            String expoPushToken = friend.getExpoPushToken();
+            if (expoPushToken != null) {
+                if (post.getAlbum() !=  null) {
+                    notificationService.sendNotification(expoPushToken, "New Post at " + post.getCreatedAt(), user.getNickname() + " has created a new post about the album " + post.getAlbum().getTitle());
+                } else if (post.getSong() != null) {
+                    notificationService.sendNotification(expoPushToken, "New Post at " + post.getCreatedAt(), user.getNickname() + " has created a new post about the song " + post.getSong().getTitle());
+                }
+            }
+        }
+
     }
 
     @Transactional

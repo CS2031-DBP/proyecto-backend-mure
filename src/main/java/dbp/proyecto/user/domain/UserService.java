@@ -15,6 +15,7 @@ import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.song.domain.SongService;
 import dbp.proyecto.song.dto.SongResponseDto;
 import dbp.proyecto.story.infrastructure.StoryRepository;
+import dbp.proyecto.user.dto.ExpoTokenRequest;
 import dbp.proyecto.user.dto.UserRequestDto;
 import dbp.proyecto.user.dto.UserResponseDto;
 import dbp.proyecto.user.dto.UserResponseForUserDto;
@@ -307,5 +308,16 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return user.getFriends().contains(currentUser);
+    }
+
+    @Transactional
+    public void saveExpoToken(Long userId, ExpoTokenRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        if (request.getExpoPushToken() == null || request.getExpoPushToken().isEmpty()) {
+            throw new IllegalArgumentException("Expo push token cannot be null or empty");
+        }
+        user.setExpoPushToken(request.getExpoPushToken());
+        userRepository.save(user);
     }
 }

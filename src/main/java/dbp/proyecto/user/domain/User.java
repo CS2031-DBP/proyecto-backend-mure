@@ -59,6 +59,8 @@ public class User implements UserDetails {
 
     private String profileImageUrl = "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Free-Download.png";
 
+    private String expoPushToken;
+
     @ManyToMany
     private List<User> friends = new ArrayList<>();
 

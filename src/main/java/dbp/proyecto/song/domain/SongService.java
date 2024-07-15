@@ -80,15 +80,24 @@ public class SongService {
     }
 
     public Page<SongResponseDto> getSongsByTitle(String title, int page, int size) {
+        String normalizedTitle = Normalizer.normalize(title, Normalizer.Form.NFC)
+                .replaceAll("[’‘]", "'")
+                .replaceAll("\\p{M}", "")
+                .toLowerCase();
+
         Pageable pageable = PageRequest.of(page, size);
-        Page<Song> songs = songRepository.findByTitleNormalizedContaining(title, pageable); 
+        Page<Song> songs = songRepository.findByTitleNormalizedContaining(normalizedTitle, pageable);
         return songs.map(this::getSongResponseDto);
     }
 
     public Page<SongResponseDto> getSongsByGenre(String genre, int page, int size) {
+        String normalizedGenre = Normalizer.normalize(genre, Normalizer.Form.NFC)
+                .replaceAll("[’‘]", "'")
+                .replaceAll("\\p{M}", "")
+                .toLowerCase();
+
         Pageable pageable = PageRequest.of(page, size);
-        Page<Song> songs = songRepository.findByGenreContaining(genre, pageable);
-        if (songs.isEmpty()) throw new ResourceNotFoundException("Songs not found by that genre");
+        Page<Song> songs = songRepository.findByGenreContaining(normalizedGenre, pageable);
         return songs.map(this::getSongResponseDto);
     }
 
@@ -98,9 +107,14 @@ public class SongService {
         return getSongInfoForArtistDtos(artist);
     }
 
-    public Page<SongResponseDto> getSongsByArtistName(String artistNameNormalized, int page, int size) {
+    public Page<SongResponseDto> getSongsByArtistName(String artistName, int page, int size) {
+        String normalizedArtistName = Normalizer.normalize(artistName, Normalizer.Form.NFC)
+                .replaceAll("[’‘]", "'")
+                .replaceAll("\\p{M}", "")
+                .toLowerCase();
+
         Pageable pageable = PageRequest.of(page, size);
-        Page<Song> songsPage = songRepository.findByArtistsNameContaining(artistNameNormalized, pageable);
+        Page<Song> songsPage = songRepository.findByArtistsNameContaining(normalizedArtistName, pageable);
         return songsPage.map(this::getSongResponseDto);
     }
 

@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,8 +59,13 @@ public class AlbumService {
     }
 
 public Page<AlbumResponseDto> getAlbumsByTitle(String title, int page, int size) {
+    String normalizedTitle= Normalizer.normalize(title, Normalizer.Form.NFC)
+            .replaceAll("[’‘]", "'")
+            .replaceAll("\\p{M}", "")
+            .toLowerCase();
+
     Pageable pageable = PageRequest.of(page, size);
-    return albumRepository.findByTitleNormalizedContaining(title, pageable).map(album -> {
+    return albumRepository.findByTitleNormalizedContaining(normalizedTitle, pageable).map(album -> {
         var albumResponseDto = modelMapper.map(album, AlbumResponseDto.class);
         List<String> songsTitles = album.getSongs().stream()
                                          .map(Song::getTitle)

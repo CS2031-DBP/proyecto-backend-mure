@@ -4,6 +4,7 @@ package dbp.proyecto.playlist.application;
 import dbp.proyecto.playlist.domain.PlaylistService;
 import dbp.proyecto.playlist.dtos.PlaylistBodyDTO;
 import dbp.proyecto.playlist.dtos.PlaylistResponseDTO;
+import dbp.proyecto.playlist.dtos.PlaylistUpdateDto;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -75,6 +76,13 @@ public class PlaylistController {
     public ResponseEntity<Void> createPlaylists(@RequestBody List<PlaylistBodyDTO> playlistBodyDTOs) {
         playlistService.createPlaylists(playlistBodyDTOs);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping
+    public ResponseEntity<Void> updateNameAndCoverImage(@ModelAttribute PlaylistUpdateDto playlistUpdateDto) throws FileUploadException {
+        playlistService.updateNameAndCoverImage(playlistUpdateDto);
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

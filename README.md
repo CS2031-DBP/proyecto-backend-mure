@@ -141,9 +141,6 @@ User 👤
 | GET    | /user/favoriteAlbums/{id}             | Obtener los albumes favoritos de un usuario por su ID. |
 | GET    | /user/favoriteSongs/{id}              | Obtener las canciones favoritas de un usuario por su ID. |
 
-## Licencia 📝
-___
-Este proyecto tiene licencia bajo el archivo [LICENSE](https://github.com/CS2031-DBP/proyecto-backend-mure/blob/main/LICENSE)
 
 <br>
 

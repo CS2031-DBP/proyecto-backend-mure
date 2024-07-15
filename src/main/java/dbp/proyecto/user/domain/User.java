@@ -73,7 +73,7 @@ public class User implements UserDetails {
     private List<Playlist> ownsPlaylists;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments;
 
     @ManyToMany
     @JoinTable(name = "user_albums", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "album_id"))

@@ -214,11 +214,11 @@ public class PlaylistService {
             throw new UnauthorizedOperationException("Only the owner can update the playlist");
         }
 
-        if (playlistUpdateDto.getName() != null && !playlistUpdateDto.getName().isEmpty()){
+        if (playlistUpdateDto.getName() != null && !playlistUpdateDto.getName().isEmpty()) {
             playlist.setName(playlistUpdateDto.getName());
         }
         if (playlistUpdateDto.getCoverImage() != null && !playlistUpdateDto.getCoverImage().isEmpty()) {
-            playlist.setCoverImageUrl(mediaService.uploadFile(playlistUpdateDto.getCoverImage()));
+            playlist.setCoverImageUrl(mediaStorageService.uploadFile(playlistUpdateDto.getCoverImage()));
         }
         playlistRepository.save(playlist);
     }

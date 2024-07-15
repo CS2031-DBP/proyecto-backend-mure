@@ -11,7 +11,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,101 +25,106 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @NotNull
-    private Role role;
+	@NotNull
+	private Role role;
 
-    @NotBlank
-    private String name;
+	@NotBlank
+	private String name;
 
-    @NotBlank
-    @Column(unique = true)
-    private String nickname;
+	@NotBlank
+	private String lastname;
 
-    @NotBlank
-    private String nicknameNormalized;
+	@NotBlank
+	@Column(unique = true)
+	private String nickname;
 
-    @NotBlank
-    @Email
-    @Column(unique = true)
-    private String email;
+	@NotBlank
+	private String nicknameNormalized;
 
-    @NotBlank
-    @Size(min = 8, max = 64)
-    private String password;
+	@NotBlank
+	@Email
+	@Column(unique = true)
+	private String email;
 
-    @NotNull
-    private LocalDate birthDate;
+	@NotBlank
+	@Size(min = 8, max = 64)
+	private String password;
 
-    private LocalDateTime createdAt;
+	@NotNull
+	private LocalDate birthDate;
 
-    private String profileImageUrl = "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Free-Download.png";
+	private LocalDateTime createdAt;
 
-    private String expoPushToken;
+	private String profileImageUrl = "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Free-Download.png";
 
-    @ManyToMany
-    private List<User> friends;
+	private String expoPushToken;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Post> posts;
+	@ManyToMany
+	private List<User> friends;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Story> stories;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Post> posts;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Playlist> ownsPlaylists;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Story> stories;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Playlist> ownsPlaylists;
 
-    @ManyToMany
-    @JoinTable(name = "user_albums", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "album_id"))
-    private List<Album> favoriteAlbums;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Comment> comments;
 
-    @ManyToMany
-    @JoinTable(name = "user_song", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "song_id"))
-    private List<Song> favoriteSongs;
+	@ManyToMany
+	@JoinTable(name = "user_albums", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "album_id"))
+	private List<Album> favoriteAlbums;
 
-    @ManyToMany(mappedBy = "likedBy", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Post> likedPosts;
+	@ManyToMany
+	@JoinTable(name = "user_song", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "song_id"))
+	private List<Song> favoriteSongs;
 
-    @Transient
-    private String rolePrefix = "ROLE_";
+	@ManyToMany(mappedBy = "likedBy", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	private List<Post> likedPosts;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rolePrefix + role.name()));
-    }
+	@Transient
+	private String rolePrefix = "ROLE_";
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority(rolePrefix + role.name()));
+	}
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+	@Override
+	public String getUsername() {
+		return email;
+	}
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }

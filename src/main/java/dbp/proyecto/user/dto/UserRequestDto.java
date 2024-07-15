@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserRequestDto {
     private MultipartFile profileImage;
     private String name;
+    private String lastname;
     private String password;
     private String email;
     private String nickname;

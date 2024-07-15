@@ -29,11 +29,11 @@ public class AuthenticationService {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public JwtAuthResponseDto login(LoginDto logInDTO) {
-        User user = userRepository.findByEmail(logInDTO.getEmail())
+    public JwtAuthResponseDto login(LoginDto logInDto) {
+        User user = userRepository.findByEmail(logInDto.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("Email not found"));
 
-        if (!passwordEncoder.matches(logInDTO.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(logInDto.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Invalid password");
         }
 
@@ -56,6 +56,7 @@ public class AuthenticationService {
         user.setCreatedAt(LocalDateTime.now());
         user.setNickname(signinDto.getNickname());
         user.setNicknameNormalized(Normalizer.normalize(signinDto.getNickname(), Normalizer.Form.NFC));
+        user.setLastname(signinDto.getLastname());
 
         if (signinDto.getIsAdmin()) {
             user.setRole(Role.ADMIN);

@@ -15,7 +15,7 @@ import dbp.proyecto.song.domain.Song;
 import dbp.proyecto.song.domain.SongService;
 import dbp.proyecto.song.dto.SongResponseDto;
 import dbp.proyecto.story.infrastructure.StoryRepository;
-import dbp.proyecto.user.dto.ExpoTokenRequest;
+import dbp.proyecto.user.dto.ExpoTokenRequestDto;
 import dbp.proyecto.user.dto.UserRequestDto;
 import dbp.proyecto.user.dto.UserResponseDto;
 import dbp.proyecto.user.dto.UserResponseForUserDto;
@@ -58,7 +58,7 @@ public class UserService {
 
     private final AlbumService albumService;
 
-    private List<UserResponseForUserDto> getUserInfoForUserDTOS(User user) {
+    private List<UserResponseForUserDto> getUserInfoForUserDtos(User user) {
         return user.getFriends().stream()
                 .map(friend -> {
                     UserResponseForUserDto userInfo = modelMapper.map(friend, UserResponseForUserDto.class);
@@ -110,13 +110,13 @@ public class UserService {
         if (!authorizationUtils.isAdmin())
             throw new UnauthorizedOperationException("You are not authorized to perform this action");
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return getUserInfoForUserDTOS(user);
+        return getUserInfoForUserDtos(user);
     }
 
     public List<UserResponseForUserDto> getFriendsByCurrentUser() {
         String email = authorizationUtils.getCurrentUserEmail();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return getUserInfoForUserDTOS(user);
+        return getUserInfoForUserDtos(user);
     }
 
     @Transactional
@@ -124,26 +124,26 @@ public class UserService {
         String email = authorizationUtils.getCurrentUserEmail();
         User existingUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-        //print correctly the updated user
-        System.out.println("User to update: " + updatedUser.toString());
-
-
         MultipartFile profileImage = updatedUser.getProfileImage();
+
         if (profileImage != null && !profileImage.isEmpty()) {
             String profileImageUrl = mediaStorageService.uploadFile(profileImage);
             existingUser.setProfileImageUrl(profileImageUrl);
         }
+
         if (updatedUser.getName() != null && !updatedUser.getName().isEmpty()) {
             existingUser.setName(updatedUser.getName());
         }
+
         if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
             String encodedPassword = passwordEncoder.encode(updatedUser.getPassword());
             existingUser.setPassword(encodedPassword);
         }
+
         if (updatedUser.getEmail() != null && !updatedUser.getEmail().isEmpty()) {
             existingUser.setEmail(updatedUser.getEmail());
         }
+
         if (updatedUser.getNickname() != null && !updatedUser.getNickname().isEmpty()) {
             existingUser.setNickname(updatedUser.getNickname());
         }
@@ -157,9 +157,9 @@ public class UserService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         User friend = userRepository.findById(friendId)
                 .orElseThrow(() -> new ResourceNotFoundException("Friend not found"));
-        if (user.getFriends().contains(friend)) {
-            throw new UniqueResourceAlreadyExist("User is already a friend");
-        }
+
+        if (user.getFriends().contains(friend)) throw new UniqueResourceAlreadyExist("User is already a friend");
+
         user.getFriends().add(friend);
         friend.getFriends().add(user);
         userRepository.save(user);
@@ -172,9 +172,7 @@ public class UserService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         User friend = userRepository.findById(friendId)
                 .orElseThrow(() -> new ResourceNotFoundException("Friend not found"));
-        if (!user.getFriends().contains(friend)) {
-            throw new ResourceNotFoundException("Friend not found");
-        }
+        if (!user.getFriends().contains(friend)) throw new ResourceNotFoundException("Friend not found");
         user.getFriends().remove(friend);
         friend.getFriends().remove(user);
         userRepository.save(user);
@@ -189,17 +187,20 @@ public class UserService {
         playlistRepository.deleteAll(user.getOwnsPlaylists());
         postRepository.deleteAll(user.getPosts());
         storyRepository.deleteAll(user.getStories());
+
         for (User friend : user.getFriends()) {
             friend.getFriends().remove(user);
             userRepository.save(friend);
         }
-        // delete each user that like a post
+
         List<Post> likedPosts = user.getLikedPosts();
+
         for (Post post : likedPosts) {
             post.getLikedBy().remove(user);
-            post.setLikes(post.getLikes() - 1); // Opcional: Actualizar el contador de "me gusta" si existe
+            post.setLikes(post.getLikes() - 1);
             postRepository.save(post);
         }
+
         userRepository.delete(user);
     }
 
@@ -311,7 +312,7 @@ public class UserService {
     }
 
     @Transactional
-    public void saveExpoToken(Long userId, ExpoTokenRequest request) {
+    public void saveExpoToken(Long userId, ExpoTokenRequestDto request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         if (request.getExpoPushToken() == null || request.getExpoPushToken().isEmpty()) {

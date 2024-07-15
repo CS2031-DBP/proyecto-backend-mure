@@ -3,7 +3,7 @@ package dbp.proyecto.user.applitaction;
 import dbp.proyecto.album.dto.AlbumResponseDto;
 import dbp.proyecto.song.dto.SongResponseDto;
 import dbp.proyecto.user.domain.UserService;
-import dbp.proyecto.user.dto.ExpoTokenRequest;
+import dbp.proyecto.user.dto.ExpoTokenRequestDto;
 import dbp.proyecto.user.dto.UserRequestDto;
 import dbp.proyecto.user.dto.UserResponseDto;
 import dbp.proyecto.user.dto.UserResponseForUserDto;
@@ -12,7 +12,6 @@ import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 
@@ -100,7 +99,7 @@ public class UserController {
 
     // endpoint para actualizar el expo token
     @PostMapping("/expo-token/{userId}")
-    public ResponseEntity<Void> registerExpoToken(@PathVariable Long userId, @RequestBody ExpoTokenRequest request) {
+    public ResponseEntity<Void> registerExpoToken(@PathVariable Long userId, @RequestBody ExpoTokenRequestDto request) {
         userService.saveExpoToken(userId, request);
         return ResponseEntity.ok().build();
     }

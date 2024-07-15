@@ -3,6 +3,6 @@ package dbp.proyecto.user.dto;
 import lombok.Data;
 
 @Data
-public class ExpoTokenRequest {
+public class ExpoTokenRequestDto {
     private String expoPushToken;
 }

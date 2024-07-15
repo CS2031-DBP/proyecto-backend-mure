@@ -40,9 +40,6 @@ public class User implements UserDetails {
     private String name;
 
     @NotBlank
-    private String lastname;
-
-    @NotBlank
     @Column(unique = true)
     private String nickname;
 

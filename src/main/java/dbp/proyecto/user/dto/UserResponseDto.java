@@ -10,7 +10,6 @@ import java.util.List;
 public class UserResponseDto {
     private Long id;
     private String name;
-    private String lastname;
     private LocalDate birthDate;
     private String email;
     private String profileImageUrl;

@@ -10,7 +10,6 @@ public class SigninDto {
     private String nickname;
     private String password;
     private String name;
-    private String lastname;
     private LocalDate birthdate;
     private Boolean isAdmin = false;
 }

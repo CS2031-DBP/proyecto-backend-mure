@@ -21,7 +21,7 @@ public class Playlist {
     @NotBlank
     private String name;
 
-    private String coverImageUrl;
+    private String coverImageUrl = "https://mure-bucket.s3.amazonaws.com/default-generic-playlist-image.png";
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)

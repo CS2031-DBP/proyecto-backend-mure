@@ -3,11 +3,11 @@
     <option name="ALTERNATIVE_JRE_PATH" value="22" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <envs>
-      <env name="AMAZON_S3_ACCESSKEY" value="ASIAXT3S4MT4EOAFTOF7" />
+      <env name="AMAZON_S3_ACCESSKEY" value="ASIAXT3S4MT4PRSFZ6WX" />
       <env name="AMAZON_S3_BUCKETNAME" value="mure-bucket" />
       <env name="AMAZON_S3_REGION" value="us-east-1" />
-      <env name="AMAZON_S3_SECRETKEY" value="BswbnAdy4hrimbvG3XCJwB04AUYR+KLKfd8xGgbj" />
-      <env name="AMAZON_S3_SESSION_TOKEN" value="IQoJb3JpZ2luX2VjEAkaCXVzLXdlc3QtMiJIMEYCIQDJyFCwy9XyIs7cthLWndAFUM0SH0x2ekDO+BVHqDVMYAIhAMrnrpynORPESHVLSGaQ1O8BpunpZsdvQJSlUC8QhP2VKsQCCNL//////////wEQARoMNTIzNjkwMDc1Mzg0Igwr7XQU8uBLO5cRTiIqmAIuHEWSXvT8lUrHLZjo48jCRS36pyx07aglSpeviDLN7qBe67QCC35j9KmWq+n9CRY+iqqMl7X07ik0qO3gkVTuECQ05/8WUmdT2AYKLYlx4Ms/e/qIo7nxbJuK640fjzOjf6oMbdPxkK7FUfkqAkc9zBqjWW3xzUwy1ritueLU0wfZjOnibwLu+sOPaO7hKlnJOBZS0jmFt2KuFruKKHW+ej8MgxtuWsK+htWuddy4Le7e6oPCF8PXz9oTGdKUW3jMMnXTlCXZLGLT0LcGKzEc8f9WjssqnxrIh+snjjoL/DbKfIHC2jq9DaSmW1K5lFe7jdT6W+xO3/fW1oCH+WF4UT1QWMLoJ7gRT2NRMTgELxIY4McobIWfMOzk2LQGOpwBY1XwQLr9nouzay+++CGgOjBfYNl5xXUAOzIumSxtTZd/8Roax4q0XdTyGrfyG8ViNVjE8VYJOJMsA1fShvBScM07vnJtdSAa9tio2hP97tQLgMFfdpBoe4eR/MrFEo5CyylbCUG3Flm8+rdY0cW2FZv8B4sjrN3e/gjUZ4yY7cMMR2yT0Yy0RO4uSLTNgPtVBrXANHPu/tMnZYyx" />
+      <env name="AMAZON_S3_SECRETKEY" value="8LGeG0+znP2tcqqyUyDxcyvB7xGYQFMXKGd/s5CS" />
+      <env name="AMAZON_S3_SESSION_TOKEN" value="IQoJb3JpZ2luX2VjEA8aCXVzLXdlc3QtMiJGMEQCIH8qJTYHjpJcMm8WDcUkMnm3AboJI+ACGyBC5DCCR1oEAiByYrZgC1wnU2vRXwQiDRCkL4f9a+EtcD/Z6+PAqVnk7SrEAgjY//////////8BEAEaDDUyMzY5MDA3NTM4NCIM/d0+NSXBH3GKm7m2KpgC0iF/0fR79x1Fpa/tYCeWKUV6fMLPXByEEHPstLT2WCRKwf0m+kM/UJuljLfhYaFdTvWEUrptJqB3AYJn2UExW8zVxl9e8QLgHff7XMVfOC6FvUdarXbfqvtPOIB08XFG3N3psgxVu/rlnWtttUlEZaAhMfwa1bT0GTQuyexA5oveFVEUek8JhCm3qhp/vnXhq0UTuJrCrEsu9K0qrKTFU5Iz69DWWShUswbxh9IywiwjGl6jQSlj1Hik+5/VFGnTCdDcYlMnx9AJWYramb5OLO8yrYgpkuUtR2ayxujerMiwGoL/WYLR6ZQNNcVFQvT+3vlTlwqVD7oFYwGm5bsWmYtDwr4T/BOlDOP3gSJkEjks+wn8+fFDCjC4mNq0BjqeATFvApQd+HJ0lC+cYuwkA9rxFnISF6M9ZCiGicTFhUk5ugQwAXY6XrB7ANLR49PT2lUAgEq8NGbT/DpFYocqyAmVMIPTrfWWwzxoDAwUzMYYioc4iL8BNq1DDUMlFMTyGBh/YmzRX2mMh0sct8Vsm4TUtz99k+v/0cDozH+feTkKpsLpnmf85/EPi/QX+EwbrFnW2t9x0huxrePTJ8OK" />
       <env name="DB_HOST" value="localhost" />
       <env name="DB_NAME" value="database" />
       <env name="DB_PASSWORD" value="postgres" />

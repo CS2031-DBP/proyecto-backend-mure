@@ -180,9 +180,9 @@ public class PostService {
             String expoPushToken = friend.getExpoPushToken();
             if (expoPushToken != null) {
                 if (post.getAlbum() !=  null) {
-                    notificationService.sendNotification(expoPushToken, "New Post at " + post.getCreatedAt(), user.getNickname() + " has created a new post about the album " + post.getAlbum().getTitle());
+                    notificationService.sendNotification(expoPushToken, "New Post from one of your friends" , user.getNickname() + " has created a new post about the album " + post.getAlbum().getTitle());
                 } else if (post.getSong() != null) {
-                    notificationService.sendNotification(expoPushToken, "New Post at " + post.getCreatedAt(), user.getNickname() + " has created a new post about the song " + post.getSong().getTitle());
+                    notificationService.sendNotification(expoPushToken, "New Post from one of your friends" , user.getNickname() + " has created a new post about the song " + post.getSong().getTitle());
                 }
             }
         }

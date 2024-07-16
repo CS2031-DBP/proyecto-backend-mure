@@ -13,6 +13,9 @@ def generate_user_albums_data(
         user_id = random.choice(user_keys)
         album_id = random.choice(album_keys)
 
+        while (album_id, user_id) in user_albums_csv_list:
+            album_id = random.choice(album_keys)
+
         user_albums_csv_list.append({"album_id": album_id, "user_id": user_id})
 
     write_to_csv(user_albums_csv_list, "user_albums")

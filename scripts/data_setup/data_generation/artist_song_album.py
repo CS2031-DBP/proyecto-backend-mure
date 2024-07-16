@@ -56,13 +56,16 @@ def generate_artists_songs_albums(
             album_id = album["id"]
             album_title = album["name"]
             album_release_date = album["release_date"]
-            album_cover_image_url = album["images"][0]["url"] if album["images"] else None
+            album_cover_image_url = (
+                album["images"][0]["url"] if album["images"] else None
+            )
             album_link = album["external_urls"]["spotify"]
             album_description = faker.text(max_nb_chars=50).replace("\n", " ")
 
             songs = get_tracks_by_album(album_id)
 
             if not songs:
+                album_counter -= 1
                 continue
 
             total_duration = sum(track["duration_ms"] for track in songs) // 1000
@@ -102,7 +105,11 @@ def generate_artists_songs_albums(
                     {
                         "title": song_title,
                         "title_normalized": title_normalized,
-                        "genre": get_artist_genre(artist_spotify_id),
+                        "genre": (
+                            song["artists"][0].get("genres", [None])[0]
+                            if song["artists"][0].get("genres")
+                            else "Unknown"
+                        ),
                         "release_date": pd.to_datetime(
                             song_release_date, errors="coerce"
                         ).strftime("%Y-%m-%d"),

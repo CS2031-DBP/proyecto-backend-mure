@@ -30,7 +30,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -155,10 +154,7 @@ public class PostService {
             post.setAudioUrl(mediaStorageService.uploadFile(postRequestDto.getAudio()));
         }
 
-        Random random = new Random();
         post.setUser(user);
-        int likes = random.nextInt(201);
-        post.setLikes(likes);
 
         if (postRequestDto.getSongId() != null) {
             Song song = songRepository.findById(postRequestDto.getSongId()).orElseThrow(() -> new ResourceNotFoundException("Song not found"));
@@ -179,10 +175,10 @@ public class PostService {
         for (User friend : friends) {
             String expoPushToken = friend.getExpoPushToken();
             if (expoPushToken != null) {
-                if (post.getAlbum() !=  null) {
-                    notificationService.sendNotification(expoPushToken, "New Post from one of your friends" , user.getNickname() + " has created a new post about the album " + post.getAlbum().getTitle());
+                if (post.getAlbum() != null) {
+                    notificationService.sendNotification(expoPushToken, "New Post at " + post.getCreatedAt(), user.getNickname() + " has created a new post about the album " + post.getAlbum().getTitle());
                 } else if (post.getSong() != null) {
-                    notificationService.sendNotification(expoPushToken, "New Post from one of your friends" , user.getNickname() + " has created a new post about the song " + post.getSong().getTitle());
+                    notificationService.sendNotification(expoPushToken, "New Post at " + post.getCreatedAt(), user.getNickname() + " has created a new post about the song " + post.getSong().getTitle());
                 }
             }
         }

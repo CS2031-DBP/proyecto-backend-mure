@@ -23,11 +23,6 @@ def get_artist_id(artist_name: str):
         return None
 
 
-def get_artist_genre(artist_id: str):
-    result: Any = sp.artist(artist_id)
-    return result["genres"][0] if result["genres"] else None
-
-
 def get_artist_details(artist_id: str):
     artist: Any = sp.artist(artist_id)
     image_url = artist["images"][0]["url"] if artist["images"] else None
@@ -41,4 +36,5 @@ def get_albums_by_artist(artist_id: str, limit=10):
 
 def get_tracks_by_album(album_id: str, limit=10):
     tracks: Any = sp.album_tracks(album_id, limit=limit)
-    return tracks["items"]
+    tracks_with_preview = [track for track in tracks["items"] if track["preview_url"]]
+    return tracks_with_preview

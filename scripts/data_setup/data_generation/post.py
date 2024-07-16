@@ -3,6 +3,7 @@ from typing import Any
 
 from data_setup.utils.shared_faker import faker
 from data_setup.utils.write_to_csv import write_to_csv
+from data_setup.utils.get_random_image_url import get_random_image_url
 
 
 def generate_post_data(
@@ -22,7 +23,7 @@ def generate_post_data(
         user_id = random.choice(user_keys)
         description = faker.text(max_nb_chars=50).replace("\n", " ")
         audio_url = None
-        image_url = faker.image_url() if random.choice([True, False]) else None
+        image_url = get_random_image_url() if random.choice([True, False]) else None
 
         if random.choice([True, False]):
             song_id = random.choice(song_keys)
@@ -44,11 +45,13 @@ def generate_post_data(
             }
         )
 
-        for _ in range(likes):
+        unique_user_ids = random.sample(user_keys, likes)
+
+        for user_id in unique_user_ids:
             post_likes_csv_list.append(
                 {
                     "post_id": len(post_csv_list),
-                    "user_id": random.choice(user_keys),
+                    "user_id": user_id,
                 }
             )
 

@@ -1,6 +1,159 @@
 name,name_normalized,birth_date,verified,description,image_url
-Bad Bunny,bad bunny,1962-10-27,True,Week piece customer painting do apply.,https://i.scdn.co/image/ab6761610000e5eb9ad50e478a469448c6f369df
-Mora,mora,1994-08-08,False,Money if old around civil already head.,https://i.scdn.co/image/ab6761610000e5ebc8f6d4d6eb8e7dd5206bd5f4
-TWICE,twice,1984-10-15,False,Total everything hot laugh front.,https://i.scdn.co/image/ab6761610000e5eb0c6952f39ba680489149a54c
-Billie Eilish,billie eilish,1960-01-02,True,Of figure whole what key process cold.,https://i.scdn.co/image/ab6761610000e5eb4a21b4760d2ecb7b0dcdc8da
-Taylor Swift,taylor swift,1977-05-14,False,Manage community speech sort we ability.,https://i.scdn.co/image/ab6761610000e5ebe672b5f553298dcdccb0e676
+Bad Bunny,bad bunny,1967-05-31,True,Adult person help however want property fast.,https://i.scdn.co/image/ab6761610000e5eb9ad50e478a469448c6f369df
+Mora,mora,1974-11-01,False,Group must way ask instead store green.,https://i.scdn.co/image/ab6761610000e5ebc8f6d4d6eb8e7dd5206bd5f4
+TWICE,twice,1984-06-16,True,Help thought front clear.,https://i.scdn.co/image/ab6761610000e5eb0c6952f39ba680489149a54c
+Billie Eilish,billie eilish,1994-12-04,True,Change painting of let morning law.,https://i.scdn.co/image/ab6761610000e5eb4a21b4760d2ecb7b0dcdc8da
+Taylor Swift,taylor swift,1997-08-14,False,Very evening amount interesting author build.,https://i.scdn.co/image/ab6761610000e5ebe672b5f553298dcdccb0e676
+Drake,drake,1977-01-26,False,Nor usually event product industry.,https://i.scdn.co/image/ab6761610000e5eb4293385d324db8558179afd9
+BTS,bts,1981-01-10,True,Decade film baby second fall deal tonight stay.,https://i.scdn.co/image/ab6761610000e5ebd642648235ebf3460d2d1f6a
+Beyoncé,beyonce,1967-08-02,True,History suddenly sense law compare beat every.,https://i.scdn.co/image/ab6761610000e5eb247f44069c0bd1781df2f785
+The Weeknd,the weeknd,1966-07-11,False,Fund soldier past hour.,https://i.scdn.co/image/ab6761610000e5eb214f3cf1cbe7139c1e26ffbb
+Olivia Rodrigo,olivia rodrigo,1959-07-08,False,Arrive collection wish forward.,https://i.scdn.co/image/ab6761610000e5ebe03a98785f3658f0b6461ec4
+Ed Sheeran,ed sheeran,1957-04-07,False,Sense beautiful myself.,https://i.scdn.co/image/ab6761610000e5eb3bcef85e105dfc42399ef0ba
+Ariana Grande,ariana grande,1955-06-15,True,Our left everything three finish event PM.,https://i.scdn.co/image/ab6761610000e5eb40b5c07ab77b6b1a9075fdc0
+Kendrick Lamar,kendrick lamar,1958-01-31,False,Care style case go him Republican along.,https://i.scdn.co/image/ab6761610000e5eb437b9e2a82505b3d93ff1022
+Rihanna,rihanna,1970-02-08,False,Clearly teacher think.,https://i.scdn.co/image/ab6761610000e5eb99e4fca7c0b7cb166d915789
+Doja Cat,doja cat,1989-04-14,False,Program force stand arrive listen here total.,https://i.scdn.co/image/ab6761610000e5ebe94f88ff74ae4ddcab961f97
+Harry Styles,harry styles,1997-12-04,False,Test bar your message light fine peace.,https://i.scdn.co/image/ab6761610000e5ebf7db7c8ede90a019c54590bb
+Bruno Mars,bruno mars,1989-11-07,False,Keep manager check. Safe rest couple clearly it.,https://i.scdn.co/image/ab6761610000e5ebc36dd9eb55fb0db4911f25dd
+Justin Bieber,justin bieber,1966-12-19,True,Window same if always real talk popular instead.,https://i.scdn.co/image/ab6761610000e5eb8ae7f2aaa9817a704a87ea36
+Lady Gaga,lady gaga,1996-04-30,False,Face democratic see accept.,https://i.scdn.co/image/ab6761610000e5ebc8d3d98a1bccbe71393dbfbf
+Eminem,eminem,1995-06-14,False,Upon woman cause against such nation husband.,https://i.scdn.co/image/ab6761610000e5eba00b11c129b27a88fc72f36b
+Dua Lipa,dua lipa,1986-02-02,False,Near customer once effect need loss federal.,https://i.scdn.co/image/ab6761610000e5eb0c68f6c95232e716f0abee8d
+Post Malone,post malone,1967-05-29,False,Either around should else.,https://i.scdn.co/image/ab6761610000e5ebe17c0aa1714a03d62b5ce4e0
+Shawn Mendes,shawn mendes,1959-10-28,True,Hold summer foreign push mouth usually.,https://i.scdn.co/image/ab6761610000e5eb93e1fe183be0aebda170283a
+Cardi B,cardi b,1958-02-11,True,Knowledge speak chair cup husband if but.,https://i.scdn.co/image/ab6761610000e5eb4e8a7e14e2f602eb9af24e31
+Maroon 5,maroon 5,1962-12-31,True,House leader mean plant more left little.,https://i.scdn.co/image/ab6761610000e5ebf8349dfb619a7f842242de77
+BLACKPINK,blackpink,1980-06-21,True,Lay foot east everything.,https://i.scdn.co/image/ab6761610000e5ebc9690bc711d04b3d4fd4b87c
+Coldplay,coldplay,1999-08-10,True,Language reveal hard.,https://i.scdn.co/image/ab6761610000e5eb1ba8fc5f5c73e7e9313cc6eb
+Adele,adele,1989-08-21,True,Card man north.,https://i.scdn.co/image/ab6761610000e5eb68f6e5892075d7f22615bd17
+Imagine Dragons,imagine dragons,1974-01-01,False,Capital month town behind leader lawyer.,https://i.scdn.co/image/ab6761610000e5ebab47d8dae2b24f5afe7f9d38
+SZA,sza,1958-09-15,False,Have beyond site keep true.,https://i.scdn.co/image/ab6761610000e5eb0895066d172e1f51f520bc65
+Travis Scott,travis scott,1988-06-07,False,Anyone environment decide. Should father more.,https://i.scdn.co/image/ab6761610000e5eb19c2790744c792d05570bb71
+Lil Nas X,lil nas x,1996-11-15,False,Now artist yes vote. Pull we year affect.,https://i.scdn.co/image/ab6761610000e5eb0eefd7d68573ea8f0f4db84a
+Lizzo,lizzo,1994-09-04,False,Hope others need again film.,https://i.scdn.co/image/ab6761610000e5eb0d66b3670294bf801847dae2
+21 Savage,21 savage,1976-05-07,True,Surface research party. Have bed various inside.,https://i.scdn.co/image/ab6761610000e5eb4f8f76117470957c0e81e5b2
+Halsey,halsey,1976-12-05,False,Result discussion response partner.,https://i.scdn.co/image/ab6761610000e5eb3d5ddee9415ccf4baaa9f26e
+Megan Thee Stallion,megan thee stallion,1992-01-17,True,Wait popular positive consumer do.,https://i.scdn.co/image/ab6761610000e5eb3bd9fe71c49b7940786b852f
+Lil Baby,lil baby,1996-09-06,False,Bill likely walk site scene.,https://i.scdn.co/image/ab6761610000e5eb6cad3eff5adc29e20f189a6c
+Future,future,1972-08-28,True,We few drive garden group suddenly you what.,https://i.scdn.co/image/ab6761610000e5eb6ef89e23678018c6d8630825
+Lana Del Rey,lana del rey,1995-12-08,True,Establish than raise room line very true.,https://i.scdn.co/image/ab6761610000e5ebb99cacf8acd5378206767261
+Karol G,karol g,1998-08-02,True,Front none activity ever sometimes about.,https://i.scdn.co/image/ab6761610000e5eb4b0754aefc9db490e02205ec
+J Balvin,j balvin,1970-02-23,False,Series issue stay bar.,https://i.scdn.co/image/ab6761610000e5eb3f784b0b3a015c3a49f99847
+Anuel AA,anuel aa,1986-10-01,False,Season measure plan.,https://i.scdn.co/image/ab6761610000e5eba23ceb177745632b517cb7b2
+Ozuna,ozuna,1984-11-08,False,Nothing such field information.,https://i.scdn.co/image/ab6761610000e5ebc80f303b208a480f52e8180b
+Daddy Yankee,daddy yankee,1957-11-24,True,Tree see statement to less pick voice.,https://i.scdn.co/image/ab6761610000e5ebaa534de724c7a565c07bb3f5
+ROSALÍA,rosalia,1981-12-10,True,Building arrive amount detail wrong forward.,https://i.scdn.co/image/ab6761610000e5ebd7bb678bef6d2f26110cae49
+Rauw Alejandro,rauw alejandro,1957-02-07,False,Enjoy project gun it.,https://i.scdn.co/image/ab6761610000e5eba4b011e4e1692bd031b4425d
+Myke Towers,myke towers,1961-02-26,False,Material material indeed these down across song.,https://i.scdn.co/image/ab6761610000e5eb9e35c3c5de877f99a8f6192f
+Maluma,maluma,1976-12-06,False,Mr back question idea.,https://i.scdn.co/image/ab6761610000e5eb912d3ab996f98aa30d3a05d0
+Farruko,farruko,1957-03-24,True,Item west share decade night threat door reality.,https://i.scdn.co/image/ab6761610000e5ebb012855da7fae98ace556e34
+Sech,sech,1975-04-25,False,Wife factor individual politics.,https://i.scdn.co/image/ab6761610000e5ebe6399502553c796f40e11017
+Arcángel,arcangel,1989-01-22,False,Discussion adult sort skill.,https://i.scdn.co/image/ab6761610000e5ebafdf17286a0d7a23ad388587
+Feid,feid,1966-06-04,True,Which TV wish.,https://i.scdn.co/image/ab6761610000e5ebe82c62cc8cf019aecfd71ee8
+Young Miko,young miko,1984-05-21,True,Term stop eye meet rule.,https://i.scdn.co/image/ab6761610000e5eb553a8b77d20806bbcf75bfb0
+Nio Garcia,nio garcia,1985-06-07,True,College his continue away art fish.,https://i.scdn.co/image/ab6761610000e5eb743819afb90e79a5bbf1dc00
+Tokischa,tokischa,1993-03-15,False,Finish each probably evening last dream begin.,https://i.scdn.co/image/ab6761610000e5ebef5f39dfc3f133ab974dbf3b
+Sabrina Carpenter,sabrina carpenter,1967-08-28,False,Its garden reality child final teacher.,https://i.scdn.co/image/ab6761610000e5ebe053b8338322b9c8609ee7ae
+David Guetta,david guetta,1983-04-21,True,First down adult big whole administration.,https://i.scdn.co/image/ab6761610000e5ebf150017ca69c8793503c2d4f
+Calvin Harris,calvin harris,1958-03-07,False,Political scene inside option.,https://i.scdn.co/image/ab6761610000e5eb37bff6aa1d42bede9048750f
+Kanye West,kanye west,1965-11-04,False,Serve someone assume simply particular education.,https://i.scdn.co/image/ab6761610000e5eb6e835a500e791bf9c27a422a
+Shakira,shakira,1961-08-21,True,Responsibility bill boy chance wait.,https://i.scdn.co/image/ab6761610000e5ebaee73c0f0458b95091845ee1
+Marshmello,marshmello,1977-09-05,True,Final campaign hear over positive purpose break.,https://i.scdn.co/image/ab6761610000e5eb0d7739a2b10fd723f5ca095e
+OneRepublic,onerepublic,1963-05-25,True,East next available perform gas evidence edge.,https://i.scdn.co/image/ab6761610000e5eb57138b98e7ddd5a86ee97a9b
+Miley Cyrus,miley cyrus,1995-02-15,False,Help seven news cover official.,https://i.scdn.co/image/ab6761610000e5ebb4ba86c361191d48cbeb4b32
+Metro Boomin,metro boomin,1978-12-23,False,Guess share not as high cell rather close.,https://i.scdn.co/image/ab6761610000e5ebdf9a1555f53a20087b8c5a5c
+Hozier,hozier,1999-01-05,True,Kitchen here stuff nation go.,https://i.scdn.co/image/ab6761610000e5ebad85a585103dfc2f3439119a
+Sia,sia,2000-08-03,False,Listen discover country painting.,https://i.scdn.co/image/ab6761610000e5eb7c997fe6951bc0926f09ba38
+Katy Perry,katy perry,1958-04-03,True,Yard easy provide. Save east own likely truth.,https://i.scdn.co/image/ab6761610000e5eb5e5f676a99a81dba06cc3db6
+Benson Boone,benson boone,1968-12-31,True,Source authority hope movie it.,https://i.scdn.co/image/ab6761610000e5ebb2ce21a89c09c00d80d8ca25
+Queen,queen,1979-03-02,False,Thank recent white avoid.,https://i.scdn.co/image/b040846ceba13c3e9c125d68389491094e7f2982
+Khalid,khalid,1989-07-04,True,Something without yet order.,https://i.scdn.co/image/ab6761610000e5eb24ff450c42d4e36fb34a7631
+Elton John,elton john,2003-03-25,False,Top day old market.,https://i.scdn.co/image/ab6761610000e5eb0a7388b95df960b5c0da8970
+Pitbull,pitbull,1962-07-19,True,Stage three sure dinner agency tell choice.,https://i.scdn.co/image/ab6761610000e5ebee07b5820dd91d15d397e29c
+Sam Smith,sam smith,2001-12-20,True,Memory though tonight discuss city team create.,https://i.scdn.co/image/ab6761610000e5ebf057d1dce23e7f4d5d0f32e5
+The Chainsmokers,the chainsmokers,1965-12-07,True,Four office method situation.,https://i.scdn.co/image/ab6761610000e5eb9c0f09a8247c54ecba74819d
+Tiësto,tiesto,1989-03-24,False,Girl billion above garden onto.,https://i.scdn.co/image/ab6761610000e5ebe84e08fb1dfa2bf9b5a61563
+Arctic Monkeys,arctic monkeys,1990-06-26,True,Decide gas avoid hope.,https://i.scdn.co/image/ab6761610000e5eb7da39dea0a72f581535fb11f
+Chris Brown,chris brown,1993-10-16,False,Trouble sea real reality his rest increase.,https://i.scdn.co/image/ab6761610000e5eba48397e590a1c70e2cda7728
+Peso Pluma,peso pluma,1988-08-24,False,Next away lawyer camera nothing west.,https://i.scdn.co/image/ab6761610000e5ebc08ef51312b27a1237bec73f
+KAROL G,karol g,2002-01-12,False,Go nice say popular usually officer cultural.,https://i.scdn.co/image/ab6761610000e5eb4b0754aefc9db490e02205ec
+Cris Mj,cris mj,2000-02-06,True,Work raise meeting alone. Turn feel here.,https://i.scdn.co/image/ab6761610000e5eb8ec5f4d4241631f8593f52c1
+Nicki Minaj,nicki minaj,1987-08-31,True,Sense rather specific animal. Spend good student.,https://i.scdn.co/image/ab6761610000e5eb07a50f0a9a8f11e5a1102cbd
+Tommy Richman,tommy richman,1953-07-19,True,Public about time buy yard cut.,https://i.scdn.co/image/ab6761610000e5ebbb330168f192dbdc28fcbd37
+Morgan Wallen,morgan wallen,1970-04-05,True,Push give create new eye national than.,https://i.scdn.co/image/ab6761610000e5ebcdb9694bfa4a026ee19426ae
+Artemas,artemas,1970-05-26,False,Image can near prepare ok. Peace fire class.,https://i.scdn.co/image/ab6761610000e5eb597f1c8c92c4a82734e3af43
+One Direction,one direction,2004-02-08,False,Experience executive Mr generation.,https://i.scdn.co/image/5bb443424a1ad71603c43d67f5af1a04da6bb3c8
+Playboi Carti,playboi carti,1976-09-12,True,Couple bad wear room.,https://i.scdn.co/image/ab6761610000e5eb73d4facbd619ae025b5588c7
+Gunna,gunna,1960-01-12,True,Other win during lay put process cost.,https://i.scdn.co/image/ab6761610000e5ebb978b95b8e03351df8e103af
+Linkin Park,linkin park,1966-01-04,True,According ground think end.,https://i.scdn.co/image/ab6761610000e5eb84a0dd74f21e8acce6a9fd49
+Camila Cabello,camila cabello,1964-07-10,True,Tell maintain world through million letter.,https://i.scdn.co/image/ab6761610000e5eb7ffadf2671159fbfdc5c87f4
+Bebe Rexha,bebe rexha,1956-01-24,False,Tonight on operation travel day left reduce.,https://i.scdn.co/image/ab6761610000e5ebead1540fa76796266fadba33
+Tate McRae,tate mcrae,1994-07-15,True,Ahead speak way sometimes necessary small away.,https://i.scdn.co/image/ab6761610000e5eb846308bf9bf7d3183958b3a6
+Black Eyed Peas,black eyed peas,1974-05-01,False,Least personal likely world property.,https://i.scdn.co/image/ab6761610000e5eb3dcf18f1c35134cc7e2cb6d3
+The Neighbourhood,the neighbourhood,1975-05-15,True,Represent enjoy however positive fund.,https://i.scdn.co/image/ab6761610000e5ebdf0b5ac84376a0a4b2166816
+FloyyMenor,floyymenor,1955-05-04,True,Baby these some dream.,https://i.scdn.co/image/ab6761610000e5ebe52a745f7f5870dcc32c5046
+Michael Jackson,michael jackson,1983-09-27,True,Home behavior hotel situation rate who.,https://i.scdn.co/image/ab6761610000e5eb0e08ea2c4d6789fbf5cbe0aa
+USHER,usher,1976-08-22,True,Car soon enough fear fly across thought.,https://i.scdn.co/image/ab6761610000e5eb716114797a4a644c67c5fa72
+J. Cole,j. cole,2001-04-08,True,Others course box.,https://i.scdn.co/image/ab6761610000e5eb4b053c29fd4b317ff825f0dc
+Charlie Puth,charlie puth,1972-12-20,False,Agreement state develop apply.,https://i.scdn.co/image/ab6761610000e5ebd5594e3ae145bbb2c096366d
+Arijit Singh,arijit singh,1957-03-19,True,Realize wear story almost Democrat pretty.,https://i.scdn.co/image/ab6761610000e5eb0261696c5df3be99da6ed3f3
+Swae Lee,swae lee,1957-02-12,True,Share involve itself impact tell conference.,https://i.scdn.co/image/ab6761610000e5ebf1be22786da29b0a1284c0a5
+YoungBoy Never Broke Again,youngboy never broke again,1978-11-18,False,Less father out despite. Tv young want.,https://i.scdn.co/image/ab6761610000e5ebb1d6eaf7ad3417765577cac4
+XXXTENTACION,xxxtentacion,1954-05-23,False,Agency yet throughout so.,https://i.scdn.co/image/ab6761610000e5ebf0c20db5ef6c6fbe5135d2e4
+Selena Gomez,selena gomez,1996-08-24,False,Although street allow none bank.,https://i.scdn.co/image/ab6761610000e5ebc3c753851496854e29abff7a
+AC/DC,ac/dc,1982-02-03,True,Above across force those family identify too.,https://i.scdn.co/image/ab6761610000e5ebc4c77549095c86acb4e77b37
+Avicii,avicii,1983-12-16,False,Trade learn child spend.,https://i.scdn.co/image/ab6761610000e5ebae07171f989fb39736674113
+Justin Timberlake,justin timberlake,1975-03-26,True,Deal million indicate left.,https://i.scdn.co/image/ab6761610000e5eb7a5cfe2597665a3d160e805e
+Red Hot Chili Peppers,red hot chili peppers,1985-05-28,True,Product support table majority return.,https://i.scdn.co/image/ab6761610000e5ebc33cc15260b767ddec982ce8
+Don Omar,don omar,1958-11-16,True,Measure discover system identify.,https://i.scdn.co/image/ab6761610000e5ebe1a911f620f24ffa1c736346
+Ellie Goulding,ellie goulding,1998-12-03,True,Later several hotel unit weight far.,https://i.scdn.co/image/ab6761610000e5ebc3cd7dc428871e8985d62b9a
+Teddy Swims,teddy swims,1999-06-28,False,Large record nearly else role police up.,https://i.scdn.co/image/ab6761610000e5ebf76e11a5f3c08955fecea690
+Ava Max,ava max,1983-09-25,False,Professional main sign.,https://i.scdn.co/image/ab6761610000e5eb56d2d8d16ddedbf61b1c74f0
+Britney Spears,britney spears,1987-05-15,True,Lay wait major more Congress.,https://i.scdn.co/image/ab6761610000e5eb3a49b0a3954e460a8a76ed90
+Creedence Clearwater Revival,creedence clearwater revival,1982-06-03,True,Better hard difficult learn pull.,https://i.scdn.co/image/ab6761610000e5ebd2e2b04b7ba5d60b72f54506
+Madonna,madonna,1974-04-10,True,Concern wish rich world send line.,https://i.scdn.co/image/ab6761610000e5eb4b36d28b55620959821f4a5b
+Central Cee,central cee,1983-11-27,True,Power put the history fall really forget.,https://i.scdn.co/image/ab6761610000e5eb5fe7cabb8de1c0266cd2179c
+Manuel Turizo,manuel turizo,1998-11-21,True,Assume more movie mean.,https://i.scdn.co/image/ab6761610000e5eb942b1ef533560b1ecbb02f24
+Ty Dolla $ign,ty dolla $ign,1961-02-09,True,Recognize paper child bad human popular program.,https://i.scdn.co/image/ab6761610000e5eb24b3c0f33bc5e3f6a53f84d7
+Kygo,kygo,1955-07-07,False,Institution old action seek as specific charge.,https://i.scdn.co/image/ab6761610000e5ebe5ea1aa1404629c12ad86658
+50 Cent,50 cent,1987-06-10,True,Two eye million fast major color Congress.,https://i.scdn.co/image/dd031b9c5d1b6eba4a691cd89c954255aae787f2
+A$AP Rocky,a$ap rocky,1994-07-20,False,Activity particularly would before.,https://i.scdn.co/image/ab6761610000e5eb5c58c41a506a0d6b32cc6cad
+Pritam,pritam,1997-06-19,True,Sell avoid allow miss item.,https://i.scdn.co/image/ab6761610000e5ebcb6926f44f620555ba444fca
+Shreya Ghoshal,shreya ghoshal,1986-04-28,False,Away plan five. Rise go half.,https://i.scdn.co/image/ab6761610000e5eb36a7262247318ff0f1ad00da
+James Arthur,james arthur,2000-09-22,False,Like oil themselves issue within.,https://i.scdn.co/image/ab6761610000e5eb2a0c6d0343c82be9dd6fce0b
+The Beatles,the beatles,1976-02-12,False,Writer reach tax would before can bill.,https://i.scdn.co/image/ab6761610000e5ebe9348cc01ff5d55971b22433
+Bizarrap,bizarrap,1978-10-14,False,Along teacher its important either wish suggest.,https://i.scdn.co/image/ab6761610000e5eb14add0d3419426b84158b913
+Macklemore,macklemore,1991-10-13,False,Event indicate remember major item.,https://i.scdn.co/image/ab6761610000e5eb488b3b242f97163a7f8e17b9
+P!nk,p!nk,1968-01-10,False,Walk describe leader measure civil tough seat.,https://i.scdn.co/image/ab6761610000e5eb7bbad89a61061304ec842588
+Lil Wayne,lil wayne,1976-11-07,False,Senior begin remember service.,https://i.scdn.co/image/ab6761610000e5ebc1c08e541eae3cc82c6988c4
+Jack Harlow,jack harlow,1976-11-03,False,Speech not her case. Song join per indeed.,https://i.scdn.co/image/ab6761610000e5eb2aab40ce03f3fa86163f78bb
+DJ Snake,dj snake,1970-12-11,False,Parent center firm stop.,https://i.scdn.co/image/ab6761610000e5ebca97cf089968b569e29d795c
+JAY-Z,jay-z,1977-06-09,True,Money image investment important.,https://i.scdn.co/image/ab6761610000e5ebc75afcd5a9027f60eaebb5e4
+Shaboozey,shaboozey,1998-12-16,True,Feel according western word three.,https://i.scdn.co/image/ab6761610000e5eb89447fe120bae042c52fad07
+Fleetwood Mac,fleetwood mac,1958-10-30,True,Collection while finish cultural.,https://i.scdn.co/image/ab6761610000e5ebc8752dd511cda8c31e9daee8
+Frank Ocean,frank ocean,1997-06-22,True,Center pull laugh appear.,https://i.scdn.co/image/ab6761610000e5ebee3123e593174208f9754fab
+Diplo,diplo,1955-10-17,False,Others police place radio bill themselves.,https://i.scdn.co/image/ab6761610000e5ebdf01727aa674ddefa777797a
+Kesha,kesha,1966-10-20,False,Read size trial enough away mouth.,https://i.scdn.co/image/ab6761610000e5eb2ac07249400857d8b16dc17a
+JENNIE,jennie,1977-11-27,False,Investment thank born interesting.,https://i.scdn.co/image/ab6761610000e5ebd95cf4457fac4cc62311f84f
+A.R. Rahman,a.r. rahman,1984-06-12,False,Thus old research item response follow including.,https://i.scdn.co/image/ab6761610000e5ebb19af0ea736c6228d6eb539c
+"Tyler, The Creator","tyler, the creator",1994-09-22,True,Material order yard second system series admit.,https://i.scdn.co/image/ab6761610000e5eb8278b782cbb5a3963db88ada
+Wiz Khalifa,wiz khalifa,1979-12-30,False,Sit minute baby paper financial what institution.,https://i.scdn.co/image/ab6761610000e5eb2cdddc4dd42f7403f0d7bb9c
+Sean Paul,sean paul,1989-11-28,True,Interview collection study manager because.,https://i.scdn.co/image/ab6761610000e5eb60c3e9abe7327c0097738f22
+Djo,djo,1979-06-18,False,Authority difficult model cup.,https://i.scdn.co/image/ab6761610000e5eb02fcc327683d53bea9583c69
+Twenty One Pilots,twenty one pilots,1999-09-23,False,Throughout miss relationship.,https://i.scdn.co/image/ab6761610000e5eb274df4dfcb960867eccedfb5
+ABBA,abba,1977-05-17,True,News staff scientist movie visit that wind.,https://i.scdn.co/image/ab6761610000e5eb124eba6bf3476404531bd7b2
+Zach Bryan,zach bryan,1968-07-06,False,Watch may animal soon.,https://i.scdn.co/image/ab6761610000e5eb4fd54df35bfcfa0fc9fc2da7
+The Kid LAROI,the kid laroi,1976-07-07,False,We bar grow lawyer reduce continue.,https://i.scdn.co/image/ab6761610000e5eb393666951ab8b14e9c4ed386
+Pharrell Williams,pharrell williams,1999-08-18,False,Whatever person recently manage out full.,https://i.scdn.co/image/ab6761610000e5ebf0789cd783c20985ec3deb4e
+Noah Kahan,noah kahan,1964-12-17,False,Across state performance against instead anyone.,https://i.scdn.co/image/ab6761610000e5eb336ec53126239813d38ff588
+Lewis Capaldi,lewis capaldi,1979-11-24,True,Wrong among city new return.,https://i.scdn.co/image/ab6761610000e5ebea7538654040e553a7b0fc28
+Kali Uchis,kali uchis,1989-07-30,False,Message finally rich five particular fall.,https://i.scdn.co/image/ab6761610000e5eb51dfdac248da65a860963b68
+RAYE,raye,1961-02-11,False,Whether risk herself total budget.,https://i.scdn.co/image/ab6761610000e5eb5e4949a1e3073b5a34b9d938
+Vance Joy,vance joy,1965-02-02,False,Those program spend newspaper reveal once pretty.,https://i.scdn.co/image/ab6761610000e5eb8f074ec8c25406680bf26422
+Flo Rida,flo rida,1996-06-06,False,Later share mouth. Institution minute miss.,https://i.scdn.co/image/ab6761610000e5eb655ca8f3196953554b479452
+Becky G,becky g,1956-12-26,False,Much authority enter change.,https://i.scdn.co/image/ab6761610000e5ebd9e94a40fd6ef4fe68318821
+Ayra Starr,ayra starr,1957-07-27,False,Wear worry south catch political.,https://i.scdn.co/image/ab6761610000e5eb368ea5a7f6e1b11e896c1fc0
+Nirvana,nirvana,1973-02-24,True,Beautiful have behavior identify special world.,https://i.scdn.co/image/84282c28d851a700132356381fcfbadc67ff498b
+Alok,alok,1981-05-10,False,So your financial current.,https://i.scdn.co/image/ab6761610000e5ebf7d1bdca65e1cefd4e60c379
+Anitta,anitta,1965-11-13,False,Church picture two old purpose my.,https://i.scdn.co/image/ab6761610000e5eb03479cd9d2eec574230368d4

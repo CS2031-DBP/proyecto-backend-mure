@@ -26,7 +26,6 @@ public class Song {
     @NotBlank
     private String title;
 
-    @NotBlank
     private String titleNormalized;
 
     @NotBlank

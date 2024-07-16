@@ -13,7 +13,7 @@ set userSqlCommand=\COPY users (role, name, nickname, nickname_normalized, email
 set userSongsSqlCommand=\COPY user_song (user_id, song_id) FROM '../assets/data/user_songs.csv' DELIMITER ',' CSV HEADER ENCODING 'utf-8';
 set userFriendsSqlCommand=\COPY users_friends (user_id, friends_id) FROM '../assets/data/user_friends.csv' DELIMITER ',' CSV HEADER ENCODING 'utf-8';
 set userAlbumsSqlCommand=\COPY user_albums (album_id, user_id) FROM '../assets/data/user_albums.csv' DELIMITER ',' CSV HEADER ENCODING 'utf-8';
-set playlistSqlCommand=\COPY playlist (user_id, name) FROM '../assets/data/playlists.csv' DELIMITER ',' CSV HEADER ENCODING 'utf-8';
+set playlistSqlCommand=\COPY playlist (user_id, name, cover_image_url) FROM '../assets/data/playlists.csv' DELIMITER ',' CSV HEADER ENCODING 'utf-8';
 set playlistSongsSqlCommand=\COPY playlist_songs (playlist_id, song_id) FROM '../assets/data/playlist_songs.csv' DELIMITER ',' CSV HEADER ENCODING 'utf-8';
 set postSqlCommand=\COPY post (likes, created_at, user_id, description, audio_url, image_url, song_id, album_id) FROM '../assets/data/posts.csv' DELIMITER ',' CSV HEADER ENCODING 'utf-8';
 

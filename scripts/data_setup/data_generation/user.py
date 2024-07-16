@@ -1,5 +1,7 @@
 from typing import Any
 
+from data_setup.constants.file_names import FILE_NAMES
+from data_setup.utils.get_random_image_url import get_random_image_url
 from data_setup.utils.normalize_text import normalize_text
 from data_setup.utils.shared_faker import faker
 from data_setup.utils.write_to_csv import write_to_csv
@@ -18,7 +20,9 @@ def generate_user_data(rows_amount: int) -> tuple:
         user_password = faker.unique.password()
         user_birth_date = faker.date_of_birth(minimum_age=10, maximum_age=70)
         user_created_at = faker.date_time_this_year()
-        user_profile_image_url = faker.image_url()
+        user_profile_image_url = get_random_image_url(
+            FILE_NAMES["default_profile_image"]
+        )
 
         users_csv_list.append(
             {

@@ -1,3 +1,5 @@
+import random
+
 import pandas as pd
 
 from data_setup.utils.normalize_text import normalize_text
@@ -7,7 +9,7 @@ from data_setup.utils.write_to_csv import write_to_csv
 
 
 def generate_artists_songs_albums(
-    artists_dict: dict[int, str]
+    artists_dict: dict[int, dict[str, Any]]
 ) -> tuple[tuple, tuple, tuple]:
     artists_csv_list: list[dict[str, Any]] = []
     albums_csv_list: list[dict[str, Any]] = []
@@ -22,10 +24,10 @@ def generate_artists_songs_albums(
     song_counter = 0
     artist_count = 0
 
-    for artist_id, artist_name in artists_dict.items():
-        print(artist_name)
+    for artist_id, artist_info in artists_dict.items():
         artist_count += 1
-        artist_spotify_id = get_artist_id(artist_name)
+        print(artist_info["name"], " ", artist_count)
+        artist_spotify_id = get_artist_id(artist_info["name"])
 
         if not artist_spotify_id:
             continue
@@ -36,8 +38,8 @@ def generate_artists_songs_albums(
 
         artists_csv_list.append(
             {
-                "name": artist_name,
-                "name_normalized": normalize_text(artist_name),
+                "name": artist_info["name"],
+                "name_normalized": normalize_text(artist_info["name"]),
                 "birth_date": birth_date,
                 "verified": verified,
                 "description": faker.text(max_nb_chars=50).replace("\n", " "),
@@ -100,16 +102,14 @@ def generate_artists_songs_albums(
                 song_link = song["external_urls"]["spotify"]
                 title_normalized = normalize_text(song_title)
                 song_preview_url = song["preview_url"]
+                genre = random.choice(artist_info["genre"])
 
                 songs_csv_list.append(
                     {
                         "title": song_title,
                         "title_normalized": title_normalized,
-                        "genre": (
-                            song["artists"][0].get("genres", [None])[0]
-                            if song["artists"][0].get("genres")
-                            else "Unknown"
-                        ),
+                        "genre": genre,
+                        "genre_normalized": normalize_text(genre),
                         "release_date": pd.to_datetime(
                             song_release_date, errors="coerce"
                         ).strftime("%Y-%m-%d"),

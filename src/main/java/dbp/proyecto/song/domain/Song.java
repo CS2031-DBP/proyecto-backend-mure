@@ -31,6 +31,9 @@ public class Song {
     @NotBlank
     private String genre;
 
+    @NotBlank
+    private String genreNormalized;
+
     @NotNull
     private LocalDate releaseDate;
 

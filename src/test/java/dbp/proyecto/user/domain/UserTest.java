@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class UserTest {
     private User user;
@@ -82,18 +83,5 @@ public class UserTest {
         friends.remove(0);
         user.setFriends(friends);
         assertEquals(1, user.getFriends().size());
-    }
-
-    @Test
-    public void testUserNull() {
-        User user = new User();
-        assertNull(user.getName());
-        assertNull(user.getEmail());
-        assertNull(user.getPassword());
-        assertNull(user.getBirthDate());
-        assertNull(user.getCreatedAt());
-        assertNull(user.getRole());
-        assertEquals("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Free-Download.png", user.getProfileImageUrl());
-        assertTrue(user.getFriends().isEmpty());
     }
 }

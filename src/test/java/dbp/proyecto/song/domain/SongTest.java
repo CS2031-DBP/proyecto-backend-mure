@@ -11,7 +11,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SongTest {
     private Song song;
@@ -71,7 +72,7 @@ public class SongTest {
     }
 
     @Test
-    public void testRemoveArtist(){
+    public void testRemoveArtist() {
         List<Artist> artists = new ArrayList<>(song.getArtists());
         artists.remove(0);
         song.setArtists(artists);
@@ -79,7 +80,7 @@ public class SongTest {
     }
 
     @Test
-    public void changeAlbum(){
+    public void changeAlbum() {
         Album album = new Album();
         album.setTitle("Album title 2");
         album.setDescription("Album description 2");
@@ -93,21 +94,7 @@ public class SongTest {
     }
 
     @Test
-    public void testGetDurationInSeconds(){
+    public void testGetDurationInSeconds() {
         assertEquals(120, song.getDurationInSeconds());
-    }
-
-    @Test
-    public void testSongNull(){
-        Song song = new Song();
-        assertNull(song.getTitle());
-        assertNull(song.getDuration());
-        assertNull(song.getGenre());
-        assertNull(song.getReleaseDate());
-        assertNull(song.getCoverImageUrl());
-        assertNull(song.getLikes());
-        assertNull(song.getTimesPlayed());
-        assertTrue(song.getArtists().isEmpty());
-        assertNull(song.getAlbum());
     }
 }

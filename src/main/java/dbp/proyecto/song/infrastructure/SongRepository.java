@@ -14,7 +14,7 @@ public interface SongRepository extends JpaRepository<Song, Long> {
 
     Page<Song> findByTitleNormalizedContaining(String titleNormalized, Pageable pageable);
 
-    Page<Song> findByGenreContaining(String genre, Pageable pageable);
+    Page<Song> findByGenreNormalizedContaining(String genre, Pageable pageable);
 
     Page<Song> findByArtistsNameContaining(String artistNameNormalized, Pageable pageable);
 

@@ -97,7 +97,7 @@ public class SongService {
                 .toLowerCase();
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<Song> songs = songRepository.findByGenreContaining(normalizedGenre, pageable);
+        Page<Song> songs = songRepository.findByGenreNormalizedContaining(normalizedGenre, pageable);
         return songs.map(this::getSongResponseDto);
     }
 

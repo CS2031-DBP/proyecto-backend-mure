@@ -154,6 +154,13 @@ public class SongService {
                     .toLowerCase();
             song.setTitleNormalized(normalizedTitle);
 
+            String normalizedGenre = Normalizer.normalize(songRequestDto.getGenre(), Normalizer.Form.NFC)
+                    .replaceAll("[’‘]", "'")
+                    .replaceAll("\\p{M}", "")
+                    .toLowerCase();
+            song.setGenreNormalized(normalizedGenre);
+
+
             int likes = 50000 + random.nextInt(450001);
             song.setLikes(likes);
             int timesPlayed = 50000 + random.nextInt(9550001);

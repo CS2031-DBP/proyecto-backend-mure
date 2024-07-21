@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
-
     private final GoogleAuthService googleAuthService;
+
+    @PostMapping("/google")
+    public ResponseEntity<GoogleAuthResponseDto> validateGoogleAuthToken(@RequestBody GoogleAuthRequestDto googleAuthRequestDto) {
+        return ResponseEntity.ok(googleAuthService.validate(googleAuthRequestDto));
+    }
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponseDto> login(@RequestBody LoginDto logInDTO) {
@@ -32,10 +36,5 @@ public class AuthenticationController {
     public ResponseEntity<Boolean> verifyPassword(@RequestBody UserPasswordVerificationRequestDto request) {
         boolean isValid = authenticationService.verifyPassword(request.getUserId(), request.getPassword());
         return ResponseEntity.ok(isValid);
-    }
-
-    @PostMapping("/google")
-    public ResponseEntity<GoogleAuthResponseDto> validateGoogleAuthToken(@RequestBody GoogleAuthRequestDto googleAuthRequestDto) {
-        return ResponseEntity.ok(googleAuthService.validate(googleAuthRequestDto));
     }
 }

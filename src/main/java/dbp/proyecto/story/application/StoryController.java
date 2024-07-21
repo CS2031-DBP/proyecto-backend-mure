@@ -28,16 +28,16 @@ public class StoryController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<StoryResponseDTO>> getStoriesByUserId(@PathVariable Long userId) {
-        List<StoryResponseDTO> stories = storyService.getStoriesByUserId(userId);
+    @GetMapping("/song/{songId}")
+    public ResponseEntity<List<StoryResponseDTO>> getStoriesBySongId(@PathVariable Long songId) {
+        List<StoryResponseDTO> stories = storyService.getStoriesBySongId(songId);
         return ResponseEntity.ok(stories);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/me")
-    public ResponseEntity<List<StoryResponseDTO>> getStoriesByCurrentUser() {
-        List<StoryResponseDTO> stories = storyService.getStoriesByCurrentUser();
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<StoryResponseDTO>> getStoriesByUserId(@PathVariable Long userId) {
+        List<StoryResponseDTO> stories = storyService.getStoriesByUserId(userId);
         return ResponseEntity.ok(stories);
     }
 
@@ -48,10 +48,10 @@ public class StoryController {
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/song/{songId}")
-    public ResponseEntity<List<StoryResponseDTO>> getStoriesBySongId(@PathVariable Long songId) {
-        List<StoryResponseDTO> stories = storyService.getStoriesBySongId(songId);
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/me")
+    public ResponseEntity<List<StoryResponseDTO>> getStoriesByCurrentUser() {
+        List<StoryResponseDTO> stories = storyService.getStoriesByCurrentUser();
         return ResponseEntity.ok(stories);
     }
 

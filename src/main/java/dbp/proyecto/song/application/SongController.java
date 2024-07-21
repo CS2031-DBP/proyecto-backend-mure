@@ -21,9 +21,17 @@ public class SongController {
     private final SongService songService;
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/{id}")
-    public ResponseEntity<SongResponseDto> getSongById(@PathVariable Long id) {
-        return ResponseEntity.ok(songService.getSongById(id));
+    @GetMapping("/artistName")
+    public ResponseEntity<Page<SongResponseDto>> getSongsByArtistName(@RequestParam String artistName, @RequestParam int page, @RequestParam int size) {
+        Page<SongResponseDto> response = songService.getSongsByArtistName(artistName, page, size);
+        return ResponseEntity.ok(response);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/genre")
+    public ResponseEntity<Page<SongResponseDto>> getSongsByGenre(@RequestParam String genre, @RequestParam int page, @RequestParam int size) {
+        Page<SongResponseDto> response = songService.getSongsByGenre(genre, page, size);
+        return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -33,24 +41,22 @@ public class SongController {
         return ResponseEntity.ok(response);
     }
 
-
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/genre")
-    public ResponseEntity<Page<SongResponseDto>> getSongsByGenre(@RequestParam String genre, @RequestParam int page, @RequestParam int size) {
-        Page<SongResponseDto> response = songService.getSongsByGenre(genre, page, size);
-        return ResponseEntity.ok(response);
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/artist/{artistId}")
-    public ResponseEntity<List<SongResponseForArtistDto>> getSongsByArtistId(@PathVariable Long artistId) {
-        return ResponseEntity.ok(songService.getSongsByArtistId(artistId));
+    @GetMapping("/liked/{songId}/{userId}")
+    public ResponseEntity<Boolean> isSongLikedByUser(@PathVariable Long songId, @PathVariable Long userId) {
+        return ResponseEntity.ok(songService.isSongLikedByUser(songId, userId));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/artistName")
-    public ResponseEntity<Page<SongResponseDto>> getSongsByArtistName(@RequestParam String artistName, @RequestParam int page, @RequestParam int size) {
-        Page<SongResponseDto> response = songService.getSongsByArtistName(artistName, page, size);
+    @GetMapping("/{id}")
+    public ResponseEntity<SongResponseDto> getSongById(@PathVariable Long id) {
+        return ResponseEntity.ok(songService.getSongById(id));
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/songs/all")
+    public ResponseEntity<Page<SongResponseDto>> getAllSongs(@RequestParam int page, @RequestParam int size) {
+        Page<SongResponseDto> response = songService.getAllSongs(page, size);
         return ResponseEntity.ok(response);
     }
 
@@ -60,11 +66,10 @@ public class SongController {
         return ResponseEntity.ok(songService.getSongsByAlbumId(albumId));
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/songs/all")
-    public ResponseEntity<Page<SongResponseDto>> getAllSongs(@RequestParam int page, @RequestParam int size) {
-        Page<SongResponseDto> response = songService.getAllSongs(page, size);
-        return ResponseEntity.ok(response);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/artist/{artistId}")
+    public ResponseEntity<List<SongResponseForArtistDto>> getSongsByArtistId(@PathVariable Long artistId) {
+        return ResponseEntity.ok(songService.getSongsByArtistId(artistId));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -82,16 +87,16 @@ public class SongController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PatchMapping("/like/{id}")
-    public ResponseEntity<Void> likeSong(@PathVariable Long id) {
-        songService.likeSong(id);
+    @PatchMapping("/dislike/{id}")
+    public ResponseEntity<Void> dislikeSong(@PathVariable Long id) {
+        songService.dislikeSong(id);
         return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PatchMapping("/dislike/{id}")
-    public ResponseEntity<Void> dislikeSong(@PathVariable Long id) {
-        songService.dislikeSong(id);
+    @PatchMapping("/like/{id}")
+    public ResponseEntity<Void> likeSong(@PathVariable Long id) {
+        songService.likeSong(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -100,11 +105,5 @@ public class SongController {
     public ResponseEntity<Void> deleteSong(@PathVariable Long id) {
         songService.deleteSong(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/liked/{songId}/{userId}")
-    public ResponseEntity<Boolean> isSongLikedByUser(@PathVariable Long songId, @PathVariable Long userId) {
-        return ResponseEntity.ok(songService.isSongLikedByUser(songId, userId));
     }
 }

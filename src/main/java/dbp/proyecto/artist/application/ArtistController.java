@@ -20,22 +20,15 @@ public class ArtistController {
     private final ArtistService artistService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/all")
+    public ResponseEntity<List<ArtistResponseDto>> getAllArtists() {
+        return ResponseEntity.ok(artistService.getAllArtists());
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<ArtistResponseDto> getArtistById(@PathVariable Long id) {
         return ResponseEntity.ok(artistService.getArtistById(id));
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/verified")
-    public ResponseEntity<List<ArtistResponseDto>> getVerifiedArtists() {
-        return ResponseEntity.ok(artistService.findVerifiedArtists());
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/name")
-    public ResponseEntity<Page<ArtistResponseDto>> getArtistsByName(@RequestParam String name, @RequestParam int page,
-                                                                    @RequestParam int size) {
-        return ResponseEntity.ok(artistService.getArtistsByName(name, page, size));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -45,17 +38,24 @@ public class ArtistController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/name")
+    public ResponseEntity<Page<ArtistResponseDto>> getArtistsByName(@RequestParam String name, @RequestParam int page,
+                                                                    @RequestParam int size) {
+        return ResponseEntity.ok(artistService.getArtistsByName(name, page, size));
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/songTitle")
     public ResponseEntity<List<ArtistInfoForSongDto>> getArtistsBySongTitle(@RequestParam String title) {
         return ResponseEntity.ok(artistService.getArtistsBySongTitle(title));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/all")
-    public ResponseEntity<List<ArtistResponseDto>> getAllArtists() {
-        return ResponseEntity.ok(artistService.getAllArtists());
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/verified")
+    public ResponseEntity<List<ArtistResponseDto>> getVerifiedArtists() {
+        return ResponseEntity.ok(artistService.findVerifiedArtists());
     }
-
+    
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Void> createArtists(@RequestBody List<ArtistRequestDto> artistRequestDtos) {

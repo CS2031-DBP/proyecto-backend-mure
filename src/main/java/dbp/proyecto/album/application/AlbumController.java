@@ -27,24 +27,24 @@ public class AlbumController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/title")
-    public ResponseEntity<Page<AlbumResponseDto>> getAlbumsByTitle(@RequestParam String title,
-                                                                   @RequestParam int page, @RequestParam int size) {
-        return ResponseEntity.ok(albumService.getAlbumsByTitle(title, page, size));
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/artist/{artistId}")
-    public ResponseEntity<List<AlbumInfoForArtistDto>> getAlbumsByArtistId(@PathVariable Long artistId) {
-        return ResponseEntity.ok(albumService.getAlbumsByArtistId(artistId));
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/artistName")
     public ResponseEntity<List<AlbumInfoForArtistDto>> getAlbumsByArtistName(@RequestParam String artistName,
                                                                              @RequestParam int page,
                                                                              @RequestParam int size) {
         return ResponseEntity.ok(albumService.getAlbumsByArtistName(artistName, page, size));
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/liked/{albumId}/{userId}")
+    public ResponseEntity<Boolean> isAlbumLikedByUser(@PathVariable Long albumId, @PathVariable Long userId) {
+        return ResponseEntity.ok(albumService.isAlbumLikedByUser(albumId, userId));
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/title")
+    public ResponseEntity<Page<AlbumResponseDto>> getAlbumsByTitle(@RequestParam String title,
+                                                                   @RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(albumService.getAlbumsByTitle(title, page, size));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -54,16 +54,22 @@ public class AlbumController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/artist/{artistId}")
+    public ResponseEntity<List<AlbumInfoForArtistDto>> getAlbumsByArtistId(@PathVariable Long artistId) {
+        return ResponseEntity.ok(albumService.getAlbumsByArtistId(artistId));
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Void> createAlbum(@RequestBody List<AlbumRequestDto> albumRequestDtos) {
         albumService.createsAlbums(albumRequestDtos);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateAlbum(@PathVariable Long id, @RequestBody AlbumUpdateDto albumUpdateDTO) {
-        albumService.updateAlbum(id, albumUpdateDTO);
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/dislike/{id}")
+    public ResponseEntity<Void> dislikeAlbum(@PathVariable Long id) {
+        albumService.dislikeAlbum(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -74,10 +80,10 @@ public class AlbumController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @PatchMapping("/dislike/{id}")
-    public ResponseEntity<Void> dislikeAlbum(@PathVariable Long id) {
-        albumService.dislikeAlbum(id);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateAlbum(@PathVariable Long id, @RequestBody AlbumUpdateDto albumUpdateDTO) {
+        albumService.updateAlbum(id, albumUpdateDTO);
         return ResponseEntity.noContent().build();
     }
 
@@ -86,11 +92,5 @@ public class AlbumController {
     public ResponseEntity<Void> deleteAlbum(@PathVariable Long id) {
         albumService.deleteAlbum(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/liked/{albumId}/{userId}")
-    public ResponseEntity<Boolean> isAlbumLikedByUser(@PathVariable Long albumId, @PathVariable Long userId) {
-        return ResponseEntity.ok(albumService.isAlbumLikedByUser(albumId, userId));
     }
 }

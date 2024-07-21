@@ -23,17 +23,9 @@ public class PostController {
     private final PostService postService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/{id}")
-    public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long id) {
-        return ResponseEntity.ok(postService.getPostById(id));
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<Page<PostResponseDto>> getPostsByUserId(@PathVariable Long userId, @RequestParam int page, @RequestParam int size) {
-        Pageable pageable = Pageable.ofSize(size).withPage(page);
-        Page<PostResponseDto> response = postService.getPostsByUserId(userId, pageable);
-        return ResponseEntity.ok(response);
+    @GetMapping("/album/{albumId}")
+    public ResponseEntity<List<PostResponseDto>> getPostsByAlbumId(@PathVariable Long albumId) {
+        return ResponseEntity.ok(postService.getPostsByAlbumId(albumId));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -43,9 +35,16 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/album/{albumId}")
-    public ResponseEntity<List<PostResponseDto>> getPostsByAlbumId(@PathVariable Long albumId) {
-        return ResponseEntity.ok(postService.getPostsByAlbumId(albumId));
+    @GetMapping("/{id}")
+    public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long id) {
+        return ResponseEntity.ok(postService.getPostById(id));
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/all")
+    public ResponseEntity<Page<PostResponseDto>> getAllPosts(@RequestParam int page, @RequestParam int size) {
+        Page<PostResponseDto> response = postService.getAllPosts(page, size);
+        return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -56,9 +55,10 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/all")
-    public ResponseEntity<Page<PostResponseDto>> getAllPosts(@RequestParam int page, @RequestParam int size) {
-        Page<PostResponseDto> response = postService.getAllPosts(page, size);
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Page<PostResponseDto>> getPostsByUserId(@PathVariable Long userId, @RequestParam int page, @RequestParam int size) {
+        Pageable pageable = Pageable.ofSize(size).withPage(page);
+        Page<PostResponseDto> response = postService.getPostsByUserId(userId, pageable);
         return ResponseEntity.ok(response);
     }
 
@@ -77,16 +77,16 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PatchMapping("/media/{id}")
-    public ResponseEntity<Void> changeMedia(@PathVariable Long id, @RequestBody PostUpdateDto media) {
-        postService.changeMedia(id, media);
+    @PatchMapping("/content/{id}")
+    public ResponseEntity<Void> updatePostContent(@PathVariable Long id, @RequestBody PostUpdateContentDto content) {
+        postService.changeContent(id, content.getSongId(), content.getAlbumId());
         return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PatchMapping("/content/{id}")
-    public ResponseEntity<Void> updatePostContent(@PathVariable Long id, @RequestBody PostUpdateContentDto content) {
-        postService.changeContent(id, content.getSongId(), content.getAlbumId());
+    @PatchMapping("/dislike/{id}")
+    public ResponseEntity<Void> dislikePost(@PathVariable Long id) {
+        postService.dislikePost(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -98,9 +98,9 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PatchMapping("/dislike/{id}")
-    public ResponseEntity<Void> dislikePost(@PathVariable Long id) {
-        postService.dislikePost(id);
+    @PatchMapping("/media/{id}")
+    public ResponseEntity<Void> changeMedia(@PathVariable Long id, @RequestBody PostUpdateDto media) {
+        postService.changeMedia(id, media);
         return ResponseEntity.noContent().build();
     }
 

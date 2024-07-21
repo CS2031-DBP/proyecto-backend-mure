@@ -22,9 +22,39 @@ public class UserController {
     private final UserService userService;
 
     @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/favoriteAlbums/{id}")
+    public ResponseEntity<List<AlbumResponseDto>> getFavoriteAlbums(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getFavoriteAlbums(id));
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/favoriteSongs/{id}")
+    public ResponseEntity<List<SongResponseDto>> getFavoriteSongs(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getFavoriteSongs(id));
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/friends/me")
+    public ResponseEntity<List<UserResponseForUserDto>> getFriendsByCurrentUser() {
+        return ResponseEntity.ok(userService.getFriendsByCurrentUser());
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/friends/{id}")
+    public ResponseEntity<List<UserResponseForUserDto>> getFriends(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getFriends(id));
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/me")
     public ResponseEntity<UserResponseDto> getMe() {
         return ResponseEntity.ok(userService.getMe());
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/me/friends/{id}")
+    public ResponseEntity<Boolean> isFriend(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.isFriend(id));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -39,17 +69,6 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/friends/{id}")
-    public ResponseEntity<List<UserResponseForUserDto>> getFriends(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getFriends(id));
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/friends/me")
-    public ResponseEntity<List<UserResponseForUserDto>> getFriendsByCurrentUser() {
-        return ResponseEntity.ok(userService.getFriendsByCurrentUser());
-    }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PatchMapping("/update/me")
@@ -72,36 +91,16 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUserById(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/favoriteAlbums/{id}")
-    public ResponseEntity<List<AlbumResponseDto>> getFavoriteAlbums(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getFavoriteAlbums(id));
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/favoriteSongs/{id}")
-    public ResponseEntity<List<SongResponseDto>> getFavoriteSongs(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getFavoriteSongs(id));
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/me/friends/{id}")
-    public ResponseEntity<Boolean> isFriend(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.isFriend(id));
-    }
-
-    // endpoint para actualizar el expo token
     @PostMapping("/expo-token/{userId}")
     public ResponseEntity<Void> registerExpoToken(@PathVariable Long userId, @RequestBody ExpoTokenRequestDto request) {
         userService.saveExpoToken(userId, request);
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUserById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

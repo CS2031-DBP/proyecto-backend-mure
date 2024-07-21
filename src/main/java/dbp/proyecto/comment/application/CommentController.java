@@ -15,15 +15,15 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    @GetMapping("/post/{postId}")
+    public ResponseEntity<Page<CommentResponseDto>> getCommentsByPostId(@PathVariable Long postId, @RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(commentService.getCommentsByPostId(postId, page, size));
+    }
+
     @PostMapping
     public ResponseEntity<Void> createComment(@RequestBody CommentRequestDto commentRequestDto) {
         commentService.createComment(commentRequestDto);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/post/{postId}")
-    public ResponseEntity<Page<CommentResponseDto>> getCommentsByPostId(@PathVariable Long postId, @RequestParam int page, @RequestParam int size) {
-        return ResponseEntity.ok(commentService.getCommentsByPostId(postId, page, size));
     }
 
     @DeleteMapping("/{commentId}")

@@ -129,6 +129,15 @@ ___
 | POST   | /auth/google     | Validate Google authentication token.                  |
 
 
+**Comments 💬**
+
+| Method | Endpoint                     | Description                                           |
+|--------|------------------------------|-------------------------------------------------------|
+| GET    | /comments/post/{postId}      | Get comments by post ID with pagination.              |
+| POST   | /comments                    | Create a new comment.                                 |
+| DELETE | /comments/{commentId}        | Delete a comment by its ID.                           |
+
+
 **Playlists 📋**
 
 | Method | Endpoint                              | Description                                | Data Type   |

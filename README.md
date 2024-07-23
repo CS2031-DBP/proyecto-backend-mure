@@ -83,7 +83,7 @@ Following these steps will set up the Mure project on your local machine, allowi
 
 ## Entity-Relationship Diagram
 ___
-![ER Mure Final](./assets/images/ER Diagram.png)
+![ER Diagram](https://github.com/user-attachments/assets/38d922c3-e2d6-4046-ac6e-b3cc7f186863)
 
 ## Endpoints 🛣️
 
@@ -213,9 +213,9 @@ ___
 | PATCH  | /user/friends/remove/{friendId}       | Remove a friend from the current user.                 |             |
 | DELETE | /user/{id}                            | Delete a user by their ID.                             |             |
 
-## Acknowledgments
+## Acknowledgments 🫶
 ___
-We would like to thank everyone who supported the project by testing it and providing valuable feedback. Special thanks to our professor, Jorge Rios, whose guidance and encouragement were crucial to the successful development of this project 🙌
+We would like to thank everyone who supported the project by testing it and providing valuable feedback. Special thanks to our professor, Jorge Rios, whose guidance and encouragement were crucial to the successful development of this project 🗣️ 🙌
 
 ## License 📄
 

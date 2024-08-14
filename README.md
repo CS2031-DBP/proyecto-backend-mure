@@ -1,21 +1,22 @@
 # Mure: Share Your Music Taste 🎧 🎶
-___
 
-**Mure**, the winner of the *Berners Lee Award 2024-1* for the UTEC course *Platform-Based Development* (CS2031), is a platform designed for users to share their music preferences with friends and followers. With Mure, you can create and share posts, playlists, and explore music content 🎙️
+**Mure**, the winner of the *Berners Lee Award 2024-1* for the UTEC course *Platform-Based Development* (CS2031), is a platform designed for users to share their music preferences with friends and followers. With Mure, you can create and share posts, playlists, and explore music content 🎙️.
 
-The project is developed using **Java and Spring Boot 🌱** for the backend, while the frontend is built with **React ⚛️**, and the mobile application is developed with **React Native 📱**
+This repository contains the source code for the backend of the project, developed with Java and Spring Boot 🌱. For the frontend and mobile application, please refer to the following repositories:
 
+- **Frontend Web**: [Mure Frontend Web Repository](https://github.com/CS2031-DBP/proyecto-web-mure.git)
+- **Frontend Mobile**: [Mure Frontend Mobile Repository](https://github.com/CS2031-DBP/proyecto-mobile-mure.git)
 
 ## Project Members 🤝
-___
-| Name              | Email                                                               |
-|-------------------|---------------------------------------------------------------------|
-| Joaquin Salinas   | [joaquin.salinas@utec.edu.pe](mailto:joaquin.salinas@utec.edu.pe)   |
-| Guillermo Galvez  | [jose.galvez.p@utec.edu.pe](mailto:jose.galvez.p@utec.edu.pe)       |
-| Alejandro Escobar | [alejandro.escobar@utec.edu.pe](mailto:alejandro.escobar@utec.edu.pe)|
+
+| Name              | GitHub User                                              |  Email                                                                |
+|-------------------|----------------------------------------------------------|-----------------------------------------------------------------------|
+| Joaquin Salinas   | [joaquinsalinas06](https://github.com/joaquinsalinas06)  |[joaquin.salinas@utec.edu.pe](mailto:joaquin.salinas@utec.edu.pe)      |
+| Guillermo Galvez  | [KarTaGo124](https://github.com/KarTaGo124)              |[jose.galvez.p@utec.edu.pe](mailto:jose.galvez.p@utec.edu.pe)          |
+| Alejandro Escobar | [AlejandroEN](https://github.com/AlejandroEN )           |[alejandro.escobar@utec.edu.pe](mailto:alejandro.escobar@utec.edu.pe)  |
 
 ## Prerequisites 🔧
-___
+
 Before setting up the project, ensure you have the following installed on your machine:
 
 - **Java**: Recommended version 17 or higher
@@ -24,7 +25,6 @@ Before setting up the project, ensure you have the following installed on your m
 - **IntelliJ IDEA**: Latest version
 
 ## Getting Started 🚀
-___
 
 To set up the project on your local machine, follow these steps:
 
@@ -82,12 +82,12 @@ To set up the project on your local machine, follow these steps:
 Following these steps will set up the Mure project on your local machine, allowing you to explore and develop further.
 
 ## Entity-Relationship Diagram
-___
+
 ![ER Diagram](https://github.com/user-attachments/assets/38d922c3-e2d6-4046-ac6e-b3cc7f186863)
 
 ## Endpoints 🛣️
 
-**Album 🎵**
+### Album 🎵
 
 | Method | Endpoint                     | Description                                            |
 |--------|------------------------------|--------------------------------------------------------|
@@ -103,8 +103,7 @@ ___
 | PATCH  | /album/like/{id}             | Like an album.                                         |
 | DELETE | /album/{id}                  | Delete an album by its ID.                             |
 
-
-**Artists 🎤**
+### Artists 🎤
 
 | Method | Endpoint                    | Description                                              |
 |--------|-----------------------------|----------------------------------------------------------|
@@ -118,18 +117,16 @@ ___
 | PATCH  | /artist/{id}                | Update an artist by their ID.                            |
 | DELETE | /artist/{id}                | Delete an artist by their ID.                            |
 
+### Authentication 🔐
 
-**Authentication 🔐**
+| Method | Endpoint              | Description                                            |
+|--------|-----------------------|--------------------------------------------------------|
+| POST   | /auth/login           | Log in with an existing user.                          |
+| POST   | /auth/signin          | Register a new user.                                   |
+| POST   | /auth/verify-password | Verify a user's password.                              |
+| POST   | /auth/google          | Validate Google authentication token.                  |
 
-| Method | Endpoint         | Description                                            |
-|--------|------------------|--------------------------------------------------------|
-| POST   | /auth/login      | Log in with an existing user.                          |
-| POST   | /auth/signin     | Register a new user.                                   |
-| POST   | /auth/verify-password | Verify a user's password.                            |
-| POST   | /auth/google     | Validate Google authentication token.                  |
-
-
-**Comments 💬**
+### Comments 💬
 
 | Method | Endpoint                     | Description                                           |
 |--------|------------------------------|-------------------------------------------------------|
@@ -137,8 +134,7 @@ ___
 | POST   | /comments                    | Create a new comment.                                 |
 | DELETE | /comments/{commentId}        | Delete a comment by its ID.                           |
 
-
-**Playlists 📋**
+### Playlists 📋
 
 | Method | Endpoint                              | Description                                | Data Type   |
 |--------|---------------------------------------|--------------------------------------------|-------------|
@@ -154,27 +150,25 @@ ___
 | PATCH  | /playlist                             | Update playlist name and image.            | Multipart   |
 | DELETE | /playlist/{id}                        | Delete a playlist by its ID.               |             |
 
+### Posts 📝
 
-**Posts 📝**
+| Method | Endpoint                    | Description                                              | Data Type   |
+|--------|-----------------------------|----------------------------------------------------------|-------------|
+| GET    | /post/{id}                  | Get a post by its ID.                                    |             |
+| GET    | /post/user/{userId}         | Get posts by user ID.                                    |             |
+| GET    | /post/me                    | Get current user's posts.                                |             |
+| GET    | /post/all                   | Get all posts.                                           |             |
+| GET    | /post/song/{songId}         | Get posts related to a song by its ID.                   |             |
+| GET    | /post/album/{albumId}       | Get posts related to an album by its ID.                 |             |
+| POST   | /post                       | Create one or more posts.                                | Multipart   |
+| POST   | /post/many                  | Create multiple posts.                                   |             |
+| PATCH  | /post/media/{id}            | Update the multimedia content of a post.                 |             |
+| PATCH  | /post/content/{id}          | Update the content of a post (related song and/or album).|             |
+| PATCH  | /post/like/{id}             | Update the number of likes of a post.                    |             |
+| PATCH  | /post/dislike/{id}          | Update the number of dislikes of a post.                 |             |
+| DELETE | /post/{id}                  | Delete a post by its ID.                                 |             |
 
-| Method | Endpoint                    | Description                                            | Data Type   |
-|--------|-----------------------------|--------------------------------------------------------|-------------|
-| GET    | /post/{id}                  | Get a post by its ID.                                  |             |
-| GET    | /post/user/{userId}         | Get posts by user ID.                                  |             |
-| GET    | /post/me                    | Get current user's posts.                              |             |
-| GET    | /post/all                   | Get all posts.                                         |             |
-| GET    | /post/song/{songId}         | Get posts related to a song by its ID.                 |             |
-| GET    | /post/album/{albumId}       | Get posts related to an album by its ID.               |             |
-| POST   | /post                       | Create one or more posts.                              | Multipart   |
-| POST   | /post/many                  | Create multiple posts.                                 |             |
-| PATCH  | /post/media/{id}            | Update the multimedia content of a post.               |             |
-| PATCH  | /post/content/{id}          | Update the content of a post (related song and/or album).|            |
-| PATCH  | /post/like/{id}             | Update the number of likes of a post.                  |             |
-| PATCH  | /post/dislike/{id}          | Update the number of dislikes of a post.               |             |
-| DELETE | /post/{id}                  | Delete a post by its ID.                               |             |
-
-
-**Songs 🎶**
+### Songs 🎶
 
 | Method | Endpoint                    | Description                                            |
 |--------|-----------------------------|--------------------------------------------------------|
@@ -189,9 +183,7 @@ ___
 | PATCH  | /songs/{id}/coverImage      | Update the cover image of a song.                      |
 | DELETE | /songs/{id}                 | Delete a song by its ID.                               |
 
-
-
-**Stories 📖**
+### Stories 📖
 
 | Method | Endpoint             | Description                                            |
 |--------|----------------------|--------------------------------------------------------|
@@ -203,8 +195,7 @@ ___
 | POST   | /story               | Create one or more stories.                            |
 | DELETE | /story/{id}          | Delete a story by its ID.                              |
 
-
-**Users 👤**
+### Users 👤
 
 | Method | Endpoint                              | Description                                            | Data Type   |
 |--------|---------------------------------------|--------------------------------------------------------|-------------|
@@ -223,7 +214,7 @@ ___
 | DELETE | /user/{id}                            | Delete a user by their ID.                             |             |
 
 ## Acknowledgments 🫶
-___
+
 We would like to thank everyone who supported the project by testing it and providing valuable feedback. Special thanks to our professor, Jorge Rios, whose guidance and encouragement were crucial to the successful development of this project 🗣️ 🙌
 
 ## License 📄

@@ -18,5 +18,7 @@ public interface SongRepository extends JpaRepository<Song, Long> {
 
     Page<Song> findByArtistsNameContaining(String artistNameNormalized, Pageable pageable);
 
-    List<Song> findByAlbumId(Long albumId);
+    List<Song> findByAlbumId(Long albumId); //Select * from song where album_id = albumId
+
+    List<Song> findByDurationEndsWith0();
 }
